@@ -29,13 +29,21 @@ public class BoardRestController {
 
     // 게시글 검색
     @GetMapping("/search")
-    public List<BoardVO> search(
-            @RequestParam String column, // 검색 기준
-            @RequestParam String keyword // 검색어
+    public List<BoardVO> searchBoard(
+            @RequestParam("column") String column, // 검색 기준
+            @RequestParam("keyword") String keyword // 검색어
     ) {
+        // 컬럼명을 안전하게 검증
+        if (!List.of("B_CATEGORY", "B_TITLE", "B_CREATED_ID").contains(column)) {
+            throw new IllegalArgumentException("잘못된 검색 기준입니다.");
+        }
+        // 검색어 검증
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new IllegalArgumentException("검색어를 입력해주세요.");
+        }
+
         return boardService.searchPosts(column, keyword);
     }
-
 
     // 게시글 등록
     @PostMapping
@@ -45,6 +53,16 @@ public class BoardRestController {
             return boardVO; // 등록된 게시글 반환
         } catch (Exception e) {
             throw new RuntimeException("게시글 등록 중 오류가 발생했습니다.");
+        }
+    }
+
+    // 4. 조회수 증가
+    @PatchMapping("/views/{id}")
+    public void increaseViewCount(@PathVariable("id") int id) {
+        try {
+            boardService.increaseViewCount(id);
+        } catch (Exception e) {
+            throw new RuntimeException("조회수 업데이트 중 오류가 발생했습니다.");
         }
     }
 

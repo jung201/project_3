@@ -21,10 +21,20 @@
 
     <!-- 검색 기능 -->
     <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
-        SELECT *
-        FROM board
-        WHERE ${column} LIKE CONCAT('%', #{keyword}, '%') -- 동적 컬럼 및 키워드 검색
-        ORDER BY created_date DESC
+        SELECT
+            B_ID,
+            B_CATEGORY,
+            B_CC,
+            B_TITLE,
+            B_CONTENT,
+            B_CREATED_ID,
+            B_CREATED_DATE,
+            B_UPDATED_ID,
+            B_UPDATED_DATE,
+            B_VIEWS
+        FROM BOARD
+        WHERE LOWER(${column}) LIKE LOWER('%'||#{keyword}||'%') -- 대소문자 무시 및 부분 일치 검색
+        ORDER BY B_CREATED_DATE DESC
     </select>
 
     <!-- 게시물 등록  -->
@@ -47,4 +57,12 @@
             SYSDATE,
             #{B_VIEWS})
     </insert>
+
+    <!-- 4. 조회수 증가 -->
+    <update id="increaseViewCount">
+        UPDATE BOARD
+        SET B_VIEWS = B_VIEWS + 1
+        WHERE B_ID = #{id}
+    </update>
+
 </mapper>

@@ -27,4 +27,10 @@ public class BoardService {
     public void createBoard(BoardVO boardVO) {
         boardDAO.createBoard(boardVO);
     }
+
+    // 4. 조회수 증가
+    public void increaseViewCount(int id) {
+        boardDAO.increaseViewCount(id); // MyBatis 호출
+    }
+
 }
