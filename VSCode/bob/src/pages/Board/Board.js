@@ -9,15 +9,23 @@ const Board = () => {
   // 상태 변수 관리
   const [posts, setPosts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-  const [popupType, setPopupType] = useState(""); // "register", "view"
+  const [popupType, setPopupType] = useState("");
   const [currentPost, setCurrentPost] = useState(null);
-  const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 상태 추가
-
+  const [isAnimating, setIsAnimating] = useState(false); 
+  const [selectedCategory, setSelectedCategory] = useState("전체");
   // 사용자 입력 상태 관리
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("정비");
   const [content, setContent] = useState("");
   const [writer, setWriter] = useState("");
+  // 정렬 기준과 순서 상태 추가
+  const [sortColumn, setSortColumn] = useState(""); // 정렬 기준
+  const [sortOrder, setSortOrder] = useState("asc"); // 정렬 순서(오름차순)
+  // 검색어
+  const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
+  const [searchColumn, setSearchColumn] = useState("b_CATEGORY"); // 검색 기준
+
+//======================================================================= 
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
@@ -31,6 +39,117 @@ const Board = () => {
         console.error("게시글 불러오기 에러:", error);
       });
   }, []);
+
+//=======================================================================
+
+
+// 테이블 렌더링
+const renderTable = () =>
+  posts
+    .filter((post) => selectedCategory === "전체" || renderCategory(post.b_CATEGORY) === selectedCategory) // 필터링 조건 추가
+    .map((post, index) => {
+    return (
+      <tr key={post.B_ID || index} onClick={() => togglePopup("view", post)}>
+        <td>{renderCategory(post.b_CATEGORY)}</td>
+        <td>{post.b_TITLE}</td>
+        <td>{post.b_CREATED_ID}</td>
+        <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR"): "날짜 없음"}</td>
+        <td>{post.b_VIEWS}</td>
+      </tr>
+    );
+  });
+
+  // 테이블 렌더링 - 구분 
+  const renderCategory = (code) => {
+    const categories = {
+      "R": "정비",
+      "T": "꿀팁",
+      "C": "코스",
+      "F": "자유이야기",
+    };
+    return categories[code] || "기타";
+  };
+
+//=======================================================================
+
+  // 카테고리별 필터링 함수
+const filterPosts = (category) => {
+  setSelectedCategory(category); // 선택된 카테고리 상태 업데이트
+
+  // API 요청 보내기
+  axios
+    .get(`http://localhost:3006/api?category=${category === "전체" ? "" : category}`) // 전체일 경우 빈 문자열 처리
+    .then((response) => {
+      setPosts(response.data); // 필터링된 데이터 적용
+    })
+    .catch((error) => {
+      console.error("게시글 필터링 에러:", error);
+    });
+};
+
+//=======================================================================
+
+// 정렬 함수
+const handleSort = (column) => {
+  const order = sortColumn === column && sortOrder === "asc" ? "desc" : "asc"; // 정렬 순서 토글
+  setSortColumn(column); // 클릭한 열을 기준으로 설정
+  setSortOrder(order); // 정렬 순서 설정
+
+  // 정렬 로직
+  const sortedPosts = [...posts].sort((a, b) => {
+    let aValue = a[column];
+    let bValue = b[column];
+
+    // 날짜 처리
+    if (column === "b_CREATED_DATE") {
+      aValue = new Date(aValue);
+      bValue = new Date(bValue);
+    }
+
+    // 비교 및 정렬
+    if (aValue < bValue) return order === "asc" ? -1 : 1;
+    if (aValue > bValue) return order === "asc" ? 1 : -1;
+    return 0;
+  });
+
+  setPosts(sortedPosts); // 정렬된 데이터 적용
+};
+
+//=======================================================================
+
+// 검색 기능
+const handleSearch = () => {
+  // 검색어 유효성 검사
+  if (!searchKeyword.trim()) {
+    alert("검색어를 입력해주세요!"); // 검색어 비어있을 때 알림
+    return; // 검색 중단
+  }
+
+  // API 호출로 검색어 조회
+  axios
+    .get(`http://localhost:3006/api/search`, {
+      params: {
+        column: searchColumn, // 검색 기준 (제목, 작성자, 구분 등)
+        keyword: searchKeyword, // 검색어
+      },
+    })
+    .then((response) => {
+      setPosts(response.data); // 검색 결과 반영
+    })
+    .catch((error) => {
+      console.error("검색 실패:", error);
+    });
+};
+
+// 키보드 이벤트 처리
+const handleKeyPress = (e) => {
+  if (e.key === "Enter") {
+    handleSearch(); // 엔터키 입력 시 검색 함수 호출
+  }
+};
+
+
+//=======================================================================
 
   // 게시글 등록
   const registerPost = () => {
@@ -55,6 +174,8 @@ const Board = () => {
       });
   };
 
+//=======================================================================
+
   // 팝업
   const togglePopup = (type, post = null) => {
     if (!showPopup) {
@@ -74,19 +195,7 @@ const Board = () => {
     }
   };
 
-// 테이블 렌더링
-const renderTable = () =>
-  posts.map((post, index) => {
-    return (
-      <tr key={post.B_ID || index} onClick={() => togglePopup("view", post)}>
-        <td>{post.b_CATEGORY}</td>
-        <td>{post.b_TITLE}</td>
-        <td>{post.b_CREATED_ID}</td>
-        <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR"): "날짜 없음"}</td>
-        <td>{post.b_VIEWS}</td>
-      </tr>
-    );
-  });
+//=======================================================================
 
 
   return (
@@ -94,37 +203,70 @@ const renderTable = () =>
       <div className="board-title">자유게시판</div>
       <div className="search-register">
         <div className="navbar">
-          <ul>
-            <li><a href="#!" onClick={() => setPosts([])}>전체 -</a></li>
-            <li><a href="#!" onClick={() => setPosts([])}>정비</a></li>
-            <li><a href="#!" onClick={() => setPosts([])}>꿀팁</a></li>
-            <li><a href="#!" onClick={() => setPosts([])}>코스</a></li>
-            <li><a href="#!" onClick={() => setPosts([])}>자유이야기</a></li>
-          </ul>
+        <ul>
+          <li><a href="#!" onClick={() => filterPosts("전체")}>전체 -</a></li>
+          <li><a href="#!" onClick={() => filterPosts("정비")}>정비</a></li>
+          <li><a href="#!" onClick={() => filterPosts("꿀팁")}>꿀팁</a></li>
+          <li><a href="#!" onClick={() => filterPosts("코스")}>코스</a></li>
+          <li><a href="#!" onClick={() => filterPosts("자유이야기")}>자유이야기</a></li>
+        </ul>
         </div>
-        <form className="filter-group">
-          <select name="category">
+
+        <form className="filter-group" onSubmit={(e) => e.preventDefault()}>
+          {/* 검색 기준 선택 */}
+          <select 
+            name="category"
+            value={searchColumn}
+            onChange={(e) => setSearchColumn(e.target.value)}
+          >
             <option value="B_CATEGORY">구분</option>
             <option value="B_TITLE">제목</option>
             <option value="B_WRITER">작성자</option>
           </select>
-          <input type="text" placeholder="검색어를 입력하세요" />
-          <button type="button">조회</button>
-          <button type="button" onClick={() => togglePopup("register")}>등록하기</button>
+
+          {/* 검색어 입력 */}
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)} // 입력값 상태 저장
+            onKeyPress={handleKeyPress} // 엔터키 입력 이벤트 처리
+          />
+          {/* 검색 버튼 */}
+          <button type="button" onClick={handleSearch}>조회</button>
+          
+          {/* 등록 버튼 */}
+          <button type="button" onClick={() => togglePopup("register")}>
+            등록하기
+          </button>
         </form>
       </div>
+
       <table className="freeBoard-table">
         <thead>
-          <tr>
-            <th>구분</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>날짜</th>
-            <th>조회수</th>
-          </tr>
+        <tr>
+          {/* 정렬 클릭 이벤트 및 아이콘 추가 */}
+          <th onClick={() => handleSort("b_CATEGORY")}>
+            구분 {sortColumn === "b_CATEGORY" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          </th>
+          <th onClick={() => handleSort("b_TITLE")}>
+            제목 {sortColumn === "b_TITLE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          </th>
+          <th onClick={() => handleSort("b_CREATED_ID")}>
+            작성자 {sortColumn === "b_CREATED_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          </th>
+          <th onClick={() => handleSort("b_CREATED_DATE")}>
+            날짜 {sortColumn === "b_CREATED_DATE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          </th>
+          <th onClick={() => handleSort("b_VIEWS")}>
+            조회수 {sortColumn === "b_VIEWS" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+          </th>
+        </tr>
         </thead>
         <tbody>{renderTable()}</tbody>
       </table>
+
+{/* ================================================================== */}
 
       {/* 등록 팝업 */}
       {showPopup && popupType === "register" && (
@@ -134,11 +276,11 @@ const renderTable = () =>
             <button type="button" className="close-btn" onClick={() => togglePopup("register")}>X</button>
             <div className="form-group">
               <input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
-              <select>
-                <option value="Repair">정비</option>
-                <option value="Tips">꿀팁</option>
-                <option value="Course">코스</option>
-                <option value="Free">자유이야기</option>
+              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <option value="정비">정비</option>
+                <option value="꿀팁">꿀팁</option>
+                <option value="코스">코스</option>
+                <option value="자유이야기">자유이야기</option>
               </select>
             </div>
             <textarea placeholder="내용을 입력하세요" value={content} onChange={(e) => setContent(e.target.value)}></textarea>
@@ -147,6 +289,8 @@ const renderTable = () =>
         </div>
       )}
 
+{/* ================================================================== */}
+
       {/* 보기 팝업 */}
       {showPopup && popupType === "view" && (
         <div className={`view-popup ${isAnimating ? "open" : "close"}`}>
@@ -154,7 +298,7 @@ const renderTable = () =>
             <button type="button" className="close-btn" onClick={() => togglePopup("view")}>X</button>
             <h2>{currentPost.b_TITLE}</h2>
             <div className="form-group">
-              <p><strong>카테고리 : </strong> {currentPost.b_CATEGORY}</p>
+              <p><strong>카테고리 : </strong> {renderCategory(currentPost.b_CATEGORY)}</p>
               <div className="right">
                 <p><strong>날짜 : </strong>{new Date(currentPost.b_CREATED_DATE).toLocaleDateString("ko-KR")}</p>
                 <p><strong>작성자 : </strong> {currentPost.b_CREATED_ID}</p>
