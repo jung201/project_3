@@ -2,24 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fs.four.human.Board.dao.BoardDAO">
 
-
     <!-- 전체 게시판 조회 -->
-    <select id="getAllBoard" resultType="BoardVO">
-        B_ID,
-        B_CATEGORY,
-        B_CC,
-        B_TITLE,
-        B_CREATED_ID,
-        B-CREATED-DATE,
-        B_UPDATED_ID,
-        B_UPDATED_DATE,
-        B_VIEWS
+    <select id="getAllBoard" resultType="fs.four.human.Board.vo.BoardVO">
+        SELECT
+            B_ID,
+            B_CATEGORY,
+            B_CC,
+            B_TITLE,
+            B_CONTENT,
+            B_CREATED_ID,
+            B_CREATED_DATE,
+            B_UPDATED_ID,
+            B_UPDATED_DATE,
+            B_VIEWS
         FROM BOARD
         ORDER BY B_ID DESC
     </select>
 
+    <!-- 검색 기능 -->
+    <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
+        SELECT *
+        FROM board
+        WHERE ${column} LIKE CONCAT('%', #{keyword}, '%') -- 동적 컬럼 및 키워드 검색
+        ORDER BY created_date DESC
+    </select>
 
-
-
-
+    <!-- 게시물 등록  -->
+    <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
+        INSERT INTO BOARD (
+            B_CATEGORY,
+            B_CC,
+            B_TITLE,
+            B_CONTENT,
+            B_CREATED_ID,
+            B_CREATED_DATE,
+            B_VIEWS
+            )
+        VALUES (
+            #{B_CATEGORY},
+            #{B_CC},
+            #{B_TITLE},
+            #{B_CONTENT},
+            #{B_CREATED_ID},
+            SYSDATE,
+            #{B_VIEWS})
+    </insert>
 </mapper>
