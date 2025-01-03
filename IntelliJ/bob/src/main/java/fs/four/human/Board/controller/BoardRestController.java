@@ -27,6 +27,17 @@ public class BoardRestController {
 
     }
 
+    // 게시글 검색
+    @GetMapping("/search")
+    public List<BoardVO> search(
+            @RequestParam String column, // 검색 기준
+            @RequestParam String keyword // 검색어
+    ) {
+        return boardService.searchPosts(column, keyword);
+    }
+
+
+    // 게시글 등록
     @PostMapping
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
         try {

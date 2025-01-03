@@ -19,6 +19,14 @@
         ORDER BY B_ID DESC
     </select>
 
+    <!-- 검색 기능 -->
+    <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
+        SELECT *
+        FROM board
+        WHERE ${column} LIKE CONCAT('%', #{keyword}, '%') -- 동적 컬럼 및 키워드 검색
+        ORDER BY created_date DESC
+    </select>
+
     <!-- 게시물 등록  -->
     <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
         INSERT INTO BOARD (
