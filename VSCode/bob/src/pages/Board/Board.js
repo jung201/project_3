@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../static/scss/Board/board.scss";
+import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
 // import tinymce from "tinymce/tinymce";
 // import "tinymce/themes/silver";
 // import "tinymce/icons/default";
@@ -8,6 +9,10 @@ import "../../static/scss/Board/board.scss";
 
 // 상태 변수 관리
 const Board = () => {
+
+  // 반짝이는 효과 적용
+  SparkleEffect();
+
   const [posts, setPosts] = useState([]); // 게시글 목록 상태
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
   const [popupType, setPopupType] = useState(""); // 팝업 타입 (등록, 보기)

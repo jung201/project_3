@@ -4,8 +4,12 @@ import OilTrend from "./OilTrend";
 import LowestPrice from "./LowestPrice";
 import RegionTopCharge from "./RegionTopCharge";
 import "../../static/scss/MainPage/mainPage.scss";
+import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
 
 const MainPage = () => {
+  // 반짝이는 효과 적용
+  SparkleEffect();
+
   return (
     <main className="main-container">
       <section className="today-price-section">

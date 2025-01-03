@@ -24,7 +24,6 @@ public class BoardRestController {
         } catch (Exception e) {
             throw new RuntimeException("전체 데이터를 가져오는 중 오류가 발생했습니다.");
         }
-
     }
 
     // 게시글 검색

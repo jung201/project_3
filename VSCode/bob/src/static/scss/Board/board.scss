@@ -5,18 +5,20 @@
 .board {
   height: 730px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #f8f9fa;
   border: 1px solid #ddd;
   border-radius: 8px;
 
   .board-title {
-    width: 200px;
-    font-size: 32px;
+    text-align: center;
+    font-size: 40px;
     font-weight: bold;
-    border-bottom: 1px solid black;
-    margin-bottom: 50px;
-    line-height: 60px;
+    margin: 50px 0px;
+    // border-bottom: 1px solid black;
+    // line-height: 60px;
+    color: #333;
   }
+
 
   h2 {
     font-size: 24px;
@@ -25,12 +27,12 @@
   }
 
   .search-register {
-    height: 60px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 50px;
-    background-color: #f9f9f9;
+    background-color: #f6f3f3;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
@@ -41,6 +43,7 @@
 
       li a {
         font-size: 18px;
+        font-weight: bold;
         text-decoration: none;
         transition: color 0.2s ease;
 
@@ -72,6 +75,7 @@
         border-radius: 4px;
         cursor: pointer;
         font-size: 14px;
+        font-weight: bold;
 
         &:hover {
           background-color: #0056b3;
@@ -88,7 +92,7 @@
     td {
       border-bottom: 1px solid #ddd;
       text-align: center;
-      padding: 8px;
+      padding: 10px;
     }
 
     th {
@@ -96,7 +100,8 @@
       border-bottom: 2px solid black;
     }
 
-    tbody tr:hover, th:hover {
+    tbody tr:hover,
+    th:hover {
       background-color: #f1f1f1;
       cursor: pointer;
     }
