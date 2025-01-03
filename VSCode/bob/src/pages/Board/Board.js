@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../../static/scss/Board/board.scss";
 import tinymce from "tinymce/tinymce";
 import "tinymce/themes/silver";
@@ -11,31 +12,33 @@ const Board = () => {
   const [currentPost, setCurrentPost] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false); // 애니메이션 상태 추가
 
+  // 백엔드에서 데이터 불러오기
   useEffect(() => {
-    // 예시 데이터 로드
-    const exampleData = [
-      {
-        id: 2,
-        category: "QnA",
-        title: "게시글 제목 1",
-        content: "게시글 내용 1",
-        writer: "작성자 1",
-        createdDate: "2025-01-01",
-        viewCount: 10,
-      },
-      {
-        id: 1,
-        category: "Tips",
-        title: "게시글 제목 2",
-        content: "게시글 내용 2",
-        writer: "작성자 2",
-        createdDate: "2025-01-02",
-        viewCount: 20,
-      },
-    ];
-    setPosts(exampleData);
+    axios
+      .get("/api/posts") 
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((error) => {
+        console.error("게시글 불러오기 에러:", error);
+      });
   }, []);
 
+  // 게시글 등록
+  const registerPost = (newPost) => {
+    axios
+      .post("/api/posts", newPost) 
+      .then((response) => {
+        alert("게시글 등록 완료! 💖");
+        togglePopup("register");
+        setPosts([...posts, response.data]); 
+      })
+      .catch((error) => {
+        console.error("게시글 등록 실패:", error);
+      });
+  };
+
+  // 팝업
   const togglePopup = (type, post = null) => {
     if (!showPopup) {
       // 팝업 열기
@@ -74,17 +77,22 @@ const Board = () => {
           <ul>
             <li>
               <a href="#!" onClick={() => setPosts([])}>
-                전체
+                전체 -
               </a>
             </li>
             <li>
               <a href="#!" onClick={() => setPosts([])}>
-                QnA
+                정비
               </a>
             </li>
             <li>
               <a href="#!" onClick={() => setPosts([])}>
                 꿀팁
+              </a>
+            </li>
+            <li>
+              <a href="#!" onClick={() => setPosts([])}>
+                코스
               </a>
             </li>
             <li>
@@ -96,7 +104,7 @@ const Board = () => {
         </div>
         <form className="filter-group">
           <select name="category">
-            <option value="B_ID">번호</option>
+            <option value="B_CATEGORY">구분</option>
             <option value="B_TITLE">제목</option>
             <option value="B_WRITER">작성자</option>
           </select>
@@ -110,7 +118,7 @@ const Board = () => {
       <table className="freeBoard-table">
         <thead>
           <tr>
-            <th>번호</th>
+            {/* <th>번호</th> */}
             <th>구분</th>
             <th>제목</th>
             <th>작성자</th>
@@ -136,13 +144,29 @@ const Board = () => {
             <div className="form-group">
               <input type="text" placeholder="제목을 입력하세요" />
               <select>
-                <option value="QnA">QnA</option>
+                <option value="Repair">정비</option>
                 <option value="Tips">꿀팁</option>
+                <option value="Course">코스</option>
                 <option value="Free">자유이야기</option>
               </select>
             </div>
             <textarea placeholder="내용을 입력하세요"></textarea>
-            <button type="button">등록</button>
+            <button
+              type="button"
+              onClick={() => {
+                const newPost = {
+                  title: "새로운 제목",
+                  category: "QnA",
+                  content: "내용 입력",
+                  writer: "작성자",
+                  createdDate: new Date().toISOString().split("T")[0], // 오늘 날짜
+                  viewCount: 0,
+                };
+                registerPost(newPost); // 백엔드로 데이터 전송
+              }}
+            >
+              등록
+            </button>
           </form>
         </div>
       )}

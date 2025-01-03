@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fs.four.human.Board.dao.BoardDAO">
+
+
+    <!-- 전체 게시판 조회 -->
+    <select id="getAllBoard" resultType="BoardVO">
+        B_ID,
+        B_CATEGORY,
+        B_CC,
+        B_TITLE,
+        B_CREATED_ID,
+        B-CREATED-DATE,
+        B_UPDATED_ID,
+        B_UPDATED_DATE,
+        B_VIEWS
+        FROM BOARD
+        ORDER BY B_ID DESC
+    </select>
+
+
+
+
+
+</mapper>

@@ -35,14 +35,11 @@ dependencies {
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // JSP 파일을 처리하기 위한 Apache Tomcat Jasper 엔진 의존성
 
-	// 메일 발송을 위한 의존성
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
 	// web socket 사용을 위한 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-	// MariaDB 드라이버
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.1.2' // MariaDB JDBC 드라이버
+	// Oracle 데이터베이스 연결을 위한 JDBC 드라이버
+	implementation 'com.oracle.database.jdbc:ojdbc8:19.8.0.0'
 
 	// 내장 Tomcat 서버 제공 (런타임 환경)
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'

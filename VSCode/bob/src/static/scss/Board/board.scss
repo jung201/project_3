@@ -110,13 +110,13 @@
 
     th:nth-child(2),
     td:nth-child(2) {
-      width: 10%;
+      width: 50%;
       /* 구분 열 크기 */
     }
 
     th:nth-child(3),
     td:nth-child(3) {
-      width: 50%;
+      width: 10%;
       /* 제목 열 크기 */
     }
 
@@ -136,11 +136,11 @@
       /* 날짜 열 크기 */
     }
 
-    th:nth-child(6),
-    td:nth-child(6) {
-      width: 5%;
-      /* 조회수 열 크기 */
-    }
+    // th:nth-child(6),
+    // td:nth-child(6) {
+    //   width: 5%;
+    //   /* 조회수 열 크기 */
+    // }
   }
 
   // 등록 팝업
