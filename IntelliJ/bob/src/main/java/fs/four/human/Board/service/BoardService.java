@@ -17,4 +17,9 @@ public class BoardService {
     public List<BoardVO> getAllBoard() {
         return boardDAO.getAllBoard();
     }
+
+    // 게시글 등록
+    public void createBoard(BoardVO boardVO) {
+        boardDAO.createBoard(boardVO);
+    }
 }

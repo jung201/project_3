@@ -4,10 +4,7 @@ package fs.four.human.Board.controller;
 import fs.four.human.Board.service.BoardService;
 import fs.four.human.Board.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +26,15 @@ public class BoardRestController {
         }
 
     }
+
+    @PostMapping
+    public BoardVO createBoard(@RequestBody BoardVO boardVO) {
+        try {
+            boardService.createBoard(boardVO);
+            return boardVO; // 등록된 게시글 반환
+        } catch (Exception e) {
+            throw new RuntimeException("게시글 등록 중 오류가 발생했습니다.");
+        }
+    }
+
 }

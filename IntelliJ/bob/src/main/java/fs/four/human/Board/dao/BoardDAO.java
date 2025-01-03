@@ -11,4 +11,6 @@ public interface BoardDAO {
     // 전체 게시판 조회
     List<BoardVO> getAllBoard();
 
+    // 게시글 등록
+    void createBoard(BoardVO boardVO);
 }
