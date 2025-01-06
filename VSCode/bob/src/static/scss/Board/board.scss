@@ -108,7 +108,7 @@
     /* 열 너비 고정 */
     th:nth-child(1),
     td:nth-child(1) {
-      width: 5%;
+      width: 4%;
       /* NO 열 크기 */
     }
 
@@ -120,30 +120,37 @@
 
     th:nth-child(3),
     td:nth-child(3) {
-      width: 40%;
-      /* 제목 열 크기 */
+      width: 5%;
+      /* CC 열 크기 */
     }
 
-    td:nth-child(3),
     th:nth-child(4),
-    td:nth-child(4) {
+    td:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(5) {
       text-align: left;
     }
 
     th:nth-child(4),
     td:nth-child(4) {
-      width: 5%;
-      /* 작성자 열 크기 */
+      width: 35%;
+      /* 제목 열 크기 */
     }
 
     th:nth-child(5),
     td:nth-child(5) {
       width: 3%;
-      /* 조회수 열 크기 */
+      /* 작성자 열 크기 */
     }
 
     th:nth-child(6),
     td:nth-child(6) {
+      width: 4%;
+      /* 조회수 열 크기 */
+    }
+
+    th:nth-child(7),
+    td:nth-child(7) {
       width: 6%;
       /* 날짜 열 크기 */
     }

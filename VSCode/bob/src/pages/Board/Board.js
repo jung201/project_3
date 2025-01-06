@@ -63,6 +63,7 @@ const Board = () => {
           <tr key={post.B_ID || index} onClick={() => togglePopup("view", post)}>
             <td>{post.b_ID}</td>
             <td>{renderCategory(post.b_CATEGORY)}</td>
+            <td>{post.b_CC}</td>
             <td>{post.b_TITLE}</td>
             <td>{post.b_CREATED_ID}</td>
             <td>{post.b_VIEWS}</td>
@@ -289,6 +290,7 @@ const Board = () => {
             onChange={(e) => setSearchColumn(e.target.value)}
           > 
             <option value="B_ID">NO</option>
+            <option value="B_CC">CC</option>
             <option value="B_CATEGORY">구분</option>
             <option value="B_TITLE">제목</option>
             <option value="B_CREATED_ID">작성자</option>
@@ -322,6 +324,9 @@ const Board = () => {
             <th onClick={() => handleSort("b_CATEGORY")}>
               구분 {sortColumn === "b_CATEGORY" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
+            <th onClick={() => handleSort("b_CC")}>
+              CC {sortColumn === "b_CC" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+            </th>
             <th onClick={() => handleSort("b_TITLE")}>
               제목 {sortColumn === "b_TITLE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
@@ -329,10 +334,10 @@ const Board = () => {
               작성자 {sortColumn === "b_CREATED_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
             <th onClick={() => handleSort("b_CREATED_DATE")}>
-              날짜 {sortColumn === "b_CREATED_DATE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              조회수 {sortColumn === "b_CREATED_DATE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
             <th onClick={() => handleSort("b_VIEWS")}>
-              조회수 {sortColumn === "b_VIEWS" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              날짜 {sortColumn === "b_VIEWS" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
           </tr>
         </thead>
