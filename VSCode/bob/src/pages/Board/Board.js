@@ -34,51 +34,81 @@ const Board = () => {
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const [searchColumn, setSearchColumn] = useState("B_ID"); // 검색 기준
 
+  // 페이지네이션 추가
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [postsPerPage] = useState(20); // 페이지당 게시글 수
+  const [totalPosts, setTotalPosts] = useState(0); // 전체 게시글 수
+
   //=======================================================================
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
+    fetchPosts();
+  }, [currentPage, selectedCategory, searchKeyword]);
+
+  const fetchPosts = () => {
     axios
-      .get("http://192.168.0.93:3006/api") // API 경로
-      .then((response) => {
-        console.log(response.data); // 데이터 출력 확인
-        setPosts(response.data); // 게시글 데이터 설정
+      .get("http://192.168.0.93:3006/api", {
+        params: {
+          page: currentPage,
+          limit: postsPerPage,
+          category: selectedCategory === "전체" ? "" : selectedCategory,
+          keyword: searchKeyword.trim(),
+          column: searchColumn.toUpperCase(),
+        },
       })
+      .then((response) => {
+        console.log("서버 응답 데이터:", response.data); // 데이터 구조 확인
+        setPosts(response.data || []); // 빈 배열 처리
+        setTotalPosts(response.data.length || 0); // 총 게시글 수 처리
+      })
+      
       .catch((error) => {
         console.error("게시글 불러오기 에러:", error);
+        setPosts([]); // 에러 발생 시 빈 배열로 초기화
+        setTotalPosts(0);
       });
-  }, []);
+  };
+
+  // 페이지네이션 번호 생성
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
 
   //=======================================================================
 
   // 테이블 렌더링
-  const renderTable = () =>
-    posts
-      .filter(
-        (post) =>
-          selectedCategory === "전체" ||
-          renderCategory(post.b_CATEGORY) === selectedCategory
-      ) // 필터링 조건 추가
-      .map((post, index) => {
-        return (
-          <tr
-            key={post.b_ID || index}
-            onClick={() => togglePopup("view", post)}
-          >
-            <td>{post.b_ID}</td>
-            <td>{renderCategory(post.b_CATEGORY)}</td>
-            <td>{renderCc(post.b_CC)}</td>
-            <td>{post.b_TITLE}</td>
-            <td>{post.b_CREATED_ID}</td>
-            <td>{post.b_VIEWS}</td>
-            <td>
-              {post.b_CREATED_DATE
-                ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR")
-                : "미정"}
-            </td>
-          </tr>
-        );
-      });
+  const renderTable = () => {
+    if (!Array.isArray(posts) || posts.length === 0) {
+      return (
+        <tr>
+          <td colSpan="7" style={{ textAlign: "center" }}>
+            게시글이 없습니다.
+          </td>
+        </tr>
+      );
+    }
+  
+    return posts.map((post, index) => (
+      <tr key={post.b_ID || index} onClick={() => togglePopup("view", post)}>
+        <td>{post.b_ID}</td>
+        <td>{renderCategory(post.b_CATEGORY)}</td>
+        <td>{renderCc(post.b_CC)}</td>
+        <td>{post.b_TITLE}</td>
+        <td>{post.b_CREATED_ID}</td>
+        <td>{post.b_VIEWS}</td>
+        <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR") : "미정"}</td>
+      </tr>
+    ));
+  };
+  
 
   // 테이블 렌더링 - 구분
   const renderCategory = (code) => {
@@ -91,7 +121,7 @@ const Board = () => {
     return categories[code];
   };
 
-  // 테이블 렌더링 - 구분
+  // cc 렌더링
   const renderCc = (code) => {
     const categories = {
       S: "스쿠터",
@@ -101,6 +131,12 @@ const Board = () => {
     };
     return categories[code];
   };
+
+  const handleFilterClick = (category) => {
+    setSelectedCategory(category);
+    setCurrentPage(1); // 필터 변경 시 첫 페이지로 이동
+  };
+  
 
   //=======================================================================
 
@@ -163,12 +199,12 @@ const Board = () => {
 
     // 1. 구분(B_CATEGORY) 변환
     if (column === "B_CATEGORY") {
-      keyword = convertCategory(keyword);
+      keyword = renderCategory(keyword);
     }
 
     // 2. CC(B_CC) 변환
     if (column === "B_CC") {
-      keyword = convertCc(keyword);
+      keyword = renderCc(keyword);
     }
 
     // 3. NO(B_ID) 숫자 검증
@@ -189,28 +225,6 @@ const Board = () => {
         console.error("검색 실패:", error);
         alert("검색에 실패했습니다. 다시 시도해주세요!");
       });
-  };
-
-  // 카테고리 명칭 → 코드 변환 함수
-  const convertCategory = (name) => {
-    const categoryMap = {
-      정비: "R",
-      꿀팁: "T",
-      코스: "C",
-      자유이야기: "F",
-    };
-    return categoryMap[name] || name; // 매칭 없으면 입력 그대로 반환
-  };
-
-  // CC 명칭 → 코드 변환 함수
-  const convertCc = (name) => {
-    const ccMap = {
-      스쿠터: "S",
-      소형: "SM",
-      중형: "M",
-      리터: "L",
-    };
-    return ccMap[name] || name; // 매칭 없으면 입력 그대로 반환
   };
 
   // 키보드 이벤트 처리
@@ -440,6 +454,19 @@ const Board = () => {
         </thead>
         <tbody>{renderTable()}</tbody>
       </table>
+
+      {/* 페이지네이션 UI */}
+      <div className="pagination">
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => handlePageChange(number)}
+            className={currentPage === number ? "active" : ""}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
 
       {/* ================================================================== */}
 

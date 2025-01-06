@@ -20,40 +20,22 @@
     </select>
 
     <!-- 검색 기능 -->
-    <select id="searchPosts" parameterType="map" resultType="BoardVO">
+    <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
         SELECT
-        B_ID,
-        B_CATEGORY,
-        B_CC,
-        B_TITLE,
-        B_CONTENT,
-        B_CREATED_ID,
-        B_CREATED_DATE,
-        B_UPDATED_ID,
-        B_UPDATED_DATE,
-        B_VIEWS
+            B_ID,
+            B_CATEGORY,
+            B_CC,
+            B_TITLE,
+            B_CONTENT,
+            B_CREATED_ID,
+            B_CREATED_DATE,
+            B_UPDATED_ID,
+            B_UPDATED_DATE,
+            B_VIEWS
         FROM BOARD
-        WHERE
-        <choose>
-            <!-- B_ID가 숫자인 경우 -->
-            <when test="column == 'B_ID'">
-                B_ID = #{keyword}
-            </when>
-            <!-- B_CATEGORY와 B_CC는 문자열 -->
-            <when test="column == 'B_CATEGORY'">
-                B_CATEGORY = #{keyword}
-            </when>
-            <when test="column == 'B_CC'">
-                B_CC = #{keyword}
-            </when>
-            <!-- 다른 컬럼들은 LIKE 조건 -->
-            <otherwise>
-                LOWER(${column}) LIKE LOWER('%'||#{keyword}||'%')
-            </otherwise>
-        </choose>
+        WHERE LOWER(${column}) LIKE LOWER('%'||#{keyword}||'%') -- 대소문자 무시 및 부분 일치 검색
         ORDER BY B_CREATED_DATE DESC
     </select>
-
 
     <!-- 게시물 등록  -->
     <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
