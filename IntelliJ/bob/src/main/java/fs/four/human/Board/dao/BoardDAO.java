@@ -16,4 +16,7 @@ public interface BoardDAO {
 
     // 게시글 등록
     void createBoard(BoardVO boardVO);
+
+    // 4. 조회수 증가
+    void increaseViewCount(int id); // 조회수 증가
 }
