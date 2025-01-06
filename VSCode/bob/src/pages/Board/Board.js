@@ -24,7 +24,6 @@ const Board = () => {
   const [title, setTitle] = useState(""); // 제목 상태
   const [category, setCategory] = useState("정비"); // 카테고리 상태
   const [content, setContent] = useState(""); // 내용 상태
-  // const [createdId, setCreatedId] = useState("");
 
   // 정렬 기준과 순서 상태 추가
   const [sortColumn, setSortColumn] = useState(""); // 정렬 기준
@@ -32,7 +31,7 @@ const Board = () => {
 
   // 검색어
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
-  const [searchColumn, setSearchColumn] = useState("B_CATEGORY"); // 검색 기준
+  const [searchColumn, setSearchColumn] = useState("B_ID"); // 검색 기준
 
   // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
   const userId = localStorage.getItem("userId"); // localStorage에서 사용자 ID 가져오기
@@ -60,10 +59,10 @@ const Board = () => {
       .filter((post) => selectedCategory === "전체" || renderCategory(post.b_CATEGORY) === selectedCategory) // 필터링 조건 추가
       .map((post, index) => {
         return (
-          <tr key={post.B_ID || index} onClick={() => togglePopup("view", post)}>
+          <tr key={post.b_ID || index} onClick={() => togglePopup("view", post)}>
             <td>{post.b_ID}</td>
             <td>{renderCategory(post.b_CATEGORY)}</td>
-            <td>{post.b_CC}</td>
+            <td>{renderCc(post.b_CC)}</td>
             <td>{post.b_TITLE}</td>
             <td>{post.b_CREATED_ID}</td>
             <td>{post.b_VIEWS}</td>
@@ -80,8 +79,19 @@ const Board = () => {
       "C": "코스",
       "F": "자유이야기",
     };
-    return categories[code] || "기타";
+    return categories[code];
   };
+
+    // 테이블 렌더링 - 구분 
+    const renderCc= (code) => {
+      const categories = {
+        "S": "스쿠터",
+        "SM": "소형",
+        "M": "중형",
+        "L": "리터",
+      };
+      return categories[code];
+    };
 
   //=======================================================================
 
@@ -124,23 +134,40 @@ const Board = () => {
 
   //=======================================================================
 
-  // 검색 기능
+  // 검색기능
   const handleSearch = () => {
     // 검색어 유효성 검사
     if (!searchKeyword.trim()) {
       alert("검색어를 입력해주세요!");
       return;
     }
-
-    // 카테고리 한글명 → 코드 변환
-    const keyword = searchColumn === "B_CATEGORY" ? convertCategory(searchKeyword.trim()) : searchKeyword.trim();
-    // 검색 컬럼과 키워드 설정, 선택한 컬럼명을 대문자로 변환
+  
+    // 컬럼명 대문자 변환
     const column = searchColumn.toUpperCase();
-
-    // API 호출로 검색어 조회
+  
+    // 검색어 변환 처리
+    let keyword = searchKeyword.trim();
+  
+    // 1. 구분(B_CATEGORY) 변환
+    if (column === "B_CATEGORY") {
+      keyword = convertCategory(keyword);
+    }
+  
+    // 2. CC(B_CC) 변환
+    if (column === "B_CC") {
+      keyword = convertCc(keyword); 
+    }
+  
+    // 3. NO(B_ID) 숫자 검증
+    if (column === "B_ID" && isNaN(keyword)) {
+      alert("NO는 숫자로 입력해주세요!");
+      return;
+    }
+  
+    // API 호출
     axios
       .get(`http://192.168.0.93:3006/api/search`, {
-        params: { column, keyword }, // 선택한 컬럼과 키워드 전달
+        params: { column, keyword },
       })
       .then((response) => {
         setPosts(response.data); // 검색 결과 반영
@@ -150,7 +177,7 @@ const Board = () => {
         alert("검색에 실패했습니다. 다시 시도해주세요!");
       });
   };
-
+  
   // 카테고리 명칭 → 코드 변환 함수
   const convertCategory = (name) => {
     const categoryMap = {
@@ -161,6 +188,17 @@ const Board = () => {
     };
     return categoryMap[name] || name; // 매칭 없으면 입력 그대로 반환
   };
+
+    // CC 명칭 → 코드 변환 함수 
+    const convertCc = (name) => {
+      const ccMap = {
+        "스쿠터": "S",
+        "소형": "SM",
+        "중형": "M",
+        "리터": "L",
+      };
+      return ccMap[name] || name; // 매칭 없으면 입력 그대로 반환
+    };
 
   // 키보드 이벤트 처리
   const handleKeyPress = (e) => {
@@ -376,7 +414,10 @@ const Board = () => {
             <button type="button" className="close-btn" onClick={() => togglePopup("view")}>X</button>
             <h2>{currentPost.b_TITLE}</h2>
             <div className="form-group">
-              <p><strong>카테고리 : </strong> {renderCategory(currentPost.b_CATEGORY)}</p>
+              <div className="left">
+                <p><strong>카테고리 : </strong> {renderCategory(currentPost.b_CATEGORY)}</p>
+                <p><strong>CC : </strong> {renderCc(currentPost.b_CC)}</p>
+              </div>
               <div className="right">
                 <p><strong>날짜 : </strong>{new Date(currentPost.b_CREATED_DATE).toLocaleDateString("ko-KR")}</p>
                 <p><strong>작성자 : </strong> {currentPost.b_CREATED_ID}</p>

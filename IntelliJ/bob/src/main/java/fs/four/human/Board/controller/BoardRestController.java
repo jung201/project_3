@@ -33,7 +33,7 @@ public class BoardRestController {
             @RequestParam("keyword") String keyword // 검색어
     ) {
         // 컬럼명을 안전하게 검증
-        if (!List.of("B_CATEGORY", "B_TITLE", "B_CREATED_ID").contains(column)) {
+        if (!List.of("B_ID","B_CC","B_CATEGORY", "B_TITLE", "B_CREATED_ID").contains(column)) {
             throw new IllegalArgumentException("잘못된 검색 기준입니다.");
         }
         // 검색어 검증

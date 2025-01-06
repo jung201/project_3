@@ -33,7 +33,12 @@
             B_UPDATED_DATE,
             B_VIEWS
         FROM BOARD
-        WHERE LOWER(${column}) LIKE LOWER('%'||#{keyword}||'%') -- 대소문자 무시 및 부분 일치 검색
+        WHERE
+        (${column} = #{keyword} AND ${column} = 'B_ID')
+
+        OR (${column} = #{keyword} AND ${column} = 'B_CC')
+
+        OR LOWER(${column}) LIKE LOWER('%'||#{keyword}||'%')
         ORDER BY B_CREATED_DATE DESC
     </select>
 

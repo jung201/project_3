@@ -10,6 +10,7 @@
     top:0;    
     background-color: #f6f3f3;
     height: 42px; // 헤더 높이
+    border: 1px solid #ddd;
 
     .header-size {
         @include flex-center(space-around, center);

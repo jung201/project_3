@@ -5,7 +5,6 @@
 .board {
   padding: 50px;
   background-color: #f8f9fa;
-  border: 1px solid #ddd;
   border-radius: 8px;
 
   .board-title {
@@ -91,11 +90,10 @@
     td {
       border-bottom: 1px solid #ddd;
       text-align: center;
-      padding:20px 10px;
+      padding: 20px 10px;
     }
 
     th {
-      // background-color: #f6f6f6;
       border-bottom: 2px solid black;
     }
 
@@ -126,7 +124,6 @@
 
     th:nth-child(4),
     td:nth-child(4),
-    th:nth-child(5),
     td:nth-child(5) {
       text-align: left;
     }
@@ -145,7 +142,7 @@
 
     th:nth-child(6),
     td:nth-child(6) {
-      width: 4%;
+      width: 5%;
       /* 조회수 열 크기 */
     }
 
@@ -333,6 +330,7 @@
           font-size: 16px;
         }
 
+        .left,
         .right {
           p {
             margin-top: 5px;
