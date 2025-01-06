@@ -34,14 +34,25 @@
         display: block;
         margin-bottom: 10px;
       }
+      table{
+        th{
+            font-size: 11pt;
+        }
+        td{
+            font-size: 10pt;
+        }
+      }
   
       .actions {
         margin-top: 20px;
         text-align: center;
   
         button {
+          margin-bottom : 20px;          
+          margin-top:0px;
+          width:100%;
           padding: 10px 20px;
-          background: #007bff;
+          background: #022547;
           color: white;
           border: none;
           border-radius: 4px;
@@ -54,10 +65,28 @@
       }
     }
   }
-  
+  .search-bar{
+    text-align: center;
+  }
   .searchBtn{
-    width:20%;
+    width:17%;
     height:auto;
     background-color: #021d3a;
-    color: white
+    color: white;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius : 5px;
+    font-size: 10pt;
+    cursor: pointer;
   }
+
+.s-btn{
+    top:4px;
+    width: 20px;
+    height: 20px;
+    padding:0;
+    cursor: pointer;
+}
+img{
+    width:100%;
+    height:100%;
+}

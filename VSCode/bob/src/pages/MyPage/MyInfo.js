@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../static/scss/MyPage/MyInfo.scss";
 import sample from "../../static/images/icons/샘플.PNG";
+import UserEditPopup from "./UserEditPopup";
 
 const MyInfo = ({ setView }) => {
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const handleScroll = (targetId) => {
+    // 450px 이하에서만 스크롤 이동
+    if (window.innerWidth <= 450) {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        // 정확한 위치로 이동
+        const offsetTop = targetElement.offsetTop - 20; // 제목과 약간의 여백 조정
+        window.scrollTo({
+          top: offsetTop,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   return (
     <div className="profile">
       <h2>마이페이지</h2>
@@ -20,14 +37,34 @@ const MyInfo = ({ setView }) => {
 
       {/* 정보 수정 버튼 */}
       <div className="profile-button">
-        <button>정보 수정</button>
+        <button onClick={() => setShowEditPopup(true)}>정보 수정</button>
       </div>
-      <br/><br/><br/>
+      <br /><br /><br />
       {/* 메뉴 버튼 */}
       <div className="profile-menu">
-        <button className="menuBtn" onClick={() => setView("stationInfo")}>나의 주유소 정보</button><br/><br/>
-        <button className="menuBtn" onClick={() => setView("myPosts")}>내가 쓴 글 보기</button>
+        <button
+          className="menuBtn"
+          onClick={() => {
+            setView("stationInfo");
+            handleScroll("favoriteSection");
+          }}
+        >
+          나의 주유소 정보
+        </button>
+        <br />
+        <br />
+        <button
+          className="menuBtn"
+          onClick={() => {
+            setView("myPosts");
+            handleScroll("myPostsSection");
+          }}
+        >
+          내가 쓴 글 보기
+        </button>
       </div>
+      {showEditPopup && <UserEditPopup setShowEditPopup={setShowEditPopup} />}
+
     </div>
   );
 };

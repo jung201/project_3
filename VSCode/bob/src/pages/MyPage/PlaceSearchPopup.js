@@ -30,7 +30,7 @@ const PlaceSearchPopup = ({ setShowPlaceSearchPopup, setSelectedPlace }) => {
         >
           &times;
         </button>
-        <h3>장소찾기</h3>
+        <h2 style={{textAlign:"center"}}>주유소 선택</h2>
         <div className="search-bar">
           <label style={{display: "inline-block"}}>
             장소명　  

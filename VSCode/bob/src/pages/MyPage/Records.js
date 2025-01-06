@@ -50,11 +50,11 @@ const Records = () => {
 
   // 차트 데이터
   const chartData = {
-    labels: ["1월", "2월", "3월", "4월"],
+    labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ],
     datasets: [
       {
         label: "주유 금액",
-        data: [70000, 80000, 75000, 30000],
+        data: [70000, 80000, 75000, 30000, 25000, 10000, 70000,15000,20000,10000,15000,30000],
         backgroundColor: "rgba(54, 162, 235, 0.6)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
@@ -80,7 +80,7 @@ const Records = () => {
   return (
     <div className="fuel-records">
       <div className="header">
-        <h3>월별 주유 기록</h3>
+        <h2>월별 주유 기록</h2>
         <button
           name="registerFuelRecord"
           onClick={() => setShowRegistModal(true)}

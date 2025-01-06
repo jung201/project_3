@@ -28,10 +28,10 @@ const MyPosts = () => {
 
   return (
     <div className="my-posts">
-      <h3>내가 쓴 글</h3>
+      <h2>내가 쓴 글 보기</h2>
       <table>
         <thead>
-          <tr>
+          <tr style={{borderTop:"1px solid gray"}}>
             <th>작성일</th>
             <th>게시판 구분</th>
             <th>게시글 제목</th>

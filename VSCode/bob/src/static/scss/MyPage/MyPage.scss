@@ -56,3 +56,36 @@
   padding: 20px;
 
 }
+
+
+/* 450px 이하 미디어 쿼리 */
+@media (max-width: 450px) {
+  .my-page {
+    flex-direction: column;
+    padding: 10px;
+
+    .left-section {
+      order: -1; /* 항상 상단에 위치 */
+      flex: none; /* 고정된 높이와 너비 */
+      margin-bottom: 20px;
+    }
+
+    .main-content {
+      flex-direction: column; /* 섹션을 수직으로 정렬 */
+      gap: 10px;
+
+      .middle-section {
+        flex: none;
+        .middle-top-section,
+        .middle-bottom-section {
+          margin-bottom: 10px;
+        }
+      }
+
+      .right-section {
+        flex: none;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

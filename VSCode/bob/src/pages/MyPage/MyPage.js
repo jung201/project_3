@@ -25,7 +25,7 @@ const MyPage = () => {
         <div className="main-content">
           {/* Middle Section */}
           <div className="middle-section">
-            <div className="middle-top-section">
+            <div className="middle-top-section" id="favoriteSection">
               <Favorite />
             </div>
             <div className="middle-bottom-section">
@@ -39,7 +39,7 @@ const MyPage = () => {
           </div>
         </div>
       ) : view === "myPosts" ? (
-        <div className="main-content full-width">
+        <div className="main-content full-width"  id="myPostsSection">
           <MyPosts />
         </div>
       ) : null}
