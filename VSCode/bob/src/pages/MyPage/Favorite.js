@@ -43,7 +43,9 @@ const Favorite = () => {
               <td>
                 <button 
                 style={{backgroundcolor:"#f8f9fa", border:"solid 1px #ccc"}}
-                name={`delete-station-${index}`}>삭제</button>
+                name={`delete-station-${index}`}
+                onClick={() => alert("삭제하시겠습니까?")}
+                >삭제</button>
               </td>
             </tr>
           ))}

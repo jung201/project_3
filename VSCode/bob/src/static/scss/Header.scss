@@ -97,7 +97,7 @@
         .mobile-menu {
             flex-direction: column;
             display: flex ; // 모바일 화면에서 보이게 설정
-            position: fixed; // 스크롤해도 항상 하단에 고정
+            position:fixed; // 스크롤해도 항상 하단에 고정
             bottom: 0;
             left: 0;
             width: 100%;

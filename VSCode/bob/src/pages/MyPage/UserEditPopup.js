@@ -19,7 +19,7 @@ const UserEditPopup = ({ setShowEditPopup }) => {
           </label>
           <label>
             타입:
-            <select name="type">
+            <select name="type" style={{width:"100%"}}>
               <option value="스쿠터">스쿠터</option>
               <option value="스포츠">스포츠</option>
               <option value="크루저">크루저</option>

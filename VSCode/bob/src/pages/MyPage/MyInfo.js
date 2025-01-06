@@ -11,7 +11,7 @@ const MyInfo = ({ setView }) => {
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
         // 정확한 위치로 이동
-        const offsetTop = targetElement.offsetTop - 20; // 제목과 약간의 여백 조정
+        const offsetTop = targetElement.offsetTop - 90; // 제목과 약간의 여백 조정
         window.scrollTo({
           top: offsetTop,
           behavior: "smooth",

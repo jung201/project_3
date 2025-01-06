@@ -63,7 +63,6 @@
   .my-page {
     flex-direction: column;
     padding: 10px;
-
     .left-section {
       order: -1; /* 항상 상단에 위치 */
       flex: none; /* 고정된 높이와 너비 */

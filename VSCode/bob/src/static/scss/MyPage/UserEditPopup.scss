@@ -70,3 +70,35 @@
     }
   }
   
+  @media (max-width: 450px) {
+    .modal-content {
+      padding: 15px;
+      height: 71% !important;
+      width: 80% !important; /* 더 좁은 화면에 맞게 크기 조정 */
+    }
+    form{
+      gap:4px !important;
+    }
+    button{
+      margin-top:5px !important;
+    }
+  
+    label {
+      font-size: 12px !important; /* 레이블 크기 줄임 */
+    }
+  
+    input, select {
+      font-size: 12px !important; /* 입력 필드 크기 줄임 */
+      padding: 5px !important;
+      margin-bottom: 2px;
+    }
+  
+    button {
+      font-size: 12px; /* 버튼 크기 줄임 */
+      padding: 8px 16px;
+    }
+  
+    .close-btn {
+      font-size: 18px; /* 닫기 버튼 크기 조정 */
+    }
+  }

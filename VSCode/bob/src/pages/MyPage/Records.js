@@ -80,7 +80,7 @@ const Records = () => {
   return (
     <div className="fuel-records">
       <div className="header">
-        <h2>월별 주유 기록</h2>
+        <h3>월별 주유 기록</h3>
         <button
           name="registerFuelRecord"
           onClick={() => setShowRegistModal(true)}
@@ -112,10 +112,14 @@ const Records = () => {
               <td name="recordStation">{record.station}</td>
               <td name="recordAmount">{record.amount}원</td>
               <td name="mod">
-                <button>수정</button>
+                <button
+                  onClick={() => setShowRegistModal(true)}
+                >수정</button>
               </td>
               <td name="delete">
-                <button>삭제</button>
+                <button
+                  onClick={() => alert("삭제하시겠습니까?")}
+                >삭제</button>
               </td>
             </tr>
           ))}
