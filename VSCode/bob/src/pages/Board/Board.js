@@ -89,7 +89,7 @@ const Board = () => {
 
     // API 요청 보내기
     axios
-      .get(`http://localhost:3006/api?category=${category === "전체" ? "" : category}`) // 전체일 경우 빈 문자열 처리
+      .get(`http://192.168.0.93:3006/api?category=${category === "전체" ? "" : category}`) // 전체일 경우 빈 문자열 처리
       .then((response) => {
         setPosts(response.data); // 필터링된 데이터 적용
       })
@@ -137,7 +137,7 @@ const Board = () => {
 
     // API 호출로 검색어 조회
     axios
-      .get(`http://localhost:3006/api/search`, {
+      .get(`http://192.168.0.93:3006/api/search`, {
         params: { column, keyword }, // 선택한 컬럼과 키워드 전달
       })
       .then((response) => {
@@ -202,7 +202,7 @@ const Board = () => {
     };
 
     axios
-      .post("http://localhost:3006/api", newPost)
+      .post("http://192.168.0.93:3006/api", newPost)
       .then((response) => {
         alert("게시글 등록 완료!");
         togglePopup("register");
@@ -250,7 +250,7 @@ const Board = () => {
     }
 
     axios
-      .patch(`http://localhost:3006/api/views/${postId}`) // PATCH 요청
+      .patch(`http://192.168.0.93:3006/api/views/${postId}`) // PATCH 요청
       .then(() => {
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
@@ -286,7 +286,8 @@ const Board = () => {
             name="category"
             value={searchColumn}
             onChange={(e) => setSearchColumn(e.target.value)}
-          >
+          > 
+            <option value="B_ID">NO</option>
             <option value="B_CATEGORY">구분</option>
             <option value="B_TITLE">제목</option>
             <option value="B_CREATED_ID">작성자</option>
