@@ -1,0 +1,184 @@
+.signup-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.space-y-4 > * + * {
+  margin-top: 1.5rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.input-field.error {
+  border-color: #dc3545;
+}
+
+.select-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.success-message {
+  background-color: #48bb78;
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.id-check-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.id-check-group .input-field {
+  flex: 1;
+}
+
+.check-button {
+  padding: 0.75rem 1rem;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.check-button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #4a90e2;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.phone-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.phone-group .select-field {
+  width: 30%;
+}
+
+.phone-group .input-field {
+  width: 30%;
+}
+
+.tel_dot {
+  color: #4a5568;
+  font-weight: bold;
+}
+
+.photo-upload-container {
+  margin-top: 0.5rem;
+}
+
+.file-input {
+  width: 100%;
+  padding: 0.5rem 0;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  max-width: 200px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.submit-button, .reset-button {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+}
+
+.submit-button:hover {
+  background-color: #357abd;
+}
+
+.submit-button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  background-color: #e2e8f0;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+
+.reset-button:hover {
+  background-color: #cbd5e0;
+}
