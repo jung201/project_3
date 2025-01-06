@@ -61,11 +61,12 @@ const Board = () => {
       .map((post, index) => {
         return (
           <tr key={post.B_ID || index} onClick={() => togglePopup("view", post)}>
+            <td>{post.b_ID}</td>
             <td>{renderCategory(post.b_CATEGORY)}</td>
             <td>{post.b_TITLE}</td>
             <td>{post.b_CREATED_ID}</td>
-            <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR") : "미정"}</td>
             <td>{post.b_VIEWS}</td>
+            <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR") : "미정"}</td>
           </tr>
         );
       });
@@ -315,6 +316,9 @@ const Board = () => {
         <thead>
           <tr>
             {/* 정렬 클릭 이벤트 및 아이콘 추가 */}
+            <th onClick={() => handleSort("b_ID")}>
+              NO {sortColumn === "b_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+            </th>
             <th onClick={() => handleSort("b_CATEGORY")}>
               구분 {sortColumn === "b_CATEGORY" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>

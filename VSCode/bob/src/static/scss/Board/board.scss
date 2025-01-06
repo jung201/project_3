@@ -109,43 +109,44 @@
     /* 열 너비 고정 */
     th:nth-child(1),
     td:nth-child(1) {
-      width: 8%;
-      /* 번호 열 크기 */
+      width: 5%;
+      /* NO 열 크기 */
     }
 
     th:nth-child(2),
     td:nth-child(2) {
-      width: 50%;
+      width: 6%;
       /* 구분 열 크기 */
     }
 
     th:nth-child(3),
     td:nth-child(3) {
-      width: 10%;
+      width: 40%;
       /* 제목 열 크기 */
     }
 
-    td:nth-child(2) {
+    td:nth-child(3),
+    td:nth-child(4) {
       text-align: left;
     }
 
     th:nth-child(4),
     td:nth-child(4) {
-      width: 10%;
+      width: 8%;
       /* 작성자 열 크기 */
     }
 
     th:nth-child(5),
     td:nth-child(5) {
-      width: 7%;
-      /* 날짜 열 크기 */
+      width: 4%;
+      /* 조회수 열 크기 */
     }
 
-    // th:nth-child(6),
-    // td:nth-child(6) {
-    //   width: 5%;
-    //   /* 조회수 열 크기 */
-    // }
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 6%;
+      /* 날짜 열 크기 */
+    }
   }
 
   // 등록 팝업
