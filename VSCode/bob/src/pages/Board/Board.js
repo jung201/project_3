@@ -6,12 +6,13 @@ import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
 // import "tinymce/themes/silver";
 // import "tinymce/icons/default";
 
-
 // 상태 변수 관리
 const Board = () => {
-
   // 반짝이는 효과 적용
   SparkleEffect();
+
+  // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
+  const userId = localStorage.getItem("userId"); // localStorage에서 사용자 ID 가져오기
 
   const [posts, setPosts] = useState([]); // 게시글 목록 상태
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
@@ -33,10 +34,7 @@ const Board = () => {
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const [searchColumn, setSearchColumn] = useState("B_ID"); // 검색 기준
 
-  // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
-  const userId = localStorage.getItem("userId"); // localStorage에서 사용자 ID 가져오기
-
-  //======================================================================= 
+  //=======================================================================
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
@@ -56,42 +54,53 @@ const Board = () => {
   // 테이블 렌더링
   const renderTable = () =>
     posts
-      .filter((post) => selectedCategory === "전체" || renderCategory(post.b_CATEGORY) === selectedCategory) // 필터링 조건 추가
+      .filter(
+        (post) =>
+          selectedCategory === "전체" ||
+          renderCategory(post.b_CATEGORY) === selectedCategory
+      ) // 필터링 조건 추가
       .map((post, index) => {
         return (
-          <tr key={post.b_ID || index} onClick={() => togglePopup("view", post)}>
+          <tr
+            key={post.b_ID || index}
+            onClick={() => togglePopup("view", post)}
+          >
             <td>{post.b_ID}</td>
             <td>{renderCategory(post.b_CATEGORY)}</td>
             <td>{renderCc(post.b_CC)}</td>
             <td>{post.b_TITLE}</td>
             <td>{post.b_CREATED_ID}</td>
             <td>{post.b_VIEWS}</td>
-            <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR") : "미정"}</td>
+            <td>
+              {post.b_CREATED_DATE
+                ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR")
+                : "미정"}
+            </td>
           </tr>
         );
       });
 
-  // 테이블 렌더링 - 구분 
+  // 테이블 렌더링 - 구분
   const renderCategory = (code) => {
     const categories = {
-      "R": "정비",
-      "T": "꿀팁",
-      "C": "코스",
-      "F": "자유이야기",
+      R: "정비",
+      T: "꿀팁",
+      C: "코스",
+      F: "자유이야기",
     };
     return categories[code];
   };
 
-    // 테이블 렌더링 - 구분 
-    const renderCc= (code) => {
-      const categories = {
-        "S": "스쿠터",
-        "SM": "소형",
-        "M": "중형",
-        "L": "리터",
-      };
-      return categories[code];
+  // 테이블 렌더링 - 구분
+  const renderCc = (code) => {
+    const categories = {
+      S: "스쿠터",
+      SM: "소형",
+      M: "중형",
+      L: "리터",
     };
+    return categories[code];
+  };
 
   //=======================================================================
 
@@ -101,7 +110,9 @@ const Board = () => {
 
     // API 요청 보내기
     axios
-      .get(`http://192.168.0.93:3006/api?category=${category === "전체" ? "" : category}`) // 전체일 경우 빈 문자열 처리
+      .get(
+        `http://192.168.0.93:3006/api?category=${category === "전체" ? "" : category}`
+      ) // 전체일 경우 빈 문자열 처리
       .then((response) => {
         setPosts(response.data); // 필터링된 데이터 적용
       })
@@ -120,8 +131,10 @@ const Board = () => {
 
     // 정렬 로직
     const sortedPosts = [...posts].sort((a, b) => {
-      let aValue = column === "b_CREATED_DATE" ? new Date(a[column]) : a[column];
-      let bValue = column === "b_CREATED_DATE" ? new Date(b[column]) : b[column];
+      let aValue =
+        column === "b_CREATED_DATE" ? new Date(a[column]) : a[column];
+      let bValue =
+        column === "b_CREATED_DATE" ? new Date(b[column]) : b[column];
 
       // 비교 및 정렬
       if (aValue < bValue) return order === "asc" ? -1 : 1;
@@ -141,29 +154,29 @@ const Board = () => {
       alert("검색어를 입력해주세요!");
       return;
     }
-  
+
     // 컬럼명 대문자 변환
     const column = searchColumn.toUpperCase();
-  
+
     // 검색어 변환 처리
     let keyword = searchKeyword.trim();
-  
+
     // 1. 구분(B_CATEGORY) 변환
     if (column === "B_CATEGORY") {
       keyword = convertCategory(keyword);
     }
-  
+
     // 2. CC(B_CC) 변환
     if (column === "B_CC") {
-      keyword = convertCc(keyword); 
+      keyword = convertCc(keyword);
     }
-  
+
     // 3. NO(B_ID) 숫자 검증
     if (column === "B_ID" && isNaN(keyword)) {
       alert("NO는 숫자로 입력해주세요!");
       return;
     }
-  
+
     // API 호출
     axios
       .get(`http://192.168.0.93:3006/api/search`, {
@@ -177,28 +190,28 @@ const Board = () => {
         alert("검색에 실패했습니다. 다시 시도해주세요!");
       });
   };
-  
+
   // 카테고리 명칭 → 코드 변환 함수
   const convertCategory = (name) => {
     const categoryMap = {
-      "정비": "R",
-      "꿀팁": "T",
-      "코스": "C",
-      "자유이야기": "F",
+      정비: "R",
+      꿀팁: "T",
+      코스: "C",
+      자유이야기: "F",
     };
     return categoryMap[name] || name; // 매칭 없으면 입력 그대로 반환
   };
 
-    // CC 명칭 → 코드 변환 함수 
-    const convertCc = (name) => {
-      const ccMap = {
-        "스쿠터": "S",
-        "소형": "SM",
-        "중형": "M",
-        "리터": "L",
-      };
-      return ccMap[name] || name; // 매칭 없으면 입력 그대로 반환
+  // CC 명칭 → 코드 변환 함수
+  const convertCc = (name) => {
+    const ccMap = {
+      스쿠터: "S",
+      소형: "SM",
+      중형: "M",
+      리터: "L",
     };
+    return ccMap[name] || name; // 매칭 없으면 입력 그대로 반환
+  };
 
   // 키보드 이벤트 처리
   const handleKeyPress = (e) => {
@@ -207,12 +220,10 @@ const Board = () => {
     }
   };
 
-
   //=======================================================================
 
   // 게시글 등록
   const registerPost = () => {
-
     // 로그인된 사용자 정보 가져오기 (예: localStorage에서)
     const userId = localStorage.getItem("userId"); // 로그인 시 저장한 값 사용
 
@@ -305,18 +316,37 @@ const Board = () => {
 
   //=======================================================================
 
-
   return (
     <div className="board">
       <div className="board-title">자유게시판</div>
       <div className="search-register">
         <div className="navbar">
           <ul>
-            <li><a href="#!" onClick={() => filterPosts("전체")}>전체 -</a></li>
-            <li><a href="#!" onClick={() => filterPosts("정비")}>정비</a></li>
-            <li><a href="#!" onClick={() => filterPosts("꿀팁")}>꿀팁</a></li>
-            <li><a href="#!" onClick={() => filterPosts("코스")}>코스</a></li>
-            <li><a href="#!" onClick={() => filterPosts("자유이야기")}>자유이야기</a></li>
+            <li>
+              <a href="#!" onClick={() => filterPosts("전체")}>
+                전체 -
+              </a>
+            </li>
+            <li>
+              <a href="#!" onClick={() => filterPosts("정비")}>
+                정비
+              </a>
+            </li>
+            <li>
+              <a href="#!" onClick={() => filterPosts("꿀팁")}>
+                꿀팁
+              </a>
+            </li>
+            <li>
+              <a href="#!" onClick={() => filterPosts("코스")}>
+                코스
+              </a>
+            </li>
+            <li>
+              <a href="#!" onClick={() => filterPosts("자유이야기")}>
+                자유이야기
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -326,7 +356,7 @@ const Board = () => {
             name="category"
             value={searchColumn}
             onChange={(e) => setSearchColumn(e.target.value)}
-          > 
+          >
             <option value="B_ID">NO</option>
             <option value="B_CC">CC</option>
             <option value="B_CATEGORY">구분</option>
@@ -343,7 +373,9 @@ const Board = () => {
             onKeyPress={handleKeyPress} // 엔터키 입력 이벤트 처리
           />
           {/* 검색 버튼 */}
-          <button type="button" onClick={handleSearch}>조회</button>
+          <button type="button" onClick={handleSearch}>
+            조회
+          </button>
 
           {/* 등록 버튼 */}
           <button type="button" onClick={() => togglePopup("register")}>
@@ -357,25 +389,52 @@ const Board = () => {
           <tr>
             {/* 정렬 클릭 이벤트 및 아이콘 추가 */}
             <th onClick={() => handleSort("b_ID")}>
-              NO {sortColumn === "b_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              NO{" "}
+              {sortColumn === "b_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
             <th onClick={() => handleSort("b_CATEGORY")}>
-              구분 {sortColumn === "b_CATEGORY" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              구분{" "}
+              {sortColumn === "b_CATEGORY"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
             </th>
             <th onClick={() => handleSort("b_CC")}>
-              CC {sortColumn === "b_CC" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              CC{" "}
+              {sortColumn === "b_CC" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
             <th onClick={() => handleSort("b_TITLE")}>
-              제목 {sortColumn === "b_TITLE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              제목{" "}
+              {sortColumn === "b_TITLE"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
             </th>
             <th onClick={() => handleSort("b_CREATED_ID")}>
-              작성자 {sortColumn === "b_CREATED_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              작성자{" "}
+              {sortColumn === "b_CREATED_ID"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
             </th>
             <th onClick={() => handleSort("b_CREATED_DATE")}>
-              조회수 {sortColumn === "b_CREATED_DATE" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              조회수{" "}
+              {sortColumn === "b_CREATED_DATE"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
             </th>
             <th onClick={() => handleSort("b_VIEWS")}>
-              날짜 {sortColumn === "b_VIEWS" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              날짜{" "}
+              {sortColumn === "b_VIEWS"
+                ? sortOrder === "asc"
+                  ? "▲"
+                  : "▼"
+                : ""}
             </th>
           </tr>
         </thead>
@@ -389,18 +448,38 @@ const Board = () => {
         <div className={`register-popup ${isAnimating ? "open" : "close"}`}>
           <h2>게시글 등록</h2>
           <form>
-            <button type="button" className="close-btn" onClick={() => togglePopup("register")}>X</button>
+            <button
+              type="button"
+              className="close-btn"
+              onClick={() => togglePopup("register")}
+            >
+              X
+            </button>
             <div className="form-group">
-              <input type="text" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} />
-              <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              <input
+                type="text"
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
                 <option value="정비">정비</option>
                 <option value="꿀팁">꿀팁</option>
                 <option value="코스">코스</option>
                 <option value="자유이야기">자유이야기</option>
               </select>
             </div>
-            <textarea placeholder="내용을 입력하세요" value={content} onChange={(e) => setContent(e.target.value)}></textarea>
-            <button type="button" onClick={registerPost}>등록</button>
+            <textarea
+              placeholder="내용을 입력하세요"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
+            <button type="button" onClick={registerPost}>
+              등록
+            </button>
           </form>
         </div>
       )}
@@ -411,16 +490,34 @@ const Board = () => {
       {showPopup && popupType === "view" && (
         <div className={`view-popup ${isAnimating ? "open" : "close"}`}>
           <form>
-            <button type="button" className="close-btn" onClick={() => togglePopup("view")}>X</button>
+            <button
+              type="button"
+              className="close-btn"
+              onClick={() => togglePopup("view")}
+            >
+              X
+            </button>
             <h2>{currentPost.b_TITLE}</h2>
             <div className="form-group">
               <div className="left">
-                <p><strong>카테고리 : </strong> {renderCategory(currentPost.b_CATEGORY)}</p>
-                <p><strong>CC : </strong> {renderCc(currentPost.b_CC)}</p>
+                <p>
+                  <strong>카테고리 : </strong>{" "}
+                  {renderCategory(currentPost.b_CATEGORY)}
+                </p>
+                <p>
+                  <strong>CC : </strong> {renderCc(currentPost.b_CC)}
+                </p>
               </div>
               <div className="right">
-                <p><strong>날짜 : </strong>{new Date(currentPost.b_CREATED_DATE).toLocaleDateString("ko-KR")}</p>
-                <p><strong>작성자 : </strong> {currentPost.b_CREATED_ID}</p>
+                <p>
+                  <strong>날짜 : </strong>
+                  {new Date(currentPost.b_CREATED_DATE).toLocaleDateString(
+                    "ko-KR"
+                  )}
+                </p>
+                <p>
+                  <strong>작성자 : </strong> {currentPost.b_CREATED_ID}
+                </p>
               </div>
             </div>
             <textarea value={currentPost.b_CONTENT} readOnly></textarea>
