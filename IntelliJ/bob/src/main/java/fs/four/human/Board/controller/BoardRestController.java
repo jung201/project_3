@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000") // React 서버 주소 지정
+@CrossOrigin(origins = "localhost:3000") // React 서버 주소 지정
 public class BoardRestController {
 
     @Autowired

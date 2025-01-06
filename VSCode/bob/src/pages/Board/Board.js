@@ -42,7 +42,7 @@ const Board = () => {
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
     axios
-      .get("http://localhost:3006/api") // API 경로
+      .get("http://192.168.0.93:3006/api") // API 경로
       .then((response) => {
         console.log(response.data); // 데이터 출력 확인
         setPosts(response.data); // 게시글 데이터 설정
