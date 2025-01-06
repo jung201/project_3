@@ -6,10 +6,19 @@
 @import "region-section";
 @import "lowestPrice";
 
+// @font-face {
+//     font-family: 'SCDream4';
+//     src: url('../../../fonts/SCDream4.otf') format('woff2');
+//     font-weight: normal;
+//     font-style: normal;
+// }
+// body {
+//     font-family: 'SCDream4', sans-serif !important;
+// }
 .main-container {
     width: 100%;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
+    // font-family: Arial, sans-serif;
 }
 
 .today-price-section {
