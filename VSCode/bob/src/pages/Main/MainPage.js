@@ -27,6 +27,7 @@ const MainPage = () => {
           <OilTrend />
         </section>
       </div>
+      
       <div className="region-top-section">
         <section id="region-top-charge">
           <div className="region-top">
