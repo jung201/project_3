@@ -48,22 +48,19 @@ body {
 .main-pic {
     @include flex-center;
     width: 100%; // 컨테이너 너비
-    height: 600px; // 컨테이너 높이
+    height: 750px; // 컨테이너 높이
     background-image: url('../../images/도로3.png'); // 이미지 경로
     background-size: cover; // 이미지 크기를 컨테이너에 맞게 조정
     background-position: center; // 이미지를 가운데 정렬
     background-repeat: no-repeat; // 이미지 반복 방지
 }
 
-.today-price-section {
-    @include flex-center;
-    justify-content: space-evenly;
-}
-
 .region-top-section {
+    display: flex;
+    justify-content: space-evenly;
     .region-top {
-        display: flex;
-        justify-content: space-evenly;
+        padding: 80px 0px;
+        
     }
 }
 

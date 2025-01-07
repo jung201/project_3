@@ -3,8 +3,9 @@
 
 // 컨테이너 전체 스타일
 .lowest-price-container {
-    display: flex;
-    justify-content: space-around;
+    // display: flex;
+    // justify-content: space-around;
+    @include box-style;
 
     .container {
         // @include box-style;
@@ -16,7 +17,6 @@
             font-size: 35px;
             font-weight: bold;
             border-bottom: 2px solid $primary-color;
-            padding-bottom: 1px;
         }
 
         // 테이블 정렬 컨테이너

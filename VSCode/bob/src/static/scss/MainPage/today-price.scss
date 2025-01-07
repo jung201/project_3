@@ -2,17 +2,22 @@
 @import '../mixins';
 
 .price-container {
-    
+    @include box-style;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 30px;
+    justify-content: space-around;
+    height: 600px;
+    padding: 20px;
+    margin-top: 50px;
+
+    .left {
+        align-items: center;
+        justify-content: center;
+    }
 
     h2 {
         width: 350px;
         display: inline-block;
-        position: relative;
-        left: 100px;
-        bottom: 30px;
         border-bottom: 2px solid $primary-color;
         padding: 10px;
         font-size: 35px;
@@ -21,14 +26,13 @@
 
     .price-box {
         @include flex-center;
-        width: 550px;
+        // width: 550px;
         height: 120px;
-        margin-bottom: 20px;
 
         h3 {
             font-size: 25px;
             display: inline-block;
-            padding: 40px;
+            padding-right: 30px;
             color: #333333;
         }
 
@@ -52,6 +56,18 @@
 
         }
     }
+}
+
+.price-img {
+    width: 50%;
+    height: 350px;
+    background-image: url('../../images/board.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    opacity: 0.8;
+    /* 투명도 설정 (0.0 ~ 1.0) */
 }
 
 @media screen and (max-width: 450px) {
