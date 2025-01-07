@@ -107,18 +107,17 @@
     }
   }
 
-  // 게시물 게시 하루이내
+  // NEW 태그 스타일
   .new-tag {
     margin-left: 5px;
     padding: 2px 6px;
     background-color: #dc3545;
-    /* 빨간색 배경 */
     color: white;
-    /* 흰색 글자 */
     font-size: 12px;
     font-weight: bold;
     border-radius: 12px;
     display: inline-block;
+    animation: smooth-blink 1s infinite; 
   }
 
   /* HOT 태그 스타일 */
@@ -133,6 +132,17 @@
     font-weight: bold;
     border-radius: 12px;
     display: inline-block;
+    animation: smooth-blink 1s infinite; 
+  }
+
+  /* 깜빡거리는 애니메이션 효과 */
+  @keyframes smooth-blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5; 
+    }
   }
 
   /* 작성자 프로필 이미지 스타일 */
