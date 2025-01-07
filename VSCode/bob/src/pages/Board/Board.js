@@ -197,12 +197,22 @@ const Board = () => {
 
     // 1. 구분(B_CATEGORY) 변환
     if (column === "B_CATEGORY") {
-      keyword = renderCategory(keyword);
+      const categories = { "정비": "R", "꿀팁": "T", "코스": "C", "자유이야기": "F" };
+      keyword = categories[keyword]; // 한글을 코드로 변환
+      if (!keyword) {
+        alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
+        return;
+      }
     }
 
     // 2. CC(B_CC) 변환
     if (column === "B_CC") {
-      keyword = renderCc(keyword);
+      const ccMap = { "스쿠터": "S", "소형": "SM", "중형": "M", "리터": "L" };
+      keyword = ccMap[keyword]; // 한글을 코드로 변환
+      if (!keyword) {
+        alert("유효한 배기량을 입력해주세요! (스쿠터, 소형, 중형, 리터)");
+        return;
+      }
     }
 
     // 3. NO(B_ID) 숫자 검증
