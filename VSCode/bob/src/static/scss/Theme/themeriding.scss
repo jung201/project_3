@@ -1,5 +1,6 @@
-/* Riding.js에서 사용되는 클래스 */
+@charset "UTF-8";
 
+/* Riding.js에서 사용되는 클래스 */
 /* 전체 컨테이너 */
 .riding-container {
     padding: 0px;
@@ -8,7 +9,6 @@
     /* 연한 회색 배경 */
     margin: 18px;
     padding-top: 0;
-    // gap: 100px;
 }
 
 .riding-header {
@@ -26,14 +26,13 @@
     /* 제목과 위치 크기 조정 */
     flex-wrap: nowrap;
     /* 줄바꿈 방지 */
-    // text-align: center;
 }
 
 /* 제목 스타일 */
 .riding-title {
-    font-family: 'Oswald', sans-serif;
+    font-family: "Oswald", sans-serif;
     margin-top: 0px;
-    background-image: url('../../images/Riding/해안.jpg');
+    background-image: url("../../images/Riding/해안.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -58,15 +57,14 @@
 .riding-category {
     margin-bottom: 50px;
     /* 카테고리 섹션 아래 여백 */
-
 }
 
 .category-title {
-    font-size: 2.0em;
+    font-size: 2em;
     /* 카테고리 제목의 글자 크기 */
     font-weight: bold;
     /* 카테고리 제목 글자를 굵게 표시 */
-    color: #0b0972c7;
+    color: rgba(11, 9, 114, 0.7803921569);
     /* 카테고리 제목의 파란색 */
     margin-bottom: 30px;
     /* 제목 아래 여백 */
@@ -186,7 +184,7 @@
 
 /* 설명 스타일 */
 .riding-description {
-    font-size: 1.0em;
+    font-size: 1em;
     /* 설명 텍스트의 글자 크기 */
     color: #333;
     /* 진한 색상으로 설정 */
@@ -272,7 +270,7 @@
     /* 제목을 굵게 표시 */
     margin-bottom: 30px;
     /* 제목과 아래 박스 사이의 여백 */
-    color: #0b0972c7;
+    color: rgba(11, 9, 114, 0.7803921569);
     /* 제목 글자 색상을 진한 회색으로 설정 */
 }
 
@@ -341,48 +339,54 @@
 }
 
 @media (max-width: 450px) {
+    /* 전체 컨테이너 */
+    /* 그리드 레이아웃 */
+    /* 각 카드 스타일 */
+    /* 이미지 스타일 */
+    /* 제목 스타일 */
+    /* 위치 스타일 */
+    /* 설명 및 버튼 컨테이너 */
+}
 
-    @media (max-width: 450px) {
-        .photo-box-container {
-            display: flex;
-            flex-direction: column;
-            /* 사진 박스를 세로로 배치 */
-            justify-content: center;
-            align-items: center;
-            padding: 15px 5px;
-            ;
-        }
-
-        .photo-box-wrapper {
-            display: flex;
-            /* 세로 배치 */
-        }
-
-        .photo-box {
-            width: 100%;
-            /* 카드 너비를 100%로 설정하여 화면을 꽉 채움 */
-            max-width: none;
-            /* 최대 너비 제한 해제 */
-        }
-
-        .photo-box-image {
-            height: 150px;
-            /* 이미지 높이 축소 */
-            width: 100px;
-        }
-
-        .photo-box-title {
-            font-size: 0.9rem;
-        }
+@media (max-width: 450px) and (max-width: 450px) {
+    .photo-box-container {
+        display: flex;
+        flex-direction: column;
+        /* 사진 박스를 세로로 배치 */
+        justify-content: center;
+        align-items: center;
+        padding: 15px 5px;
     }
 
-    /* 전체 컨테이너 */
+    .photo-box-wrapper {
+        display: flex;
+        /* 세로 배치 */
+    }
+
+    .photo-box {
+        width: 100%;
+        /* 카드 너비를 100%로 설정하여 화면을 꽉 채움 */
+        max-width: none;
+        /* 최대 너비 제한 해제 */
+    }
+
+    .photo-box-image {
+        height: 150px;
+        /* 이미지 높이 축소 */
+        width: 100px;
+    }
+
+    .photo-box-title {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 450px) {
     .riding-container {
         padding: 10px;
         /* 컨테이너 여백 축소 */
     }
 
-    /* 그리드 레이아웃 */
     .riding-grid {
         grid-template-columns: 1fr;
         /* 한 줄에 하나씩 배치 */
@@ -390,7 +394,6 @@
         /* 카드 간 간격 */
     }
 
-    /* 각 카드 스타일 */
     .riding-frame {
         width: 100%;
         /* 카드 너비를 100%로 설정 */
@@ -400,19 +403,16 @@
         /* 카드 하단 여백 축소 */
     }
 
-    /* 이미지 스타일 */
     .riding-image {
         height: 200px;
         /* 이미지 높이 축소 */
     }
 
-    /* 제목 스타일 */
     .riding-frame-title {
         font-size: 1rem;
         /* 카드 제목 글자 크기 축소 */
     }
 
-    /* 위치 스타일 */
     .riding-location {
         font-size: 1rem;
         /* 위치 정보 글자 크기 축소 */
@@ -420,7 +420,6 @@
         /* 위치 텍스트 색상 변경 */
     }
 
-    /* 설명 및 버튼 컨테이너 */
     .riding-description-container {
         flex-direction: column;
         /* 설명과 버튼을 세로로 배치 */
