@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
+import mypageImg from '../../static/images/icons/mypage.png'; // 이미지 불러오기
+import navFiller from '../../static/images/icons/board.png'; // 이미지 불러오기
+import groupFilter from '../../static/images/icons/searchBTN.png'; // 이미지 불러오기
+
 // import tinymce from "tinymce/tinymce";
 // import "tinymce/themes/silver";
 // import "tinymce/icons/default";
@@ -34,81 +38,81 @@ const Board = () => {
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const [searchColumn, setSearchColumn] = useState("B_ID"); // 검색 기준
 
-  // 페이지네이션 추가
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const [postsPerPage] = useState(20); // 페이지당 게시글 수
-  const [totalPosts, setTotalPosts] = useState(0); // 전체 게시글 수
-
   //=======================================================================
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
-    fetchPosts();
-  }, [currentPage, selectedCategory, searchKeyword]);
-
-  const fetchPosts = () => {
     axios
-      .get("http://192.168.0.93:3006/api", {
-        params: {
-          page: currentPage,
-          limit: postsPerPage,
-          category: selectedCategory === "전체" ? "" : selectedCategory,
-          keyword: searchKeyword.trim(),
-          column: searchColumn.toUpperCase(),
-        },
-      })
+      .get("http://192.168.0.93:3006/api") // API 경로
       .then((response) => {
-        console.log("서버 응답 데이터:", response.data); // 데이터 구조 확인
-        setPosts(response.data || []); // 빈 배열 처리
-        setTotalPosts(response.data.length || 0); // 총 게시글 수 처리
+        console.log(response.data); // 데이터 출력 확인
+        setPosts(response.data); // 게시글 데이터 설정
       })
-      
       .catch((error) => {
         console.error("게시글 불러오기 에러:", error);
-        setPosts([]); // 에러 발생 시 빈 배열로 초기화
-        setTotalPosts(0);
       });
+  }, []);
+
+  //=======================================================================
+
+  // 상대적인 시간 표시 함수
+  const formatRelativeDate = (dateString) => {
+    const now = new Date();
+    const postDate = new Date(dateString);
+    const diff = Math.floor((now - postDate) / 1000); // 초 단위 차이
+
+    if (diff < 60) return `${diff}초 전`; // 1분 미만
+    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`; // 1시간 미만
+    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`; // 하루 미만
+    return `${Math.floor(diff / 86400)}일 전`; // 하루 이상
   };
-
-  // 페이지네이션 번호 생성
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-
-  // 페이지 변경 핸들러
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
 
   //=======================================================================
 
   // 테이블 렌더링
-  const renderTable = () => {
-    if (!Array.isArray(posts) || posts.length === 0) {
-      return (
-        <tr>
-          <td colSpan="7" style={{ textAlign: "center" }}>
-            게시글이 없습니다.
-          </td>
-        </tr>
-      );
-    }
-  
-    return posts.map((post, index) => (
-      <tr key={post.b_ID || index} onClick={() => togglePopup("view", post)}>
-        <td>{post.b_ID}</td>
-        <td>{renderCategory(post.b_CATEGORY)}</td>
-        <td>{renderCc(post.b_CC)}</td>
-        <td>{post.b_TITLE}</td>
-        <td>{post.b_CREATED_ID}</td>
-        <td>{post.b_VIEWS}</td>
-        <td>{post.b_CREATED_DATE ? new Date(post.b_CREATED_DATE).toLocaleDateString("ko-KR") : "미정"}</td>
-      </tr>
-    ));
-  };
-  
+  const renderTable = () =>
+    posts
+      .filter(
+        (post) =>
+          selectedCategory === "전체" ||
+          renderCategory(post.b_CATEGORY) === selectedCategory
+      )
+      .map((post, index) => {
+        // 하루 이내 여부
+        const isNew = (new Date() - new Date(post.b_CREATED_DATE)) / 1000 < 86400; 
+        // 조회수 50 이상 여부
+        const isHot = post.b_VIEWS >= 50; 
+
+        return (
+          <tr
+            key={post.b_ID || index}
+            onClick={() => togglePopup("view", post)}
+          >
+            <td>{post.b_ID}</td>
+            <td className={`category ${post.b_CATEGORY}`}>
+              {renderCategory(post.b_CATEGORY)}
+            </td>
+            <td>{renderCc(post.b_CC)}</td>
+            <td>
+              {post.b_TITLE}
+              {isNew && <span className="new-tag">NEW</span>}{" "}
+              {/* NEW 태그 추가 */}
+              {isHot && <span className="hot-tag">HOT</span>}{" "}
+              {/* HOT 태그 추가 */}
+            </td>
+            <td>
+              <div className="user-profile">
+                <img src={mypageImg} alt="프로필" className="profile-img"/>
+                {post.b_CREATED_ID}
+              </div>
+            </td>
+              
+            <td>{post.b_VIEWS}</td>
+            <td>{formatRelativeDate(post.b_CREATED_DATE)}</td>{" "}
+            {/* 상대 시간 표시 */}
+          </tr>
+        );
+      });
 
   // 테이블 렌더링 - 구분
   const renderCategory = (code) => {
@@ -121,7 +125,7 @@ const Board = () => {
     return categories[code];
   };
 
-  // cc 렌더링
+  // 테이블 렌더링 - 구분
   const renderCc = (code) => {
     const categories = {
       S: "스쿠터",
@@ -131,12 +135,6 @@ const Board = () => {
     };
     return categories[code];
   };
-
-  const handleFilterClick = (category) => {
-    setSelectedCategory(category);
-    setCurrentPage(1); // 필터 변경 시 첫 페이지로 이동
-  };
-  
 
   //=======================================================================
 
@@ -199,12 +197,22 @@ const Board = () => {
 
     // 1. 구분(B_CATEGORY) 변환
     if (column === "B_CATEGORY") {
-      keyword = renderCategory(keyword);
+      const categories = { "정비": "R", "꿀팁": "T", "코스": "C", "자유이야기": "F" };
+      keyword = categories[keyword]; // 한글을 코드로 변환
+      if (!keyword) {
+        alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
+        return;
+      }
     }
 
     // 2. CC(B_CC) 변환
     if (column === "B_CC") {
-      keyword = renderCc(keyword);
+      const ccMap = { "스쿠터": "S", "소형": "SM", "중형": "M", "리터": "L" };
+      keyword = ccMap[keyword]; // 한글을 코드로 변환
+      if (!keyword) {
+        alert("유효한 배기량을 입력해주세요! (스쿠터, 소형, 중형, 리터)");
+        return;
+      }
     }
 
     // 3. NO(B_ID) 숫자 검증
@@ -332,10 +340,14 @@ const Board = () => {
 
   return (
     <div className="board">
-      <div className="board-title">자유게시판</div>
+      <div className="board-title"></div>
+      <div className="board-title-font">자유게시판</div>
       <div className="search-register">
         <div className="navbar">
           <ul>
+            <div className="user-profile">
+                <img src={navFiller} alt="프로필" className="profile-img"/>
+            </div>
             <li>
               <a href="#!" onClick={() => filterPosts("전체")}>
                 전체 -
@@ -364,7 +376,11 @@ const Board = () => {
           </ul>
         </div>
 
+
         <form className="filter-group" onSubmit={(e) => e.preventDefault()}>
+          <div className="user-profile">
+            <img src={groupFilter} alt="프로필" className="groupFilter-img"/>
+          </div>
           {/* 검색 기준 선택 */}
           <select
             name="category"
@@ -372,8 +388,8 @@ const Board = () => {
             onChange={(e) => setSearchColumn(e.target.value)}
           >
             <option value="B_ID">NO</option>
-            <option value="B_CC">CC</option>
             <option value="B_CATEGORY">구분</option>
+            <option value="B_CC">배기량</option>
             <option value="B_TITLE">제목</option>
             <option value="B_CREATED_ID">작성자</option>
           </select>
@@ -415,7 +431,7 @@ const Board = () => {
                 : ""}
             </th>
             <th onClick={() => handleSort("b_CC")}>
-              CC{" "}
+              배기량{" "}
               {sortColumn === "b_CC" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
             <th onClick={() => handleSort("b_TITLE")}>
@@ -434,17 +450,17 @@ const Board = () => {
                   : "▼"
                 : ""}
             </th>
-            <th onClick={() => handleSort("b_CREATED_DATE")}>
+            <th onClick={() => handleSort("b_VIEWS")}>
               조회수{" "}
-              {sortColumn === "b_CREATED_DATE"
+              {sortColumn === "b_VIEWS"
                 ? sortOrder === "asc"
                   ? "▲"
                   : "▼"
                 : ""}
             </th>
-            <th onClick={() => handleSort("b_VIEWS")}>
+            <th onClick={() => handleSort("b_CREATED_DATE")}>
               날짜{" "}
-              {sortColumn === "b_VIEWS"
+              {sortColumn === "b_CREATED_DATE"
                 ? sortOrder === "asc"
                   ? "▲"
                   : "▼"
@@ -454,19 +470,6 @@ const Board = () => {
         </thead>
         <tbody>{renderTable()}</tbody>
       </table>
-
-      {/* 페이지네이션 UI */}
-      <div className="pagination">
-        {pageNumbers.map((number) => (
-          <button
-            key={number}
-            onClick={() => handlePageChange(number)}
-            className={currentPage === number ? "active" : ""}
-          >
-            {number}
-          </button>
-        ))}
-      </div>
 
       {/* ================================================================== */}
 
@@ -532,7 +535,7 @@ const Board = () => {
                   {renderCategory(currentPost.b_CATEGORY)}
                 </p>
                 <p>
-                  <strong>CC : </strong> {renderCc(currentPost.b_CC)}
+                  <strong>배기량 : </strong> {renderCc(currentPost.b_CC)}
                 </p>
               </div>
               <div className="right">

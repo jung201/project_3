@@ -2,22 +2,38 @@
 @import '../mixins';
 
 .oil-trend {
-    @include box-style;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    height: 650px;
+    background-color: #fcf8e6;
+    
 
     h2 {
-        width: 300px;
+        width: 500px;
         display: inline-block;
         border-bottom: 2px solid $primary-color;
         padding: 10px;
-        padding-bottom: 5px;
-        font-size: 20px;
+        font-size: 35px;
         color: #333333;
+    }
+
+    .oil-img {
+        width: 45%;
+        height: 400px;
+        background-image: url('../../images/Riding/청남대.PNG');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 8px;
+        opacity: 0.8;
+        /* 투명도 설정 (0.0 ~ 1.0) */
     }
 }
 
 @media screen and (max-width: 450px) {
     .oil-trend {
-        @include box-style;
     
         h2 {
             width: 400px;

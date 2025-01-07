@@ -1,5 +1,7 @@
 import React from "react";
 
+
+
 const LowestPrice = () => {
   // 주유소 데이터
   const oilStations = [
@@ -32,13 +34,6 @@ const LowestPrice = () => {
         <div className="oil-station-table">
           {/* 왼쪽 테이블 */}
           <table>
-            {/* <thead>
-                        <tr>
-                            <th>지역</th>
-                            <th>주유소명</th>
-                            <th>가격</th>
-                        </tr>
-                    </thead> */}
             <tbody>
               {oilStations.map((station, index) => (
                 <tr key={index}>
@@ -52,13 +47,6 @@ const LowestPrice = () => {
 
           {/* 오른쪽 테이블 */}
           <table>
-            {/* <thead>
-                        <tr>
-                            <th>지역</th>
-                            <th>주유소명</th>
-                            <th>가격</th>
-                        </tr>
-                    </thead> */}
             <tbody>
               {oilStations2.map((station, index) => (
                 <tr key={index}>

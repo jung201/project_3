@@ -45,10 +45,10 @@ body {
     // font-family: Arial, sans-serif;
 }
 
-.today-price-section {
+.main-pic {
     @include flex-center;
     width: 100%; // 컨테이너 너비
-    height: 450px; // 컨테이너 높이
+    height: 710px; // 컨테이너 높이
     background-image: url('../../images/도로3.png'); // 이미지 경로
     background-size: cover; // 이미지 크기를 컨테이너에 맞게 조정
     background-position: center; // 이미지를 가운데 정렬
@@ -56,11 +56,12 @@ body {
 }
 
 .region-top-section {
+    height: 650px;
+    display: flex;
+    justify-content: space-evenly;
     .region-top {
-        display: flex;
-        justify-content: space-between;
-        padding: 50px 10px;
-        background-color: #f6f3f3;
+        padding: 80px 0px;
+        
     }
 }
 

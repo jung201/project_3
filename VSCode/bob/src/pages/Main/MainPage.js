@@ -1,4 +1,5 @@
 import React from "react";
+import MainIcon from "./MainIcon";
 import TodayPrice from "./TodayPrice";
 import OilTrend from "./OilTrend";
 import LowestPrice from "./LowestPrice";
@@ -12,22 +13,35 @@ const MainPage = () => {
 
   return (
     <main className="main-container">
-      <section className="today-price-section">
-        {/* 오늘의 유가 */}
-        <TodayPrice />
-      </section>
+      <div className="main-pic"></div>
+      {/* icon */}
+      <MainIcon />
 
-      {/* 지역 별 Top5 주유소 */}
-      <section className="region-top-section">
-        <div className="region-top">
+      <div className="today-price-section">
+        <section id="today-price">
+          {/* 오늘의 유가 */}
+          <TodayPrice />
+        </section>
+        <section id="oil-trend">
           {/* 유가 추이 */}
           <OilTrend />
-          {/* 우리지역 Top5 주유소 */}
-          <RegionTopCharge />
-          {/* 시도 별 최저가 주유소 */}
-          <LowestPrice />
-        </div>
-      </section>
+        </section>
+      </div>
+      
+      <div className="region-top-section">
+        <section id="region-top-charge">
+          <div className="region-top">
+            {/* 우리지역 Top5 주유소 */}
+            <RegionTopCharge />
+          </div>
+        </section>
+        <section id="lowest-price">
+          <div className="region-top">
+            {/* 시도 별 최저가 주유소 */}
+            <LowestPrice />
+          </div>
+        </section>
+      </div>
     </main>
   );
 };
