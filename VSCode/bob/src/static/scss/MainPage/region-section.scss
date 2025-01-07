@@ -3,12 +3,13 @@
 
 
 .region-container {
-    @include box-style;
+    // @include box-style;
+    padding: 30px;
 
     .title {
-        padding: 8px 10px;
+        padding:10px;
         margin-bottom: 20px;
-        font-size: 20px;
+        font-size: 35px;
         font-weight: bold;
         border-bottom: 2px solid $primary-color;
     }
@@ -21,7 +22,8 @@
 
         // 드롭다운 스타일
         .dropdown {
-            padding: 3px 10px;
+            width: 100px;
+            padding: 3px 15px;
             border: 1px solid #007bff;
             border-radius: 5px;
             font-size: 14px;
@@ -48,10 +50,10 @@
 
     // 테이블 스타일
     .station-table {
-        width: 360px;
+        width: 450px;
         border-collapse: collapse;
         margin-top: 10px;
-        font-size: 13px;
+        font-size: 16px;
 
         th,
         td {

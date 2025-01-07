@@ -3,50 +3,76 @@
 @import '../mixins';
 
 .board {
-  padding: 50px;
+  padding: 0px 50px;
   background-color: #f8f9fa;
   border-radius: 8px;
 
+  /* 배경 이미지 설정 */
   .board-title {
-    text-align: center;
-    font-size: 40px;
-    font-weight: bold;
-    margin: 50px 0px;
-    // border-bottom: 1px solid black;
-    // line-height: 60px;
-    color: #333;
+    width: 100%;
+    height: 350px;
+    background-image: url('../../images/board.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    opacity: 0.8;
+    /* 투명도 설정 (0.0 ~ 1.0) */
   }
 
-
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
+  /* 텍스트 중앙 정렬 */
+  .board-title-font {
+    position: absolute;
+    /* 부모 요소 기준으로 위치 설정 */
+    top: 30%;
+    /* 상단 기준 50% 이동 */
+    left: 50%;
+    /* 왼쪽 기준 50% 이동 */
+    transform: translate(-50%, -50%);
+    /* 자기 자신의 크기 기준으로 다시 중앙 정렬 */
+    text-align: center;
+    /* 텍스트 중앙 정렬 */
+    line-height: 300px;
+    /* 높이에 맞춰 수직 정렬 */
+    color: white;
+    /* 텍스트 색상 */
+    font-size: 50px;
+    /* 글자 크기 */
+    font-weight: bold;
+    /* 글자 두껍게 */
   }
 
   .search-register {
     height: 100px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 50px;
+    justify-content: space-around;
+    margin: 30px 0px;
     background-color: #f6f3f3;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     .navbar ul {
       display: flex;
-      gap: 15px;
       list-style: none;
+      padding: 0;
+
+      li::after {
+        content: "|";
+        font-weight: bold;
+      }
 
       li a {
+        padding: 15px;
         font-size: 18px;
         font-weight: bold;
         text-decoration: none;
-        transition: color 0.2s ease;
+        transition: transform 0.3s ease, color 0.3s ease;
 
         &:hover {
           color: #0056b3;
+          transform: translateY(-5px);
+
         }
       }
     }
@@ -54,14 +80,13 @@
     .filter-group {
       height: 35px;
       display: flex;
-      gap: 10px;
-      margin-right: 10px;
+      gap: 7px;
 
       input,
       select {
-        padding: 8px;
+        padding: 5px;
         border: 1px solid #ddd;
-        border-radius: 4px;
+        border-radius: 5px;
       }
 
       button {
@@ -82,6 +107,56 @@
     }
   }
 
+  // 게시물 게시 하루이내
+  .new-tag {
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: #dc3545;
+    /* 빨간색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  /* HOT 태그 스타일 */
+  .hot-tag {
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: #ff9800;
+    /* 주황색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  /* 작성자 프로필 이미지 스타일 */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 10px;
+  }
+
+  // 카테고리 이미지
+  .profile-img {
+    width: 25px;
+    height: 25px; 
+  }
+
+  // 검색 이미지
+  .groupFilter-img {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  // 테이블 스타일
   .freeBoard-table {
     width: 100%;
     border-collapse: collapse;
@@ -151,6 +226,32 @@
       width: 6%;
       /* 날짜 열 크기 */
     }
+  }
+
+  /* 카테고리 스타일 */
+  .category {
+    font-weight: bold;
+  }
+
+  /* 구분별 색상 */
+  .category.R {
+    color: #007bff;
+    /* 정비 - 파란색 */
+  }
+
+  .category.T {
+    color: #28a745;
+    /* 꿀팁 - 초록색 */
+  }
+
+  .category.C {
+    color: #ffc107;
+    /* 코스 - 노란색 */
+  }
+
+  .category.F {
+    color: #dc3545;
+    /* 자유이야기 - 빨간색 */
   }
 
   // 등록 팝업

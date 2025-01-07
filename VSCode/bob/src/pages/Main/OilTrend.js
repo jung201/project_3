@@ -62,7 +62,7 @@ const OilTrend = () => {
                 display: true,
                 color: "#333333", // 제목 색상
                 font: {
-                    size: 16,
+                    size: 5,
                 },
             },
         },
@@ -85,7 +85,7 @@ const OilTrend = () => {
             {/* 제목 */}
             <h2>유가 추이</h2>
             {/* 그래프 */}
-            <div style={{ width: "330px", margin: "0 auto" }}>
+            <div style={{ width: "500px", height:"300px" }}>
                 <Line data={data} options={options} />
             </div>
         </div>

@@ -2,22 +2,19 @@
 @import '../mixins';
 
 .oil-trend {
-    @include box-style;
-
+    padding: 30px;
     h2 {
-        width: 300px;
+        width: 400px;
         display: inline-block;
         border-bottom: 2px solid $primary-color;
         padding: 10px;
-        padding-bottom: 5px;
-        font-size: 20px;
+        font-size: 35px;
         color: #333333;
     }
 }
 
 @media screen and (max-width: 450px) {
     .oil-trend {
-        @include box-style;
     
         h2 {
             width: 400px;

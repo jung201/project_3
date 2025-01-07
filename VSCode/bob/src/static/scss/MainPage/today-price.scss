@@ -2,55 +2,54 @@
 @import '../mixins';
 
 .price-container {
-    @include box-style;
-    width: 100%;
-    height: 70px;
-    display: flex;
+    
     align-items: center;
     justify-content: center;
-    position: relative;
-    top: 175px;
+    padding: 30px;
 
-    .price-box1 {
-        display: flex;
-        align-items: center;
-    }
-
-    .box-title {
-        font-size: 25px;
-        font-weight: bold;
-        margin-right: 50px;
+    h2 {
+        width: 350px;
+        display: inline-block;
+        position: relative;
+        left: 100px;
+        bottom: 30px;
+        border-bottom: 2px solid $primary-color;
+        padding: 10px;
+        font-size: 35px;
         color: #333333;
     }
 
     .price-box {
         @include flex-center;
-        width: 380px;
-        height: 100px;
-        padding: 0px;
-        margin-left: 20px;
+        width: 550px;
+        height: 120px;
+        margin-bottom: 20px;
 
         h3 {
             font-size: 25px;
             display: inline-block;
-            margin-right: 20px;
+            padding: 40px;
             color: #333333;
         }
 
         .price {
-            margin-top: 35px;
-            font-size: 22px;
             color: #FF5733;
 
+            .value {
+                font-size: 35px;
+            }
+
             .change {
-                font-size: 16px;
+                font-size: 20px;
                 color: #007bff;
             }
 
             .details {
-                font-size: 16px;
+                font-size: 20px;
                 color: #555555;
             }
+
+
         }
     }
 }
@@ -61,12 +60,7 @@
         background: transparent;
         box-shadow: none;
 
-        .price-box1 {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .box-title {
+        .h2 {
             width: 400px;
             position: relative;
             left: 25px;
