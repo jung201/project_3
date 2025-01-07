@@ -20,26 +20,16 @@
     /* 투명도 설정 (0.0 ~ 1.0) */
   }
 
-  /* 텍스트 중앙 정렬 */
   .board-title-font {
     position: absolute;
-    /* 부모 요소 기준으로 위치 설정 */
     top: 21%;
-    /* 상단 기준 50% 이동 */
     left: 50%;
-    /* 왼쪽 기준 50% 이동 */
     transform: translate(-50%, -50%);
-    /* 자기 자신의 크기 기준으로 다시 중앙 정렬 */
     text-align: center;
-    /* 텍스트 중앙 정렬 */
     line-height: 300px;
-    /* 높이에 맞춰 수직 정렬 */
     color: white;
-    /* 텍스트 색상 */
     font-size: 50px;
-    /* 글자 크기 */
     font-weight: bold;
-    /* 글자 두껍게 */
   }
 
   .search-register {
@@ -483,8 +473,20 @@
     height: 100%;
     padding: 20px;
 
+    .board-title-font {
+      position: absolute;
+      top: 21%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      line-height: 300px;
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+    }
+    
     .board-title {
-      width: 400px;
+      width: 300px;
       font-size: 30px;
       font-weight: bold;
       border-bottom: 1px solid black;
@@ -577,6 +579,22 @@
           height: 250px;
         }
       }
+    }
+
+    .board .search-register form {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .board table th, .board table td {
+      font-size: 12px;
+      padding: 5px;
+    }
+  
+    .board .search-register input,
+    .board .search-register select,
+    .board .search-register button {
+      width: 100%;
     }
   }
 }
