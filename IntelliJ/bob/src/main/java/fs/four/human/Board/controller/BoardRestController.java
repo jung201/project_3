@@ -14,7 +14,7 @@ public class BoardRestController {
     @Autowired
     private BoardService boardService;
 
-    // 전체 데이터 반환 ( JSON )
+    // 1. 전체 데이터 반환 ( JSON )
     @GetMapping
     public List<BoardVO> getAllBoard() {
 
@@ -26,7 +26,7 @@ public class BoardRestController {
         }
     }
 
-    // 게시글 검색
+    // 2. 게시글 검색
     @GetMapping("/search")
     public List<BoardVO> searchBoard(
             @RequestParam("column") String column, // 검색 기준
@@ -44,7 +44,7 @@ public class BoardRestController {
         return boardService.searchPosts(column, keyword);
     }
 
-    // 게시글 등록
+    // 3. 게시글 등록
     @PostMapping
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
         try {
