@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import './SignupForm.css';
+import React, { useState} from 'react';
+import { FaUser, FaLock, FaEnvelope, FaPhone, FaMotorcycle} from 'react-icons/fa';
+import { MdAddToPhotos } from "react-icons/md";
+import '../../static/scss/Login/SignupForm.scss';
 
 function SignupForm() {
   // 사용자 입력값 저장 로직
@@ -29,30 +31,22 @@ function SignupForm() {
 
   const PrivacyModal = ({ onClose, onAgree }) => {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded-lg max-w-lg w-full mx-4">
-          <h2 className="text-xl font-bold mb-4">개인정보 수집 및 활용 동의</h2>
-          <div className="max-h-60 overflow-y-auto mb-4">
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <h2 className="modal-title">개인정보 수집 및 활용 동의</h2>
+          <div className="modal-body">
             <p>1. 개인정보의 수집 및 이용 목적</p>
-            <p className="mb-2">회원 가입 및 관리, 서비스 제공 및 운영, 안내사항 전달</p>
-            
+            <p>회원 가입 및 관리, 서비스 제공 및 운영, 안내사항 전달</p>
             <p>2. 수집하는 개인정보의 항목</p>
-            <p className="mb-2">아이디, 비밀번호, 이름, 전화번호, 이메일, 프로필 사진</p>
-            
+            <p>아이디, 비밀번호, 이름, 전화번호, 이메일, 프로필 사진</p>
             <p>3. 개인정보의 보유 및 이용기간</p>
-            <p className="mb-2">회원 탈퇴 시까지 (단, 관계 법령에 따라 보존할 필요가 있는 경우 해당 기간까지)</p>
+            <p>회원 탈퇴 시까지 (단, 관계 법령에 따라 보존할 필요가 있는 경우 해당 기간까지)</p>
           </div>
-          <div className="flex justify-end gap-2">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-            >
+          <div className="modal-actions">
+            <button className="modal-cancel" onClick={onClose}>
               취소
             </button>
-            <button
-              onClick={onAgree}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
+            <button className="modal-confirm" onClick={onAgree}>
               동의
             </button>
           </div>
@@ -65,7 +59,10 @@ function SignupForm() {
     const handlePrivacyClick = () => {
       setShowPrivacyModal(true);
     };
-  
+    const handlePrivacyClose = () => {
+      setIsPrivacyAgreed(false); // 개인정보 동의 상태 초기화
+      setShowPrivacyModal(false); // 모달 닫기
+    };
     // 개인정보 동의 처리
     const handlePrivacyAgree = () => {
       setIsPrivacyAgreed(true);
@@ -79,7 +76,7 @@ function SignupForm() {
         if (!value) {
           return '아이디를 입력해주세요';
         } else if (!/^[A-Za-z0-9]{8,}$/.test(value)) {
-          return '아이디는 8자 이상의 영문/숫자만 가능합니다';
+          return '아이디는 8자 이상의\n영문/숫자만 가능합니다';
         }
         break;
       case 'pw':
@@ -208,6 +205,7 @@ function SignupForm() {
       await new Promise(resolve => setTimeout(resolve, 1500));
       alert('회원가입이 완료되었습니다!');
       resetForm();
+      window.location.href = '/Login';
     } catch (error) {
       alert('회원가입 처리 중 오류가 발생했습니다.');
     } finally {
@@ -235,27 +233,13 @@ function SignupForm() {
     setIsIdChecked(false);
   };
 
-  // 새로고침 경고
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (Object.values(formData).some(value => value)) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [formData]);
-
   return (
     <div className="signup-container">
+      <h1>회원가입</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="id">아이디 입력</label>
+        <div className='input-group'>
           <div className="id-check-group">
+          <FaUser className="input-icon" />
             <input
               id="id"
               type="text"
@@ -270,18 +254,17 @@ function SignupForm() {
             <button
               type="button"
               onClick={checkIdDuplicate}
-              disabled={isLoading || !formData.id}
-              className="check-button"
-            >
+              className="check-button">
               중복확인
             </button>
-          </div>
           {errors.id && <div id="id-error" className="error-message">{errors.id}</div>}
         </div>
+      </div>
 
         <div>
-          <label htmlFor="pw">비밀번호 입력</label>
           <div className="password-field">
+            <div className='input-group'>
+          <FaLock className="input-icon" />
             <input
               id="pw"
               type={showPassword ? "text" : "password"}
@@ -303,10 +286,11 @@ function SignupForm() {
           </div>
           {errors.pw && <div id="pw-error" className="error-message">{errors.pw}</div>}
         </div>
+        </div>
 
-        <div>
-          <label htmlFor="pwcheck">비밀번호 확인</label>
-          <div className="password-field">
+        <div className='password-field'>
+          <div className="input-group">
+          <FaLock className="input-opacity" />
             <input
               id="pwcheck"
               type={showPasswordCheck ? "text" : "password"}
@@ -329,8 +313,8 @@ function SignupForm() {
           {errors.pwcheck && <div id="pwcheck-error" className="error-message">{errors.pwcheck}</div>}
         </div>
 
-        <div>
-          <label htmlFor="nickname">닉네임</label>
+        <div className='input-group'>
+          <FaUser className="input-icon" />
           <input
             id="nickname"
             type="text"
@@ -344,10 +328,23 @@ function SignupForm() {
           />
           {errors.nickname && <div id="nickname-error" className="error-message">{errors.nickname}</div>}
         </div>
-
+        <div className='input-group'>
+        <FaEnvelope className="input-icon" />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="이메일 입력"
+            value={formData.email}
+            onChange={handleChange}
+            className={`input-field ${errors.email ? 'error' : ''}`}
+            aria-describedby="email-error"
+          />
+          {errors.email && <div id="email-error" className="error-message">{errors.email}</div>}
+        </div>
         <div>
-          <label htmlFor="phone1">전화번호</label>
           <div className="phone-group">
+          <FaPhone className="input-icon" />
             <select
               id="phone1"
               name="phone1"
@@ -357,7 +354,7 @@ function SignupForm() {
             >
               <option value="">선택</option>
               <option value="010">010</option>
-              <option value="011">011</option>
+
             </select>
             <span className="tel_dot">-</span>
             <input
@@ -382,24 +379,8 @@ function SignupForm() {
           </div>
           {errors.phone && <div className="error-message">{errors.phone}</div>}
         </div>
-
-        <div>
-          <label htmlFor="email">이메일</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="이메일 입력"
-            value={formData.email}
-            onChange={handleChange}
-            className={`input-field ${errors.email ? 'error' : ''}`}
-            aria-describedby="email-error"
-          />
-          {errors.email && <div id="email-error" className="error-message">{errors.email}</div>}
-        </div>
-
-        <div>
-          <label htmlFor="type">배기량 선택</label>
+        <div className='input-group'>
+          <FaMotorcycle className="input-icon" />
           <select
             id="type"
             name="type"
@@ -407,17 +388,16 @@ function SignupForm() {
             onChange={handleChange}
             className={`select-field ${errors.type ? 'error' : ''}`}
           >
-            <option value="">배기량 선택</option>
+            <option value="">배기량을 선택해주세요</option>
             <option value="500cc">500cc</option>
             <option value="1000cc">1000cc</option>
             <option value="1500cc">1500cc</option>
           </select>
           {errors.type && <div className="error-message">{errors.type}</div>}
         </div>
-
-        <div>
-          <label htmlFor="photo">프로필 사진</label>
           <div className="photo-upload-container">
+          <div className='input-group'>
+          <MdAddToPhotos className="input-icon" />
             <input
               id="photo"
               type="file"
@@ -433,22 +413,21 @@ function SignupForm() {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2 border p-3 rounded">
+        <div className="privacy-agreement">
           <input
             type="checkbox"
             id="privacy"
             checked={isPrivacyAgreed}
             onChange={handlePrivacyClick}
-            className="w-4 h-4"
+            className="privacy-checkbox"
           />
-          <label htmlFor="privacy" className="flex-1">
+          <label htmlFor="privacy" className="privacy-label">
             개인정보 수집 및 활용 동의
           </label>
         </div>
         <div className="button-group">
           <button
             type="submit"
-            disabled={isLoading || !isPrivacyAgreed}
             className="submit-button w-full"
           >
             {isLoading ? '처리중...' : '회원가입'}
@@ -464,7 +443,7 @@ function SignupForm() {
       </form>
       {showPrivacyModal && (
         <PrivacyModal
-          onClose={() => setShowPrivacyModal(false)}
+          onClose={handlePrivacyClose}
           onAgree={handlePrivacyAgree}
         />
       )}

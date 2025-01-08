@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import './FindId.css';
-// import findPw from './FindPw.js'
+import '../../static/scss/Login/FindId.scss';
 import { Link } from 'react-router-dom';
 
 function FindId() {
@@ -72,9 +71,8 @@ function FindId() {
     try {
       // 실제 API 호출로 대체 필요
       await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // 임시로 아이디를 반환 (이메일과 이름에 해당하는 아이디를 찾는 로직 추가 필요)
-      setFoundId('user123'); // 여기서 'user123'은 실제로 서버에서 반환받은 아이디여야 합니다.
+      alert("임시 아이디는'abc123'입니다!");
+      window.location.href = '/FindId';
     } catch (error) {
       setErrors((prev) => ({
         ...prev,
@@ -88,18 +86,12 @@ function FindId() {
   return (
     <div className="find-id-container">
       <h1>아이디 찾기</h1>
-      {foundId && (
-        <div className="found-id-message">
-          <strong>찾은 아이디: </strong>{foundId}
-        </div>
-      )}
       {errors.general && (
         <div className="error-message">{errors.general}</div>
       )}
 
-      <form onSubmit={handleFindId} className="space-y-4">
+      <form onSubmit={handleFindId}>
         <div>
-          <label htmlFor="name">이름</label>
           <input
             id="name"
             type="text"
@@ -114,7 +106,6 @@ function FindId() {
         </div>
 
         <div>
-          <label htmlFor="email">이메일</label>
           <input
             id="email"
             type="email"
@@ -139,7 +130,7 @@ function FindId() {
         </div>
       </form>
       <div className="links">
-        <a href='#' className="link-button">비밀번호 찾기</a>
+        <Link to="/FindPw">비밀번호 찾기</Link>
       </div>
     </div>
   );

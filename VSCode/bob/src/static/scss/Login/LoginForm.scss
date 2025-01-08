@@ -107,4 +107,18 @@ body {
     color: #0056b3;
     text-decoration: underline;
   }
+
+  div {
+    &.login-container {
+      max-width: 400px; /* 폼 크기 */
+      margin: 0 auto; /* 가운데 정렬 */
+      padding: 35px; /* 내부 여백 */
+      border: 1px solid #ddd; /* 경계선 추가 */
+      border-radius: 8px; /* 모서리 둥글게 */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+      background-color: #ffffff; /* 배경색 */
+    }
+  }
+
+
   
