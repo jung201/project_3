@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
 import axios from "axios";
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
 import mypageImg from "../../static/images/icons/mypage.png"; // 이미지 불러오기
 import navFiller from "../../static/images/icons/board.png"; // 이미지 불러오기
 import groupFilter from "../../static/images/icons/searchBTN.png"; // 이미지 불러오기
-
-// TinyMCE 에디터 관련 라이브러리 추가
-import tinymce from "tinymce/tinymce";
-import "tinymce/themes/silver/theme";
-import "tinymce/icons/default/icons";
-import "tinymce/plugins/image";
-import "tinymce/plugins/link";
-import "tinymce/plugins/lists";
-import "tinymce/plugins/code";
-import "tinymce/plugins/table";
 
 // 상태 변수 관리
 const Board = () => {
@@ -48,39 +39,18 @@ const Board = () => {
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
-    axios
-      .get("http://192.168.0.93:3006/api") // API 경로
-      .then((response) => {
-        console.log(response.data); // 데이터 출력 확인
-        setPosts(response.data); // 게시글 데이터 설정
-      })
-      .catch((error) => {
-        console.error("게시글 불러오기 에러:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (showPopup && popupType === "register") {
-      tinymce.init({
-        selector: "#editor",
-        plugins: [
-          "image",
-          "link",
-          "lists",
-          "code",
-          "table"
-        ],
-        toolbar:
-          "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
-        height: 300
-      });
-    }
-  
-    return () => {
-      tinymce.remove("#editor");
+    const loadPosts = async () => {
+      try {
+        const data = await fetchPosts(); // 공통 함수 사용
+        setPosts(data); // 게시글 데이터 설정
+      } catch (error) {
+        console.error("게시글 불러오기 실패:", error);
+      }
     };
-  }, [showPopup, popupType]);
   
+    loadPosts(); // 데이터 불러오기 실행
+  }, []); // 컴포넌트 마운트 시 1회 실행
+
   //=======================================================================
 
   // 상대적인 시간 표시 함수
@@ -218,7 +188,7 @@ const Board = () => {
       btitle: "bTitle",
       bcreatedid: "bCreatedId",
     };
-  
+
     const column = columnMap[searchColumn] || searchColumn;
     let keyword = searchKeyword.trim();
 
@@ -296,7 +266,7 @@ const Board = () => {
       btitle: title,
       bcategory: category,
       bcc: "",
-      bcontent: tinymce.get("editor").getContent(), // TinyMCE 에디터 내용 적용
+      bcontent: content,
       bcreatedId: userId,
       bviews: 0,
     };
@@ -523,7 +493,7 @@ const Board = () => {
                 <option value="자유이야기">자유이야기</option>
               </select>
             </div>
-            <textarea id="editor"
+            <textarea
               placeholder="내용을 입력하세요"
               value={content}
               onChange={(e) => setContent(e.target.value)}
