@@ -162,6 +162,7 @@ const Board = () => {
     // 1. 구분(bcategory) 변환
     if (column === "bcategory") {
       keyword = getCategoryCode(keyword.trim()); // 한글을 코드로 변환
+      console.log("변환된 키워드:", keyword); // 디버깅 로그 추가
       if (!keyword) {
         console.log("검색어:", keyword); // 값 확인
         alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
@@ -172,6 +173,7 @@ const Board = () => {
     // 2. CC(bcc) 변환
     if (column === "bcc") {
       keyword = getCcCode(keyword.trim()); // 한글을 코드로 변환
+      console.log("변환된 키워드:", keyword); // 디버깅 로그 추가
       if (!keyword) {
         alert("유효한 배기량을 입력해주세요! (스쿠터, 소형, 중형, 리터)");
         return;

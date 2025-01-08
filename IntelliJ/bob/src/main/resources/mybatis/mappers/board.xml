@@ -22,27 +22,41 @@
     <!-- 검색 기능 -->
     <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
         SELECT
-            B_ID as bId,
-            B_CATEGORY as bCategory,
-            B_CC as bCc,
-            B_TITLE as bTitle,
-            B_CONTENT as bContent,
-            B_CREATED_ID as bCreatedId,
-            B_CREATED_DATE as bCreatedDate,
-            B_UPDATED_ID as bUpdatedId,
-            B_UPDATED_DATE as bUpdatedDate,
-            B_VIEWS as bViews
+        B_ID as bId,
+        B_CATEGORY as bCategory,
+        B_CC as bCc,
+        B_TITLE as bTitle,
+        B_CONTENT as bContent,
+        B_CREATED_ID as bCreatedId,
+        B_CREATED_DATE as bCreatedDate,
+        B_UPDATED_ID as bUpdatedId,
+        B_UPDATED_DATE as bUpdatedDate,
+        B_VIEWS as bViews
         FROM BOARD
         WHERE
         <choose>
             <when test="column == 'bId'">
-                B_ID = #{keyword}
+                B_ID = #{keyword} <!-- 정확한 숫자 검색 -->
             </when>
             <when test="column == 'bCategory'">
-                B_CATEGORY LIKE '%' || #{keyword} || '%'
+                (B_CATEGORY = #{keyword} OR B_CATEGORY IN (
+                SELECT CASE
+                WHEN #{keyword} = '정비' THEN 'R'
+                WHEN #{keyword} = '꿀팁' THEN 'T'
+                WHEN #{keyword} = '코스' THEN 'C'
+                WHEN #{keyword} = '자유이야기' THEN 'F'
+                END FROM DUAL
+                ))
             </when>
             <when test="column == 'bCc'">
-                B_CATEGORY LIKE '%' || #{keyword} || '%'
+                (B_CC = #{keyword} OR B_CC IN (
+                SELECT CASE
+                WHEN #{keyword} = '스쿠터' THEN 'S'
+                WHEN #{keyword} = '소형' THEN 'SM'
+                WHEN #{keyword} = '중형' THEN 'M'
+                WHEN #{keyword} = '리터' THEN 'L'
+                END FROM DUAL
+                ))
             </when>
             <when test="column == 'bTitle'">
                 B_TITLE LIKE '%' || #{keyword} || '%'
@@ -51,9 +65,9 @@
                 B_CREATED_ID LIKE '%' || #{keyword} || '%'
             </when>
         </choose>
-
         ORDER BY B_CREATED_DATE DESC
     </select>
+
 
     <!-- 게시물 등록  -->
     <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
