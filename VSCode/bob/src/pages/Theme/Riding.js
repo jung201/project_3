@@ -59,23 +59,20 @@ const Riding = () => {
   return (
     <div className="riding-container">
       {/* 페이지 메인 제목 */}
-      <h1 className="riding-title">테마 라이딩</h1>
+      <h1 className="riding-title"></h1>
 
       {/* 사진 박스 3개 컨테이너 */}
       <div className="photo-box-container">
-        <h3 className="photo-box-heading">어디로 가볼까요?</h3>
+        <h3 className="photo-box-heading">어떤 테마로 떠나볼까요? </h3>
         <div className="photo-box-wrapper">
           <div className="photo-box" onClick={() => scrollToSection(0)}>
-            <img src={require('../../static/images/Riding/poster.png')} alt="어우러짐의 미학" className="photo-box-image" />
-            <p className="photo-box-title">해안 도로</p>
+            <img src={require('../../static/images/Riding/해안.png')} alt="어우러짐의 미학" className="photo-box-image" />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(1)}>
-            <img src={require('../../static/images/Riding/단풍.jpg')} alt="노을이 가장 아름다운" className="photo-box-image" />
-            <p className="photo-box-title">가을 단풍</p>
+            <img src={require('../../static/images/Riding/단풍.png')} alt="노을이 가장 아름다운" className="photo-box-image" />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(2)}>
-            <img src={require('../../static/images/Riding/야간.jpg')} alt="야간" className="photo-box-image" />
-            <p className="photo-box-title">야경 라이딩</p>
+            <img src={require('../../static/images/Riding/야경.png')} alt="야간" className="photo-box-image" />
           </div>
         </div>
       </div>
@@ -96,7 +93,7 @@ const Riding = () => {
                       </div>
                       <div className="riding-description-container">
                         <p className="riding-description">{place.description}</p>
-                        <button className="set-destination-btn" onClick={() => alert(`${place.location}을(를) 목적지로 설정하였습니다.`)}>
+                        <button className="set-dest-btn" onClick={() => alert(`${place.location}을(를) 목적지로 설정하였습니다.`)}>
                           목적지 설정
                         </button>
                       </div>
@@ -120,7 +117,7 @@ const Riding = () => {
                       </div>
                       <div className="riding-description-container">
                         <p className="riding-description">{place.description}</p>
-                        <button className="set-destination-btn" onClick={() => alert(`${place.location}을(를) 목적지로 설정하였습니다.`)}>
+                        <button className="set-dest-btn" onClick={() => alert(`${place.location}을(를) 목적지로 설정하였습니다.`)}>
                           목적지 설정
                         </button>
                       </div>

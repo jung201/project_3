@@ -9,7 +9,7 @@ import board from '../static/images/icons/board.png';
 import mypage from '../static/images/icons/mypage.png';
 import login from '../static/images/icons/login.PNG';
 import signin from '../static/images/icons/signin.PNG';
-
+import white from '../static/images/logoWhite.PNG'
 function Header() {
     return (
         <header className="header-container">
@@ -30,6 +30,7 @@ function Header() {
                         <img src={logosample} alt="로고" style={{ height: "35px" }} />
                     </a>
                 </div>
+
 
                 {/* 로그인 및 회원가입 버튼 */}
                 <div className="auth-buttons">
