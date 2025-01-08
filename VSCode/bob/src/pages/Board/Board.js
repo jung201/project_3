@@ -341,7 +341,6 @@ const Board = () => {
   return (
     <div className="board">
       <div className="board-title"></div>
-      <div className="board-title-font">자유게시판</div>
       <div className="search-register">
         <div className="navbar">
           <ul>
