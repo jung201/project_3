@@ -363,6 +363,7 @@
     }
   }
 
+  // 보기 팝업
   .view-popup {
     position: fixed;
     top: 50%;
@@ -470,10 +471,15 @@
   }
 }
 
-@media screen and (max-width: 451px) {
+@media screen and (max-width: 450px) {
   .board {
     height: 100%;
     padding: 20px;
+
+    /* 배경 이미지 설정 */
+    .board-title {
+      height: 150px;
+    }
 
     .board-title-font {
       top: 35%;
@@ -521,8 +527,7 @@
 
     /* 작성자 프로필 이미지 스타일 */
     .user-profile {
-      display: flex;
-      align-items: center;
+      @include flex-center;
       gap: 0px;
       margin-left: 0px;
     }
@@ -553,13 +558,13 @@
 
       th:nth-child(2),
       td:nth-child(2) {
-        width: 9%;
+        width: 10%;
         /* 구분 열 크기 */
       }
 
       th:nth-child(3),
       td:nth-child(3) {
-        width: 19%;
+        width: 14%;
         display: none;
       }
 
@@ -571,22 +576,38 @@
 
       th:nth-child(5),
       td:nth-child(5) {
-        width: 6%;
-        /* 작성자 열 크기 */
+        width: 10%;
       }
 
       th:nth-child(6),
       td:nth-child(6) {
-        width: 5%;
+        width: 9%;
         /* 조회수 열 크기 */
       }
 
       th:nth-child(7),
       td:nth-child(7) {
-        width: 3%;
+        width: 6.5%;
         /* 날짜 열 크기 */
       }
     }
 
+    // 등록 팝업
+    .register-popup {
+      width: 300px;
+      height: 500px;
+
+      // 닫기 버튼 스타일
+      .close-btn {
+        top: 10px;
+      }
+    }
+
+    // 보기 팝업
+    .view-popup {
+      width: 350px;
+      height: 500px;
+
+    }
   }
 }

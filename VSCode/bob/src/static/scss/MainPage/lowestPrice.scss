@@ -12,7 +12,7 @@
         padding: 30px;
 
         .title {
-            width: 500px;
+            width: 380px;
             padding: 10px;
             font-size: 35px;
             font-weight: bold;
@@ -22,7 +22,7 @@
         // 테이블 정렬 컨테이너
         .oil-station-table {
             display: flex;
-            gap: 20px;
+            gap: 100px;
             padding: 10px;
 
             // 테이블 스타일
@@ -58,6 +58,7 @@
 
 @media screen and (max-width: 450px) {
     .lowest-price-container {
+        height: 500px;
         .container {
             padding: 20px;
     
