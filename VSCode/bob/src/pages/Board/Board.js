@@ -6,9 +6,15 @@ import mypageImg from "../../static/images/icons/mypage.png"; // 이미지 불�
 import navFiller from "../../static/images/icons/board.png"; // 이미지 불러오기
 import groupFilter from "../../static/images/icons/searchBTN.png"; // 이미지 불러오기
 
-// import tinymce from "tinymce/tinymce";
-// import "tinymce/themes/silver";
-// import "tinymce/icons/default";
+// TinyMCE 에디터 관련 라이브러리 추가
+import tinymce from "tinymce/tinymce";
+import "tinymce/themes/silver/theme";
+import "tinymce/icons/default/icons";
+import "tinymce/plugins/image";
+import "tinymce/plugins/link";
+import "tinymce/plugins/lists";
+import "tinymce/plugins/code";
+import "tinymce/plugins/table";
 
 // 상태 변수 관리
 const Board = () => {
@@ -53,6 +59,28 @@ const Board = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (showPopup && popupType === "register") {
+      tinymce.init({
+        selector: "#editor",
+        plugins: [
+          "image",
+          "link",
+          "lists",
+          "code",
+          "table"
+        ],
+        toolbar:
+          "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code",
+        height: 300
+      });
+    }
+  
+    return () => {
+      tinymce.remove("#editor");
+    };
+  }, [showPopup, popupType]);
+  
   //=======================================================================
 
   // 상대적인 시간 표시 함수
@@ -268,7 +296,7 @@ const Board = () => {
       btitle: title,
       bcategory: category,
       bcc: "",
-      bcontent: content,
+      bcontent: tinymce.get("editor").getContent(), // TinyMCE 에디터 내용 적용
       bcreatedId: userId,
       bviews: 0,
     };
@@ -290,6 +318,10 @@ const Board = () => {
 
   // 팝업
   const togglePopup = (type, post = null) => {
+    setPopupType(type);
+    setCurrentPost(post);
+    setShowPopup(!showPopup);
+
     if (type === "view" && post) {
       // 조회수 증가 함수 호출
       increaseViewCount(post.bid);
@@ -491,7 +523,7 @@ const Board = () => {
                 <option value="자유이야기">자유이야기</option>
               </select>
             </div>
-            <textarea
+            <textarea id="editor"
               placeholder="내용을 입력하세요"
               value={content}
               onChange={(e) => setContent(e.target.value)}
