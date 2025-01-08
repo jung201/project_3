@@ -27,6 +27,7 @@
     width: 60px;
     height: 60px;
     margin-bottom: 10px;
+    border-radius: 5px;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
@@ -35,24 +36,58 @@
       box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5); // 그림자 효과 추가;}
     }
   }
+
+  .i-price,
+  .i-trend,
+  .i-top,
+  .i-lowest {
+    @include flex-center;
+    flex-direction: column;
+    font-size: 25px;
+
+
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+  .i-container {
+    gap: 35px;
+    width: 100%;
+    height: 100px;
+
+    position: absolute;
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+
+    .i-price-img,
+    .i-trend-img,
+    .i-top-img,
+    .i-lowest-img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: scale(1.2); // 아이콘 크기 1.2배 확대
+        box-shadow: 0 4px 10px rgba(255, 255, 255, 0.5); // 그림자 효과 추가;}
+      }
+    }
+
     .i-price,
     .i-trend,
     .i-top,
     .i-lowest {
-      @include flex-center;
-      flex-direction: column;
-      font-size: 25px;
-
-
+      font-size: 12px;
     }
-
-
-
-
-
-
-
-
-
-
   }
+}

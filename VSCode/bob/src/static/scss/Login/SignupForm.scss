@@ -1,0 +1,402 @@
+body{
+  height : 100%;
+}
+.signup-container {
+  max-width: 400px;  
+  margin: 1rem auto; 
+  padding: 1.5rem;  
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  h1 {
+    margin-bottom: 1.5rem;  // 제목과 폼 사이 간격
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    
+    > div {  
+      margin:0;
+    }
+    .id-check-group,
+    .password-field,
+    #nickname {
+      margin:0;
+    }
+  }
+
+  .input-field,
+  .select-field {
+    width: 100%;
+    padding: 0.5rem;      // 패딩 축소
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.875rem;  // 폰트 사이즈 축소
+    transition: border-color 0.2s ease;
+    margin: 0;
+
+    &:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+    }
+
+    &.error {
+      border-color: #dc3545;
+    }
+  }
+
+  .error-message {
+    color: #dc3545;
+    font-size: 0.75rem;   
+    white-space: pre-line;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .id-check-group {
+    display: flex;
+    align-items: center; /* 아이템 세로 정렬 */
+    gap: 0.5rem;
+    width: 100%;
+
+    input {
+      flex: 1;
+      height: 2.5rem;      /* 입력 필드 높이 */
+      margin: 0;
+    }
+
+    .check-button {
+      height: 2.5rem;            
+      padding: 0 1rem;     
+      font-size: 0.875rem;       
+      background-color: #4a90e2;  
+      color: white;               /* 텍스트 색상 */
+      border: none;
+      border-radius: 4px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+  
+      &:hover:not(:disabled) {
+        background-color: #357abd;
+      }
+  
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+    
+  }
+
+  .password-field {
+    position: relative;
+    margin: 0;
+
+    .password-toggle {
+      position: absolute;
+      right: 0.75rem;  
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 0.25rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  .phone-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 0;
+
+    .select-field {
+      width: 30%;
+    }
+
+    input {
+      width: 35%;
+    }
+
+    .tel_dot {
+      color: #666;
+      font-size: 0.875rem; 
+    }
+  }
+
+  .photo-upload-container {
+    margin-top: 0.25rem;
+
+    .file-input {
+      width: 100%;
+      padding: 0.25rem 0;
+      font-size: 0.875rem; 
+    }
+
+    .image-preview {
+      margin-top: 0.75rem;
+      
+      img {
+        max-width: 150px;  
+        max-height: 150px;  
+        border-radius: 4px;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .button-group {
+    display: flex;
+    gap: 0.75rem;          
+    margin: 0;
+
+    button {
+      flex: 1;
+      padding: 0.625rem;    
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      font-size: 0.875rem;  
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &.submit-button {
+        background-color: #4a90e2;
+        color: white;
+      }
+
+      &.reset-button {
+        background-color: #f8f9fa;
+        color: #333;
+        border: 1px solid #ddd;
+
+        &:hover {
+          background-color: #e9ecef;
+        }
+      }
+    }
+  }
+}
+
+// Privacy Modal Styles
+.fixed {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+
+  .bg-white {
+    background: white;
+    padding: 1.25rem;      
+    border-radius: 0.5rem;
+    max-width: 28rem;      
+    width: 100vh;
+    margin: 0 1rem;
+
+    h2 {
+      font-size: 1.125rem; 
+      font-weight: bold;
+      margin:0;
+    }
+
+    .max-h-60 {
+      max-height: 12rem;   
+      overflow-y: auto;
+      margin:0;
+      font-size: 0.875rem; 
+      
+      p {
+        margin:0;
+      }
+    }
+
+    .flex {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+
+      button {
+        padding: 0.375rem 0.75rem; 
+        border-radius: 0.25rem;
+        font-size: 0.875rem;       
+        transition: background-color 0.2s;
+
+        &:first-child {
+          background-color: #f8f9fa;
+          
+          &:hover {
+            background-color: #e9ecef;
+          }
+        }
+
+        &:last-child {
+          background-color: #4a90e2;
+          color: white;
+
+          &:hover {
+            background-color: #357abd;
+          }
+        }
+      }
+    }
+  }
+}
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  max-width: 28rem;
+  width: 100%;
+  margin: 0 1rem;
+}
+
+.modal-title {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin:0;
+}
+
+.modal-body {
+  max-height: 12rem;
+  overflow-y: auto;
+  margin:0;
+  font-size: 0.875rem;
+}
+
+.modal-body p {
+  margin:0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.modal-cancel {
+  padding: 0.375rem 0.75rem;
+  background-color: orange;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.modal-cancel:hover {
+  background-color: red;
+}
+
+.modal-confirm {
+  padding: 0.375rem 0.75rem;
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.modal-confirm:hover {
+  background-color: #357abd;
+}
+.privacy-agreement {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* 간격 */
+  border: 1px solid #ddd; /* 테두리 */
+  padding: 1rem; /* 내부 여백 */
+  border-radius: 6px; /* 모서리 둥글기 */
+  margin: 0;
+  padding: 10px;
+}
+
+.privacy-checkbox {
+  width: 1rem; /* 체크박스 크기 */
+  height: 1rem;
+  cursor: pointer; /* 포인터 커서 */
+  margin: 0;
+}
+
+.privacy-label {
+  flex: 1; /* 레이블이 남은 공간을 채움 */
+  font-size: 0.875rem; /* 폰트 크기 */
+  color: #333; /* 텍스트 색상 */
+  margin: 0;
+}
+
+
+
+
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* 아이콘과 입력 필드 간격 */
+  width: 100%;
+  margin:0;
+  height: 40px;
+}
+
+.input-icon {
+  color: #666;
+  font-size: 1.2rem; /* 아이콘 크기 */
+  margin-left: 0.5rem; /* 아이콘과 폼 그룹 간격 */
+}
+
+.input-field,
+.select-field {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  height: 2.5rem;  // 모든 입력 필드의 높이 통일
+  transition: border-color 0.2s ease;
+  margin: 0;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+}
+
+.file-input {
+  width: 100%;
+  padding: 0.25rem;
+}
+
+.phone-group {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 각 입력 필드 간 간격 */
+  margin-bottom: 0px;
+}
+
+.input-opacity{
+  opacity: 0;
+  margin-right: 10px;
+}

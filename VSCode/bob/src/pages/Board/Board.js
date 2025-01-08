@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
+import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
+import { getCategoryLabel, getCategoryCode, getCcLabel, getCcCode } from "../../utils/categoryUtils"; // 유틸 함수 임포트
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
-import mypageImg from '../../static/images/icons/mypage.png'; // 이미지 불러오기
-import navFiller from '../../static/images/icons/board.png'; // 이미지 불러오기
-import groupFilter from '../../static/images/icons/searchBTN.png'; // 이미지 불러오기
-
-// import tinymce from "tinymce/tinymce";
-// import "tinymce/themes/silver";
-// import "tinymce/icons/default";
+import mypageImg from "../../static/images/icons/mypage.png"; 
+import navFiller from "../../static/images/icons/board.png"; 
+import groupFilter from "../../static/images/icons/searchBTN.png"; 
 
 // 상태 변수 관리
 const Board = () => {
@@ -36,36 +35,23 @@ const Board = () => {
 
   // 검색어
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
-  const [searchColumn, setSearchColumn] = useState("B_ID"); // 검색 기준
+  const [searchColumn, setSearchColumn] = useState("bid"); // 검색 기준
 
   //=======================================================================
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
-    axios
-      .get("http://192.168.0.93:3006/api") // API 경로
-      .then((response) => {
-        console.log(response.data); // 데이터 출력 확인
-        setPosts(response.data); // 게시글 데이터 설정
-      })
-      .catch((error) => {
-        console.error("게시글 불러오기 에러:", error);
-      });
-  }, []);
-
-  //=======================================================================
-
-  // 상대적인 시간 표시 함수
-  const formatRelativeDate = (dateString) => {
-    const now = new Date();
-    const postDate = new Date(dateString);
-    const diff = Math.floor((now - postDate) / 1000); // 초 단위 차이
-
-    if (diff < 60) return `${diff}초 전`; // 1분 미만
-    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`; // 1시간 미만
-    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`; // 하루 미만
-    return `${Math.floor(diff / 86400)}일 전`; // 하루 이상
-  };
+    const loadPosts = async () => {
+      try {
+        const data = await fetchPosts(); // 공통 함수 사용
+        setPosts(data); // 게시글 데이터 설정
+      } catch (error) {
+        console.error("게시글 불러오기 실패:", error);
+      }
+    };
+  
+    loadPosts(); // 데이터 불러오기 실행
+  }, []); // 컴포넌트 마운트 시 1회 실행
 
   //=======================================================================
 
@@ -75,26 +61,23 @@ const Board = () => {
       .filter(
         (post) =>
           selectedCategory === "전체" ||
-          renderCategory(post.b_CATEGORY) === selectedCategory
+          getCategoryLabel(post.bcategory) === selectedCategory
       )
       .map((post, index) => {
         // 하루 이내 여부
-        const isNew = (new Date() - new Date(post.b_CREATED_DATE)) / 1000 < 86400;
+        const isNew = (new Date() - new Date(post.bcreatedDate)) / 1000 < 86400;
         // 조회수 50 이상 여부
-        const isHot = post.b_VIEWS >= 50;
+        const isHot = post.bviews >= 50;
 
         return (
-          <tr
-            key={post.b_ID || index}
-            onClick={() => togglePopup("view", post)}
-          >
-            <td>{post.b_ID}</td>
-            <td className={`category ${post.b_CATEGORY}`}>
-              {renderCategory(post.b_CATEGORY)}
+          <tr key={post.bid || index} onClick={() => togglePopup("view", post)}>
+            <td>{post.bid}</td>
+            <td className={`category ${post.bcategory}`}>
+              {getCategoryLabel(post.bcategory)}
             </td>
-            <td>{renderCc(post.b_CC)}</td>
+            <td>{getCcLabel(post.bcc)}</td>
             <td>
-              {post.b_TITLE}
+              {post.btitle}
               {isNew && <span className="new-tag">NEW</span>}{" "}
               {/* NEW 태그 추가 */}
               {isHot && <span className="hot-tag">HOT</span>}{" "}
@@ -103,38 +86,15 @@ const Board = () => {
             <td>
               <div className="user-profile">
                 <img src={mypageImg} alt="프로필" className="profile-img" />
-                {post.b_CREATED_ID}
+                {post.bcreatedId}
               </div>
             </td>
-
-            <td>{post.b_VIEWS}</td>
-            <td>{formatRelativeDate(post.b_CREATED_DATE)}</td>{" "}
+            <td>{post.bviews}</td>
+            <td>{formatRelativeDate(post.bcreatedDate)}</td>{" "}
             {/* 상대 시간 표시 */}
           </tr>
         );
       });
-
-  // 테이블 렌더링 - 구분
-  const renderCategory = (code) => {
-    const categories = {
-      R: "정비",
-      T: "꿀팁",
-      C: "코스",
-      F: "자유이야기",
-    };
-    return categories[code];
-  };
-
-  // 테이블 렌더링 - 구분
-  const renderCc = (code) => {
-    const categories = {
-      S: "스쿠터",
-      SM: "소형",
-      M: "중형",
-      L: "리터",
-    };
-    return categories[code];
-  };
 
   //=======================================================================
 
@@ -145,8 +105,8 @@ const Board = () => {
     // API 요청 보내기
     axios
       .get(
-        `http://192.168.0.93:3006/api?category=${category === "전체" ? "" : category}`
-      ) // 전체일 경우 빈 문자열 처리
+        `http://192.168.0.93:3006/api?category=${category === "전체" ? "" : getCategoryCode}`
+      )
       .then((response) => {
         setPosts(response.data); // 필터링된 데이터 적용
       })
@@ -165,10 +125,8 @@ const Board = () => {
 
     // 정렬 로직
     const sortedPosts = [...posts].sort((a, b) => {
-      let aValue =
-        column === "b_CREATED_DATE" ? new Date(a[column]) : a[column];
-      let bValue =
-        column === "b_CREATED_DATE" ? new Date(b[column]) : b[column];
+      let aValue = column === "bcreatedDate" ? new Date(a[column]) : a[column];
+      let bValue = column === "bcreatedDate" ? new Date(b[column]) : b[column];
 
       // 비교 및 정렬
       if (aValue < bValue) return order === "asc" ? -1 : 1;
@@ -189,34 +147,41 @@ const Board = () => {
       return;
     }
 
-    // 컬럼명 대문자 변환
-    const column = searchColumn.toUpperCase();
+    // 컬럼 이름 매핑
+    const columnMap = {
+      bid: "bId",
+      bcategory: "bCategory",
+      bcc: "bCc",
+      btitle: "bTitle",
+      bcreatedid: "bCreatedId",
+    };
 
-    // 검색어 변환 처리
+    const column = columnMap[searchColumn.toLowerCase()] || searchColumn; // 대소문자 변환
     let keyword = searchKeyword.trim();
 
-    // 1. 구분(B_CATEGORY) 변환
-    if (column === "B_CATEGORY") {
-      const categories = { "정비": "R", "꿀팁": "T", "코스": "C", "자유이야기": "F" };
-      keyword = categories[keyword]; // 한글을 코드로 변환
+    // 1. 구분(bcategory) 변환
+    if (column === "bcategory") {
+      keyword = getCategoryCode(keyword.trim()); // 한글을 코드로 변환
+      console.log("변환된 키워드:", keyword); // 디버깅 로그 추가
       if (!keyword) {
+        console.log("검색어:", keyword); // 값 확인
         alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
         return;
       }
     }
 
-    // 2. CC(B_CC) 변환
-    if (column === "B_CC") {
-      const ccMap = { "스쿠터": "S", "소형": "SM", "중형": "M", "리터": "L" };
-      keyword = ccMap[keyword]; // 한글을 코드로 변환
+    // 2. CC(bcc) 변환
+    if (column === "bcc") {
+      keyword = getCcCode(keyword.trim()); // 한글을 코드로 변환
+      console.log("변환된 키워드:", keyword); // 디버깅 로그 추가
       if (!keyword) {
         alert("유효한 배기량을 입력해주세요! (스쿠터, 소형, 중형, 리터)");
         return;
       }
     }
 
-    // 3. NO(B_ID) 숫자 검증
-    if (column === "B_ID" && isNaN(keyword)) {
+    // 3. NO(bid) 숫자 검증
+    if (column === "bid" && isNaN(keyword)) {
       alert("NO는 숫자로 입력해주세요!");
       return;
     }
@@ -266,12 +231,12 @@ const Board = () => {
 
     // 새 게시글 데이터
     const newPost = {
-      B_TITLE: title,
-      B_CATEGORY: category,
-      B_CC: "",
-      B_CONTENT: content,
-      B_CREATED_ID: userId,
-      B_VIEWS: 0,
+      btitle: title,
+      bcategory: category,
+      bcc: "",
+      bcontent: content,
+      bcreatedId: userId,
+      bviews: 0,
     };
 
     axios
@@ -291,9 +256,13 @@ const Board = () => {
 
   // 팝업
   const togglePopup = (type, post = null) => {
+    setPopupType(type);
+    setCurrentPost(post);
+    setShowPopup(!showPopup);
+
     if (type === "view" && post) {
       // 조회수 증가 함수 호출
-      increaseViewCount(post.b_ID);
+      increaseViewCount(post.bid);
     }
 
     if (!showPopup) {
@@ -316,18 +285,18 @@ const Board = () => {
   //=======================================================================
 
   // 조회수 증가
-  const increaseViewCount = (postId) => {
-    if (!postId) {
-      console.error("유효하지 않은 postId:", postId); // 디버깅
-      return; // postId가 없으면 요청 중단
+  const increaseViewCount = (postid) => {
+    if (!postid) {
+      console.error("유효하지 않은 postid:", postid); // 디버깅
+      return; // postid가 없으면 요청 중단
     }
 
     axios
-      .patch(`http://192.168.0.93:3006/api/views/${postId}`) // PATCH 요청
+      .patch(`http://192.168.0.93:3006/api/views/${postid}`) // PATCH 요청
       .then(() => {
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
-            post.B_ID === postId ? { ...post, b_VIEWS: post.b_VIEWS + 1 } : post
+            post.bid === postid ? { ...post, bviews: post.bviews + 1 } : post
           )
         );
       })
@@ -341,7 +310,6 @@ const Board = () => {
   return (
     <div className="board">
       <div className="board-title"></div>
-      <div className="board-title-font">자유게시판</div>
       <div className="search-register">
         <div className="navbar">
           <ul>
@@ -376,7 +344,6 @@ const Board = () => {
           </ul>
         </div>
 
-
         <form className="filter-group" onSubmit={(e) => e.preventDefault()}>
           <div className="user-profile">
             <img src={groupFilter} alt="프로필" className="groupFilter-img" />
@@ -387,11 +354,11 @@ const Board = () => {
             value={searchColumn}
             onChange={(e) => setSearchColumn(e.target.value)}
           >
-            <option value="B_ID">NO</option>
-            <option value="B_CATEGORY">구분</option>
-            <option value="B_CC">배기량</option>
-            <option value="B_TITLE">제목</option>
-            <option value="B_CREATED_ID">작성자</option>
+            <option value="bid">NO</option>
+            <option value="bcategory">구분</option>
+            <option value="bcc">배기량</option>
+            <option value="btitle">제목</option>
+            <option value="bcreatedId">작성자</option>
           </select>
 
           {/* 검색어 입력 */}
@@ -418,49 +385,40 @@ const Board = () => {
         <thead>
           <tr>
             {/* 정렬 클릭 이벤트 및 아이콘 추가 */}
-            <th onClick={() => handleSort("b_ID")}>
-              NO{" "}
-              {sortColumn === "b_ID" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+            <th onClick={() => handleSort("bid")}>
+              NO {sortColumn === "bid" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
-            <th onClick={() => handleSort("b_CATEGORY")}>
+            <th onClick={() => handleSort("bcategory")}>
               구분{" "}
-              {sortColumn === "b_CATEGORY"
+              {sortColumn === "bcategory"
                 ? sortOrder === "asc"
                   ? "▲"
                   : "▼"
                 : ""}
             </th>
-            <th onClick={() => handleSort("b_CC")}>
+            <th onClick={() => handleSort("bcc")}>
               배기량{" "}
-              {sortColumn === "b_CC" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
+              {sortColumn === "bcc" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
-            <th onClick={() => handleSort("b_TITLE")}>
+            <th onClick={() => handleSort("btitle")}>
               제목{" "}
-              {sortColumn === "b_TITLE"
-                ? sortOrder === "asc"
-                  ? "▲"
-                  : "▼"
-                : ""}
+              {sortColumn === "btitle" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
-            <th onClick={() => handleSort("b_CREATED_ID")}>
+            <th onClick={() => handleSort("bcreatedId")}>
               작성자{" "}
-              {sortColumn === "b_CREATED_ID"
+              {sortColumn === "bcreatedId"
                 ? sortOrder === "asc"
                   ? "▲"
                   : "▼"
                 : ""}
             </th>
-            <th onClick={() => handleSort("b_VIEWS")}>
+            <th onClick={() => handleSort("bviews")}>
               조회수{" "}
-              {sortColumn === "b_VIEWS"
-                ? sortOrder === "asc"
-                  ? "▲"
-                  : "▼"
-                : ""}
+              {sortColumn === "bviews" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
             </th>
-            <th onClick={() => handleSort("b_CREATED_DATE")}>
+            <th onClick={() => handleSort("bcreatedDate")}>
               날짜{" "}
-              {sortColumn === "b_CREATED_DATE"
+              {sortColumn === "bcreatedDate"
                 ? sortOrder === "asc"
                   ? "▲"
                   : "▼"
@@ -527,30 +485,30 @@ const Board = () => {
             >
               X
             </button>
-            <h2>{currentPost.b_TITLE}</h2>
+            <h2>{currentPost.btitle}</h2>
             <div className="form-group">
               <div className="left">
                 <p>
                   <strong>카테고리 : </strong>{" "}
-                  {renderCategory(currentPost.b_CATEGORY)}
+                  {getCategoryLabel(currentPost.bcategory)}
                 </p>
                 <p>
-                  <strong>배기량 : </strong> {renderCc(currentPost.b_CC)}
+                  <strong>배기량 : </strong> {getCcLabel(currentPost.bcc)}
                 </p>
               </div>
               <div className="right">
                 <p>
                   <strong>날짜 : </strong>
-                  {new Date(currentPost.b_CREATED_DATE).toLocaleDateString(
+                  {new Date(currentPost.bcreatedDate).toLocaleDateString(
                     "ko-KR"
                   )}
                 </p>
                 <p>
-                  <strong>작성자 : </strong> {currentPost.b_CREATED_ID}
+                  <strong>작성자 : </strong> {currentPost.bcreatedId}
                 </p>
               </div>
             </div>
-            <textarea value={currentPost.b_CONTENT} readOnly></textarea>
+            <textarea value={currentPost.bcontent} readOnly></textarea>
           </form>
         </div>
       )}

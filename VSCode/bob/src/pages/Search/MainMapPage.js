@@ -1,79 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DestMap from './DestMap';
-import '../../static/scss/Info/InfoPage.scss';
-import Sbtn from "../../static/images/icons/searchBTN.png";
-import cam from "../../static/images/icons/cam.PNG";
 import SearchDest from './SearchDest';
 import RecommendSTN from './RecommendSTN';
+import CameraRegister from './CameraRegister'; // 새로운 컴포넌트
+import '../../static/scss/Search/MainMapPage.scss';
 
 const MainMapPage = () => {
-    const [isSmallScreen, setIsSmallScreen] = useState(false);
-    const [activePopup, setActivePopup] = useState(null); // 모바일 팝업 상태 관리
+    const [selectedDestination, setSelectedDestination] = useState(null);
+    const [isRecommendPopupOpen, setRecommendPopupOpen] = useState(false);
+    const [waypoint, setWaypoint] = useState(null);
+    const [activePopup, setActivePopup] = useState('search'); // 현재 활성화된 팝업 관리 ('search', 'camera', null)
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 450);
-        };
+    const handleRecommendPopup = () => {
+        setRecommendPopupOpen(true);
+    };
 
-        handleResize(); // 초기실행
-        window.addEventListener('resize', handleResize);
+    const handleStationSelect = (station) => {
+        setWaypoint(station);
+        setRecommendPopupOpen(false);
+    };
 
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const closePopup = () => setActivePopup(null); //팝업 닫기
+    const togglePopup = (popupType) => {
+        setActivePopup((prev) => (prev === popupType ? null : popupType));
+    };
 
     return (
-        <div className="info-container">
-            {isSmallScreen ? (
-                // 모바일 화면: 버튼 렌더링
-                <div className="mobile-buttons">
-                    <button onClick={() => setActivePopup('search')}>
-                        <img src={Sbtn} alt="검색" />
-                    </button>
-                    <button onClick={() => setActivePopup('camera')}>
-                        <img src={cam} alt="후방카메라" />
-                    </button>
-                </div>
-            ) : (
-                // 웹 화면: 사이드바 렌더링
-                <div className="sidebar">
-                    <SearchDest />
-                    <br/>
-                    <RecommendSTN />
-                </div>
-            )}
-                <div className="cam-button">
-                    <button className="cam" onClick={() => setActivePopup('camera')}>
-                        <img src={cam} alt="후방카메라 등록" />
-                    </button>
-                </div>
-
-            <div className="main-content">
-                <DestMap />
+        <div className="main-map-page">
+            {/* 지도 화면 */}
+            <div className="map-container">
+                <DestMap
+                    selectedDestination={selectedDestination}
+                    waypoint={waypoint}
+                    onRecommendPopup={handleRecommendPopup}
+                />
             </div>
 
-            {/* 모바일 팝업 */}
-            {isSmallScreen && activePopup === 'search' && (
-                <div className="popup mobile-popup">
-                    <div className="popup-content">
-                        <button className="close-btn" onClick={closePopup}>✖</button>
-                        <SearchDest />
-                        <RecommendSTN/>
-                    </div>
+            {/* SearchDest 팝업 */}
+            {activePopup === 'search' && (
+                <div className="search-overlay">
+                    <SearchDest
+                        onClose={() => togglePopup('search')}
+                        onDestinationSelect={setSelectedDestination}
+                        waypoint={waypoint}
+                    />
                 </div>
             )}
+
+            {/* RecommendSTN 팝업 */}
+            {isRecommendPopupOpen && (
+                <RecommendSTN
+                    onClose={() => setRecommendPopupOpen(false)}
+                    onStationSelect={handleStationSelect}
+                />
+            )}
+
+            {/* CameraRegister 팝업 */}
             {activePopup === 'camera' && (
-                <div className="popup mobile-popup">
-                    <div className="popup-content">
-                        <button className="close-btn" onClick={closePopup}>✖</button>
-
-                    </div>
-                </div>
+                <CameraRegister onClose={() => togglePopup('camera')} />
             )}
 
-
-
+            {/* 우측 하단 아이콘 */}
+            <div className="floating-icons">
+                <button
+                    className={`icon-btn ${activePopup === 'search' ? 'active' : ''}`}
+                    onClick={() => togglePopup('search')}
+                >
+                    🔍
+                </button>
+                <button
+                    className={`icon-btn ${activePopup === 'camera' ? 'active' : ''}`}
+                    onClick={() => togglePopup('camera')}
+                >
+                    📷
+                </button>
+            </div>
         </div>
     );
 };
