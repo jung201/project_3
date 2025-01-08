@@ -2,12 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
 import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
-import { getCategoryLabel, getCategoryCode, getCcLabel, getCcCode } from "../../utils/categoryUtils"; // 유틸 함수 임포트
+import {
+  getCategoryLabel,
+  getCategoryCode,
+  getCcLabel,
+  getCcCode,
+} from "../../utils/categoryUtils"; // 유틸 함수 임포트
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
-import mypageImg from "../../static/images/icons/mypage.png"; 
-import navFiller from "../../static/images/icons/board.png"; 
-import groupFilter from "../../static/images/icons/searchBTN.png"; 
+import mypageImg from "../../static/images/icons/mypage.png";
+import navFiller from "../../static/images/icons/board.png";
+import groupFilter from "../../static/images/icons/searchBTN.png";
+import ReactPaginate from "react-paginate"; // 페이지네이션 라이브러리 임포트
 
 // 상태 변수 관리
 const Board = () => {
@@ -37,6 +43,18 @@ const Board = () => {
   const [searchKeyword, setSearchKeyword] = useState(""); // 검색어 상태
   const [searchColumn, setSearchColumn] = useState("bid"); // 검색 기준
 
+  // 페이지 네이션
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
+  const itemsPerPage = 20; // 한 페이지당 아이템 수
+
+  // 현재 페이지에 표시될 데이터 계산
+  const offset = currentPage * itemsPerPage; // 페이지 시작 위치 계산
+
+  // 페이지 변경 처리 함수
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected); // 선택된 페이지로 상태 업데이트
+  };
+
   //=======================================================================
 
   // 백엔드에서 데이터 불러오기
@@ -49,39 +67,34 @@ const Board = () => {
         console.error("게시글 불러오기 실패:", error);
       }
     };
-  
+
     loadPosts(); // 데이터 불러오기 실행
   }, []); // 컴포넌트 마운트 시 1회 실행
 
   //=======================================================================
 
-  // 테이블 렌더링
+  // 테이블 렌더링 
   const renderTable = () =>
     posts
       .filter(
         (post) =>
-          selectedCategory === "전체" ||
+          selectedCategory === '전체' ||
           getCategoryLabel(post.bcategory) === selectedCategory
       )
+      .slice(offset, offset + itemsPerPage) // 페이지네이션 적용
       .map((post, index) => {
-        // 하루 이내 여부
         const isNew = (new Date() - new Date(post.bcreatedDate)) / 1000 < 86400;
-        // 조회수 50 이상 여부
         const isHot = post.bviews >= 50;
-
+  
         return (
-          <tr key={post.bid || index} onClick={() => togglePopup("view", post)}>
+          <tr key={post.bid || index} onClick={() => togglePopup('view', post)}>
             <td>{post.bid}</td>
-            <td className={`category ${post.bcategory}`}>
-              {getCategoryLabel(post.bcategory)}
-            </td>
+            <td className={`category ${post.bcategory}`}>{getCategoryLabel(post.bcategory)}</td>
             <td>{getCcLabel(post.bcc)}</td>
             <td>
               {post.btitle}
-              {isNew && <span className="new-tag">NEW</span>}{" "}
-              {/* NEW 태그 추가 */}
-              {isHot && <span className="hot-tag">HOT</span>}{" "}
-              {/* HOT 태그 추가 */}
+              {isNew && <span className="new-tag">NEW</span>}
+              {isHot && <span className="hot-tag">HOT</span>}
             </td>
             <td>
               <div className="user-profile">
@@ -90,8 +103,7 @@ const Board = () => {
               </div>
             </td>
             <td>{post.bviews}</td>
-            <td>{formatRelativeDate(post.bcreatedDate)}</td>{" "}
-            {/* 상대 시간 표시 */}
+            <td>{formatRelativeDate(post.bcreatedDate)}</td>
           </tr>
         );
       });
@@ -348,6 +360,7 @@ const Board = () => {
           <div className="user-profile">
             <img src={groupFilter} alt="프로필" className="groupFilter-img" />
           </div>
+
           {/* 검색 기준 선택 */}
           <select
             name="category"
@@ -369,6 +382,7 @@ const Board = () => {
             onChange={(e) => setSearchKeyword(e.target.value)} // 입력값 상태 저장
             onKeyPress={handleKeyPress} // 엔터키 입력 이벤트 처리
           />
+
           {/* 검색 버튼 */}
           <button type="button" onClick={handleSearch}>
             조회
@@ -428,6 +442,18 @@ const Board = () => {
         </thead>
         <tbody>{renderTable()}</tbody>
       </table>
+
+      <ReactPaginate
+        previousLabel={"이전"}
+        nextLabel={"다음"}
+        breakLabel={"..."}
+        pageCount={Math.ceil(posts.length / itemsPerPage)} // 전체 페이지 수 계산
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange} // 페이지 변경 이벤트 처리
+        containerClassName={"pagination"} // CSS 클래스 추가
+        activeClassName={"active"}
+      />
 
       {/* ================================================================== */}
 

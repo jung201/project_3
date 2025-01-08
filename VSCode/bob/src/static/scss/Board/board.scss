@@ -256,6 +256,36 @@
     /* 자유이야기 - 빨간색 */
   }
 
+  // 페이지 네이션 
+  .pagination {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 20px 0; /* 위아래 여백 추가 */
+    list-style: none;
+  }
+
+  .pagination li {
+    margin: 0 5px; /* 좌우 여백 추가 */
+    padding: 10px 20px;
+    border: 1px solid #ddd; /* 테두리 추가 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 커서 변경 */
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .pagination li.active {
+    background-color: #007bff; /* 활성 페이지 색상 */
+    color: white;
+    border: 1px solid #007bff;
+  }
+
+  .pagination li:hover {
+    background-color: #323ee7; /* 호버 효과 */
+  }
+
+
   // 등록 팝업
   .register-popup {
     position: fixed;
