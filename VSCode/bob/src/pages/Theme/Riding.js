@@ -1,16 +1,16 @@
-import React from 'react';
-// 스타일 파일 불러오기
+import React, { useRef, useEffect, useState } from 'react';
+import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 
 // 카테고리와 장소 데이터를 배열로 정의
 const categories = [
   {
-    category: '죽기 전에 가봐야 할 해안도로 라이딩 명소',
+    category: '끝없이 펼쳐진 바다와 함께하는',
     places: [
       {
         id: 1,
         title: '동해안의 숨은 비경',
-        location: '삼척 이사부길',
+        location: '강원 삼척 이사부길',
         description: '신라 장군 이사부를 따서 지은 길입니다. 이사부 장군처럼 생동감 넘치는 동해 바다를 느껴보세요.',
         image: '이사부길.PNG',
       },
@@ -79,47 +79,175 @@ const categories = [
 
 // Riding 컴포넌트 정의
 const Riding = () => {
+  // 상태 관리 (백엔드에서 가져올 데이터)
+  const [posts, setPosts] = useState([]);
+
+  // 각 카테고리 섹션을 참조하기 위한 ref 생성
+  const sectionRefs = useRef([]);
+
+  // 특정 카테고리로 스크롤하는 함수
+  const scrollToSection = (index) => {
+    const offset = -80; // 헤더 높이 또는 원하는 여유 공간 (px 단위)
+    const sectionTop = sectionRefs.current[index].offsetTop + offset;
+    window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+  };
+
+  // 백엔드에서 데이터 불러오기
+  useEffect(() => {
+    axios
+      .get('http://192.168.0.93:3006/api') // API 경로
+      .then((response) => {
+        console.log(response.data); // 데이터 출력 확인
+        setPosts(response.data); // 게시글 데이터 설정
+      })
+      .catch((error) => {
+        console.error('게시글 불러오기 에러:', error);
+      });
+  }, []);
+
   return (
     <div className="riding-container">
       {/* 페이지 메인 제목 */}
-      <h1 className="riding-title">추천 라이딩 명소</h1>
-      {/* 카테고리별 명소를 순회하며 렌더링 */}
-      {categories.map((category, index) => (
-        <div key={index} className="category-section">
-          {/* 카테고리 제목 */}
-          <h2 className="category-title">{category.category}</h2>
-          <div className="riding-grid">
-            {/* 각 장소를 순회하며 렌더링 */}
-            {category.places.map((place) => (
-              <div key={place.id} className="riding-frame">
-                <div className="riding-content">
-                  {/* 장소 이미지 */}
-                  <img
-                    src={require(`../../static/images/Riding/${place.image}`)}
-                    alt={place.title}
-                    className="riding-image"
-                  />
-                  {/* 변경된 부분: 제목과 위치를 하나의 컨테이너로 묶음 */}
-                  <div className="riding-header">
-                    <h3 className="riding-frame-title">{place.title}</h3>
-                    <p className="riding-location"># {place.location}</p>
-                  </div>
-                  {/* 설명과 버튼을 하나의 컨테이너로 묶음 */}
-                  <div className="riding-description-container">
-                    <p className="riding-description">{place.description}</p>
-                    <button
-                      className="set-destination-btn"
-                      onClick={() => alert(`${place.title}을(를) 목적지로 설정하였습니다.`)}
-                    >
-                      목적지 설정
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+      <h1 className="riding-title">테마 라이딩</h1>
+
+      {/* 사진 박스 3개 컨테이너 */}
+      <div className="photo-box-container">
+        {/* 메인 제목 */}
+        <h3 className="photo-box-heading">어디로 가볼까요?</h3>
+
+        {/* 사진 박스를 감싸는 래퍼 */}
+        <div className="photo-box-wrapper">
+          {/* 첫 번째 사진 박스 (해안 도로) */}
+          <div
+            className="photo-box"
+            onClick={() => scrollToSection(0)} // 클릭 시 해안도로 섹션으로 스크롤
+          >
+            <img
+              src={require('../../static/images/Riding/poster.png')}
+              alt="어우러짐의 미학"
+              className="photo-box-image"
+            />
+            <p className="photo-box-title">해안 도로</p>
+          </div>
+
+          {/* 두 번째 사진 박스 (가을 단풍) */}
+          <div
+            className="photo-box"
+            onClick={() => scrollToSection(1)} // 클릭 시 가을 단풍 섹션으로 스크롤
+          >
+            <img
+              src={require('../../static/images/Riding/단풍.jpg')}
+              alt="노을이 가장 아름다운"
+              className="photo-box-image"
+            />
+            <p className="photo-box-title">가을 단풍</p>
+          </div>
+
+          {/* 세 번째 사진 박스 (야경 라이딩) */}
+          <div
+            className="photo-box"
+            onClick={() => scrollToSection(2)} // 클릭 시 야경 라이딩 섹션으로 스크롤
+          >
+            <img
+              src={require('../../static/images/Riding/야간.jpg')}
+              alt="야간"
+              className="photo-box-image"
+            />
+            <p className="photo-box-title">야경 라이딩</p>
           </div>
         </div>
-      ))}
+      </div>
+
+      {/* 카테고리별 명소를 순회하며 렌더링 */}
+      {posts.length > 0
+        ? posts.map((category, index) => (
+            <div
+              key={index}
+              className="category-section"
+              ref={(el) => (sectionRefs.current[index] = el)} // 각 섹션에 ref 할당
+            >
+              {/* 카테고리 제목 */}
+              <h2 className="category-title">{category.category}</h2>
+              <div className="riding-grid">
+                {/* 각 장소를 순회하며 렌더링 */}
+                {category.places.map((place) => (
+                  <div key={place.id} className="riding-frame">
+                    <div className="riding-content">
+                      {/* 장소 이미지 */}
+                      <img
+                        src={require(`../../static/images/Riding/${place.image}`)}
+                        alt={place.title}
+                        className="riding-image"
+                      />
+                      {/* 변경된 부분: 제목과 위치를 하나의 컨테이너로 묶음 */}
+                      <div className="riding-header">
+                        <h3 className="riding-frame-title">{place.title}</h3>
+                        <p className="riding-location"># {place.location}</p>
+                      </div>
+                      {/* 설명과 버튼을 하나의 컨테이너로 묶음 */}
+                      <div className="riding-description-container">
+                        <p className="riding-description">
+                          {place.description}
+                        </p>
+                        <button
+                          className="set-destination-btn"
+                          onClick={() =>
+                            alert(`${place.location}을(를) 목적지로 설정하였습니다.`)
+                          }
+                        >
+                          목적지 설정
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        : categories.map((category, index) => (
+            <div
+              key={index}
+              className="category-section"
+              ref={(el) => (sectionRefs.current[index] = el)} // 각 섹션에 ref 할당
+            >
+              {/* 카테고리 제목 */}
+              <h2 className="category-title">{category.category}</h2>
+              <div className="riding-grid">
+                {/* 각 장소를 순회하며 렌더링 */}
+                {category.places.map((place) => (
+                  <div key={place.id} className="riding-frame">
+                    <div className="riding-content">
+                      {/* 장소 이미지 */}
+                      <img
+                        src={require(`../../static/images/Riding/${place.image}`)}
+                        alt={place.title}
+                        className="riding-image"
+                      />
+                      {/* 변경된 부분: 제목과 위치를 하나의 컨테이너로 묶음 */}
+                      <div className="riding-header">
+                        <h3 className="riding-frame-title">{place.title}</h3>
+                        <p className="riding-location"># {place.location}</p>
+                      </div>
+                      {/* 설명과 버튼을 하나의 컨테이너로 묶음 */}
+                      <div className="riding-description-container">
+                        <p className="riding-description">
+                          {place.description}
+                        </p>
+                        <button
+                          className="set-destination-btn"
+                          onClick={() =>
+                            alert(`${place.location}을(를) 목적지로 설정하였습니다.`)
+                          }
+                        >
+                          목적지 설정
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
     </div>
   );
 };
