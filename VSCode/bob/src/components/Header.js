@@ -7,6 +7,8 @@ import search from '../static/images/icons/search.png';
 import riding from '../static/images/icons/riding.png';
 import board from '../static/images/icons/board.png';
 import mypage from '../static/images/icons/mypage.png';
+import login from '../static/images/icons/login.PNG';
+import signin from '../static/images/icons/signin.PNG';
 
 function Header() {
     return (
@@ -15,9 +17,9 @@ function Header() {
                 {/* 메뉴 리스트 */}
                 <nav className="nav-menu">
                     <ul>
-                        <li><Link to="/info">주유소 정보&추천</Link></li>
-                        <li><Link to="/MainMapPage">목적지 검색</Link></li>
-                        <li><Link to="/Riding">테마 라이딩</Link></li>
+                        <li><Link to="/info">주유소정보</Link></li>
+                        <li><Link to="/MainMapPage">목적지검색</Link></li>
+                        <li><Link to="/Riding">테마라이딩</Link></li>
                         <li><Link to="/board">자유게시판</Link></li>
                     </ul>
                 </nav>
@@ -31,8 +33,8 @@ function Header() {
 
                 {/* 로그인 및 회원가입 버튼 */}
                 <div className="auth-buttons">
-                    <button className="login-button">로그인</button>
-                    <button className="signup-button">회원가입</button>
+                    <button className="login-button"><img src={login}/></button>
+                    <button className="signup-button"><img src={signin}/></button>
                 </div>
             </div>
 
