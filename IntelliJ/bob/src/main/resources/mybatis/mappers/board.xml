@@ -5,16 +5,16 @@
     <!-- 전체 게시판 조회 -->
     <select id="getAllBoard" resultType="fs.four.human.Board.vo.BoardVO">
         SELECT
-            B_ID,
-            B_CATEGORY,
-            B_CC,
-            B_TITLE,
-            B_CONTENT,
-            B_CREATED_ID,
-            B_CREATED_DATE,
-            B_UPDATED_ID,
-            B_UPDATED_DATE,
-            B_VIEWS
+            B_ID as bId,
+            B_CATEGORY as bCategory,
+            B_CC as bCc,
+            B_TITLE as bTitle,
+            B_CONTENT as bContent,
+            B_CREATED_ID as bCreatedId,
+            B_CREATED_DATE as bCreatedDate,
+            B_UPDATED_ID as bUpdatedId,
+            B_UPDATED_DATE as bUpdatedDate,
+            B_VIEWS as bViews
         FROM BOARD
         ORDER BY B_ID DESC
     </select>
@@ -22,31 +22,49 @@
     <!-- 검색 기능 -->
     <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
         SELECT
-            B_ID,
-            B_CATEGORY,
-            B_CC,
-            B_TITLE,
-            B_CONTENT,
-            B_CREATED_ID,
-            B_CREATED_DATE,
-            B_UPDATED_ID,
-            B_UPDATED_DATE,
-            B_VIEWS
+            B_ID as bId,
+            B_CATEGORY as bCategory,
+            B_CC as bCc,
+            B_TITLE as bTitle,
+            B_CONTENT as bContent,
+            B_CREATED_ID as bCreatedId,
+            B_CREATED_DATE as bCreatedDate,
+            B_UPDATED_ID as bUpdatedId,
+            B_UPDATED_DATE as bUpdatedDate,
+            B_VIEWS as bViews
         FROM BOARD
-        WHERE LOWER(${column}) LIKE LOWER('%'||#{keyword}||'%') -- 대소문자 무시 및 부분 일치 검색
+        WHERE
+        <choose>
+            <when test="column == 'bId'">
+                B_ID LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="column == 'bCategory'">
+                B_CATEGORY LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="column == 'bCc'">
+                B_CC LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="column == 'bTitle'">
+                B_TITLE LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="column == 'bCreatedId'">
+                B_CREATED_ID LIKE '%' || #{keyword} || '%'
+            </when>
+        </choose>
+
         ORDER BY B_CREATED_DATE DESC
     </select>
 
     <!-- 게시물 등록  -->
     <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
         INSERT INTO BOARD (
-            B_CATEGORY,
-            B_CC,
-            B_TITLE,
-            B_CONTENT,
-            B_CREATED_ID,
-            B_CREATED_DATE,
-            B_VIEWS
+            B_CATEGORY as bCategory,
+            B_CC as bCc,
+            B_TITLE as bTitle,
+            B_CONTENT as bContent,
+            B_CREATED_ID as bCreatedId,
+            B_CREATED_DATE as bCreatedDate,
+            B_VIEWS as bViews
             )
         VALUES (
             #{B_CATEGORY},
