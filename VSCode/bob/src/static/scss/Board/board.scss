@@ -20,26 +20,16 @@
     /* 투명도 설정 (0.0 ~ 1.0) */
   }
 
-  /* 텍스트 중앙 정렬 */
   .board-title-font {
     position: absolute;
-    /* 부모 요소 기준으로 위치 설정 */
     top: 21%;
-    /* 상단 기준 50% 이동 */
     left: 50%;
-    /* 왼쪽 기준 50% 이동 */
     transform: translate(-50%, -50%);
-    /* 자기 자신의 크기 기준으로 다시 중앙 정렬 */
     text-align: center;
-    /* 텍스트 중앙 정렬 */
     line-height: 300px;
-    /* 높이에 맞춰 수직 정렬 */
     color: white;
-    /* 텍스트 색상 */
     font-size: 50px;
-    /* 글자 크기 */
     font-weight: bold;
-    /* 글자 두껍게 */
   }
 
   .search-register {
@@ -64,7 +54,7 @@
 
       li a {
         padding: 15px;
-        font-size: 18px;
+        font-size: 15px;
         font-weight: bold;
         text-decoration: none;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -117,7 +107,7 @@
     font-weight: bold;
     border-radius: 12px;
     display: inline-block;
-    animation: smooth-blink 1s infinite; 
+    animation: smooth-blink 1s infinite;
   }
 
   /* HOT 태그 스타일 */
@@ -132,16 +122,19 @@
     font-weight: bold;
     border-radius: 12px;
     display: inline-block;
-    animation: smooth-blink 1s infinite; 
+    animation: smooth-blink 1s infinite;
   }
 
   /* 깜빡거리는 애니메이션 효과 */
   @keyframes smooth-blink {
-    0%, 100% {
+
+    0%,
+    100% {
       opacity: 1;
     }
+
     50% {
-      opacity: 0.5; 
+      opacity: 0.5;
     }
   }
 
@@ -156,7 +149,7 @@
   // 카테고리 이미지
   .profile-img {
     width: 25px;
-    height: 25px; 
+    height: 25px;
   }
 
   // 검색 이미지
@@ -483,13 +476,15 @@
     height: 100%;
     padding: 20px;
 
-    .board-title {
-      width: 400px;
+    .board-title-font {
+      top: 30%;
+      left: 50%;
       font-size: 30px;
-      font-weight: bold;
-      border-bottom: 1px solid black;
+    }
+
+    .board-title {
+      width: 100%;
       margin-bottom: 50px;
-      line-height: 60px;
     }
 
     .search-register {
@@ -497,6 +492,12 @@
 
       .navbar ul {
         gap: 30px;
+
+        li a {
+          padding: 0px;
+          font-size: 15px;
+          font-weight: bold;
+        }
       }
 
       .filter-group {
@@ -577,6 +578,23 @@
           height: 250px;
         }
       }
+    }
+
+    .board .search-register form {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .board table th,
+    .board table td {
+      font-size: 12px;
+      padding: 5px;
+    }
+
+    .board .search-register input,
+    .board .search-register select,
+    .board .search-register button {
+      width: 100%;
     }
   }
 }

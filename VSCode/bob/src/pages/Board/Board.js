@@ -79,9 +79,9 @@ const Board = () => {
       )
       .map((post, index) => {
         // 하루 이내 여부
-        const isNew = (new Date() - new Date(post.b_CREATED_DATE)) / 1000 < 86400; 
+        const isNew = (new Date() - new Date(post.b_CREATED_DATE)) / 1000 < 86400;
         // 조회수 50 이상 여부
-        const isHot = post.b_VIEWS >= 50; 
+        const isHot = post.b_VIEWS >= 50;
 
         return (
           <tr
@@ -102,11 +102,11 @@ const Board = () => {
             </td>
             <td>
               <div className="user-profile">
-                <img src={mypageImg} alt="프로필" className="profile-img"/>
+                <img src={mypageImg} alt="프로필" className="profile-img" />
                 {post.b_CREATED_ID}
               </div>
             </td>
-              
+
             <td>{post.b_VIEWS}</td>
             <td>{formatRelativeDate(post.b_CREATED_DATE)}</td>{" "}
             {/* 상대 시간 표시 */}
@@ -346,7 +346,7 @@ const Board = () => {
         <div className="navbar">
           <ul>
             <div className="user-profile">
-                <img src={navFiller} alt="프로필" className="profile-img"/>
+              <img src={navFiller} alt="프로필" className="profile-img" />
             </div>
             <li>
               <a href="#!" onClick={() => filterPosts("전체")}>
@@ -379,7 +379,7 @@ const Board = () => {
 
         <form className="filter-group" onSubmit={(e) => e.preventDefault()}>
           <div className="user-profile">
-            <img src={groupFilter} alt="프로필" className="groupFilter-img"/>
+            <img src={groupFilter} alt="프로필" className="groupFilter-img" />
           </div>
           {/* 검색 기준 선택 */}
           <select
