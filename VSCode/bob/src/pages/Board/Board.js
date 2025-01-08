@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
+import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
+import { getCategoryLabel, getCcLabel } from "../../utils/categoryUtils";
+
 import axios from "axios";
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
-import mypageImg from "../../static/images/icons/mypage.png"; // 이미지 불러오기
-import navFiller from "../../static/images/icons/board.png"; // 이미지 불러오기
-import groupFilter from "../../static/images/icons/searchBTN.png"; // 이미지 불러오기
+import mypageImg from "../../static/images/icons/mypage.png"; 
+import navFiller from "../../static/images/icons/board.png"; 
+import groupFilter from "../../static/images/icons/searchBTN.png"; 
 
 // 상태 변수 관리
 const Board = () => {
@@ -50,20 +53,6 @@ const Board = () => {
   
     loadPosts(); // 데이터 불러오기 실행
   }, []); // 컴포넌트 마운트 시 1회 실행
-
-  //=======================================================================
-
-  // 상대적인 시간 표시 함수
-  const formatRelativeDate = (dateString) => {
-    const now = new Date();
-    const postDate = new Date(dateString);
-    const diff = Math.floor((now - postDate) / 1000); // 초 단위 차이
-
-    if (diff < 60) return `${diff}초 전`; // 1분 미만
-    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`; // 1시간 미만
-    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`; // 하루 미만
-    return `${Math.floor(diff / 86400)}일 전`; // 하루 이상
-  };
 
   //=======================================================================
 
