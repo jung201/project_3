@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
-import mypageImg from '../../static/images/icons/mypage.png'; // 이미지 불러오기
-import navFiller from '../../static/images/icons/board.png'; // 이미지 불러오기
-import groupFilter from '../../static/images/icons/searchBTN.png'; // 이미지 불러오기
+import mypageImg from "../../static/images/icons/mypage.png"; // 이미지 불러오기
+import navFiller from "../../static/images/icons/board.png"; // 이미지 불러오기
+import groupFilter from "../../static/images/icons/searchBTN.png"; // 이미지 불러오기
 
 // import tinymce from "tinymce/tinymce";
 // import "tinymce/themes/silver";
@@ -43,13 +43,26 @@ const Board = () => {
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
     axios
-      .get("http://192.168.0.93:3006/api") // API 경로
+      .get("http://192.168.0.93:3006/api") // API 호출
       .then((response) => {
-        console.log(response.data); // 데이터 출력 확인
-        setPosts(response.data); // 게시글 데이터 설정
+        if (response.data && response.data.length > 0) {
+          // 날짜 형식 변환만 적용 (기본값 제거)
+          const processedData = response.data.map((post) => ({
+            ...post,
+            b_CREATED_DATE: post.b_CREATED_DATE
+              ? `20${post.b_CREATED_DATE.replace(/\//g, "-")}` // YY/MM/DD → YYYY-MM-DD 변환
+              : null, // 날짜 누락 불가, 여기서는 변환만 수행
+          }));
+
+          setPosts(processedData); // 처리된 데이터 저장
+        } else {
+          console.warn("서버에서 빈 데이터가 반환되었습니다.");
+          setPosts([]); // 빈 배열 처리
+        }
       })
       .catch((error) => {
-        console.error("게시글 불러오기 에러:", error);
+        console.error("API 호출 에러:", error);
+        alert("서버와의 통신에 문제가 발생했습니다.");
       });
   }, []);
 
@@ -57,14 +70,19 @@ const Board = () => {
 
   // 상대적인 시간 표시 함수
   const formatRelativeDate = (dateString) => {
-    const now = new Date();
+    // 날짜 유효성 검증
     const postDate = new Date(dateString);
-    const diff = Math.floor((now - postDate) / 1000); // 초 단위 차이
+    if (isNaN(postDate.getTime())) {
+      return "날짜 없음"; // 변환 실패 시 기본값 처리
+    }
 
-    if (diff < 60) return `${diff}초 전`; // 1분 미만
-    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`; // 1시간 미만
-    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`; // 하루 미만
-    return `${Math.floor(diff / 86400)}일 전`; // 하루 이상
+    const now = new Date();
+    const diff = Math.floor((now - postDate) / 1000); // 초 단위 차이 계산
+
+    if (diff < 60) return `${diff}초 전`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}분 전`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}시간 전`;
+    return `${Math.floor(diff / 86400)}일 전`;
   };
 
   //=======================================================================
@@ -79,7 +97,15 @@ const Board = () => {
       )
       .map((post, index) => {
         // 하루 이내 여부
-        const isNew = (new Date() - new Date(post.b_CREATED_DATE)) / 1000 < 86400;
+        const isNew =
+          post.b_CREATED_DATE &&
+          post.b_CREATED_DATE !==
+            "날짜 없음"(
+              // null 체크 추가
+              new Date() - new Date(post.b_CREATED_DATE)
+            ) /
+              1000 <
+              86400;
         // 조회수 50 이상 여부
         const isHot = post.b_VIEWS >= 50;
 
@@ -108,8 +134,9 @@ const Board = () => {
             </td>
 
             <td>{post.b_VIEWS}</td>
-            <td>{formatRelativeDate(post.b_CREATED_DATE)}</td>{" "}
-            {/* 상대 시간 표시 */}
+            <td>
+              {formatRelativeDate(post.b_CREATED_DATE)} {/* 날짜 오류 방지 */}
+            </td>
           </tr>
         );
       });
@@ -197,7 +224,7 @@ const Board = () => {
 
     // 1. 구분(B_CATEGORY) 변환
     if (column === "B_CATEGORY") {
-      const categories = { "정비": "R", "꿀팁": "T", "코스": "C", "자유이야기": "F" };
+      const categories = { 정비: "R", 꿀팁: "T", 코스: "C", 자유이야기: "F" };
       keyword = categories[keyword]; // 한글을 코드로 변환
       if (!keyword) {
         alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
@@ -207,7 +234,7 @@ const Board = () => {
 
     // 2. CC(B_CC) 변환
     if (column === "B_CC") {
-      const ccMap = { "스쿠터": "S", "소형": "SM", "중형": "M", "리터": "L" };
+      const ccMap = { 스쿠터: "S", 소형: "SM", 중형: "M", 리터: "L" };
       keyword = ccMap[keyword]; // 한글을 코드로 변환
       if (!keyword) {
         alert("유효한 배기량을 입력해주세요! (스쿠터, 소형, 중형, 리터)");
@@ -375,7 +402,6 @@ const Board = () => {
             </li>
           </ul>
         </div>
-
 
         <form className="filter-group" onSubmit={(e) => e.preventDefault()}>
           <div className="user-profile">
