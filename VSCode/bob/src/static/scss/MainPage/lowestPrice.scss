@@ -59,17 +59,23 @@
 @media screen and (max-width: 450px) {
     .lowest-price-container {
         .container {
+            padding: 20px;
+    
             .title {
-                font-size: 25px;
             }
-
-            // 테이블 정렬 컨테이너
+    
             .oil-station-table {
+                height: 500px;
+                display: flex;
+                justify-content: center;
+                gap: 50px;
+                padding: 10px;
+                margin-bottom: 100px;
+    
                 // 테이블 스타일
                 table {
                     border-collapse: collapse;
-                    max-width: 300px;
-                    font-size: 12px;
+                    font-size: 35px;
                 }
             }
         }

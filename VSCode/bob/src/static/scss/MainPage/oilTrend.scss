@@ -34,15 +34,22 @@
 
 @media screen and (max-width: 450px) {
     .oil-trend {
+        padding: 20px;
+        height: 350px;
+        background-color: #fcf8e6;
+        
     
         h2 {
-            width: 400px;
+            width: 350px;
             display: inline-block;
             border-bottom: 2px solid $primary-color;
             padding: 10px;
-            padding-bottom: 5px;
-            font-size: 25px;
+            font-size: 35px;
             color: #333333;
+        }
+    
+        .oil-img {
+            display: none;
         }
     }
 }

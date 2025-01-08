@@ -70,5 +70,64 @@
 }
 
 @media screen and (max-width: 450px) {
+    .price-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 300px;
+        padding: 90px 0px;
+
+        .left {
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 {
+            width: 350px;
+            display: inline-block;
+            border-bottom: 2px solid $primary-color;
+            padding: 10px;
+            margin-right: 30px;
+            font-size: 35px;
+            color: #333333;
+        }
+
+        .price-box {
+            @include flex-center;
+            // width: 550px;
+            height: 120px;
+
+            h3 {
+                font-size: 25px;
+                display: inline-block;
+                padding-right: 30px;
+                color: #333333;
+            }
+
+            .price {
+                color: #FF5733;
+
+                .value {
+                    font-size: 35px;
+                }
+
+                .change {
+                    font-size: 20px;
+                    color: #007bff;
+                }
+
+                .details {
+                    font-size: 20px;
+                    color: #555555;
+                }
+
+
+            }
+        }
+    }
+
+    .price-img {
+        display: none;
+    }
 
 }
