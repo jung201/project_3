@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
 import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
-import { getCategoryLabel, getCcLabel } from "../../utils/categoryUtils";
-
-import axios from "axios";
+import { getCategoryLabel, getCategoryCode, getCcLabel, getCcCode } from "../../utils/categoryUtils"; // 유틸 함수 임포트
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
 import mypageImg from "../../static/images/icons/mypage.png"; 
@@ -62,7 +61,7 @@ const Board = () => {
       .filter(
         (post) =>
           selectedCategory === "전체" ||
-          renderCategory(post.bcategory) === selectedCategory
+          getCategoryLabel(post.bcategory) === selectedCategory
       )
       .map((post, index) => {
         // 하루 이내 여부
@@ -74,9 +73,9 @@ const Board = () => {
           <tr key={post.bid || index} onClick={() => togglePopup("view", post)}>
             <td>{post.bid}</td>
             <td className={`category ${post.bcategory}`}>
-              {renderCategory(post.bcategory)}
+              {getCategoryLabel(post.bcategory)}
             </td>
-            <td>{renderCc(post.bcc)}</td>
+            <td>{getCcLabel(post.bcc)}</td>
             <td>
               {post.btitle}
               {isNew && <span className="new-tag">NEW</span>}{" "}
@@ -97,28 +96,6 @@ const Board = () => {
         );
       });
 
-  // 테이블 렌더링 - 구분
-  const renderCategory = (code) => {
-    const categories = {
-      R: "정비",
-      T: "꿀팁",
-      C: "코스",
-      F: "자유이야기",
-    };
-    return categories[code];
-  };
-
-  // 테이블 렌더링 - 구분
-  const renderCc = (code) => {
-    const categories = {
-      S: "스쿠터",
-      SM: "소형",
-      M: "중형",
-      L: "리터",
-    };
-    return categories[code];
-  };
-
   //=======================================================================
 
   // 카테고리별 필터링 함수
@@ -128,8 +105,8 @@ const Board = () => {
     // API 요청 보내기
     axios
       .get(
-        `http://192.168.0.93:3006/api?category=${category === "전체" ? "" : category}`
-      ) // 전체일 경우 빈 문자열 처리
+        `http://192.168.0.93:3006/api?category=${category === "전체" ? "" : getCategoryCode}`
+      )
       .then((response) => {
         setPosts(response.data); // 필터링된 데이터 적용
       })
@@ -170,6 +147,7 @@ const Board = () => {
       return;
     }
 
+    // 컬럼 이름 매핑
     const columnMap = {
       bid: "bId",
       bcategory: "bCategory",
@@ -178,14 +156,14 @@ const Board = () => {
       bcreatedid: "bCreatedId",
     };
 
-    const column = columnMap[searchColumn] || searchColumn;
+    const column = columnMap[searchColumn.toLowerCase()] || searchColumn; // 대소문자 변환
     let keyword = searchKeyword.trim();
 
     // 1. 구분(bcategory) 변환
     if (column === "bcategory") {
-      const categories = { 정비: "R", 꿀팁: "T", 코스: "C", 자유이야기: "F" };
-      keyword = categories[keyword]; // 한글을 코드로 변환
+      keyword = getCategoryCode(keyword.trim()); // 한글을 코드로 변환
       if (!keyword) {
+        console.log("검색어:", keyword); // 값 확인
         alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
         return;
       }
@@ -193,8 +171,7 @@ const Board = () => {
 
     // 2. CC(bcc) 변환
     if (column === "bcc") {
-      const ccMap = { 스쿠터: "S", 소형: "SM", 중형: "M", 리터: "L" };
-      keyword = ccMap[keyword]; // 한글을 코드로 변환
+      keyword = getCcCode(keyword.trim()); // 한글을 코드로 변환
       if (!keyword) {
         alert("유효한 배기량을 입력해주세요! (스쿠터, 소형, 중형, 리터)");
         return;
@@ -512,10 +489,10 @@ const Board = () => {
               <div className="left">
                 <p>
                   <strong>카테고리 : </strong>{" "}
-                  {renderCategory(currentPost.bcategory)}
+                  {getCategoryLabel(currentPost.bcategory)}
                 </p>
                 <p>
-                  <strong>배기량 : </strong> {renderCc(currentPost.bcc)}
+                  <strong>배기량 : </strong> {getCcLabel(currentPost.bcc)}
                 </p>
               </div>
               <div className="right">

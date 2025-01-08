@@ -36,13 +36,13 @@
         WHERE
         <choose>
             <when test="column == 'bId'">
-                B_ID LIKE '%' || #{keyword} || '%'
+                B_ID = #{keyword}
             </when>
             <when test="column == 'bCategory'">
                 B_CATEGORY LIKE '%' || #{keyword} || '%'
             </when>
             <when test="column == 'bCc'">
-                B_CC LIKE '%' || #{keyword} || '%'
+                B_CATEGORY LIKE '%' || #{keyword} || '%'
             </when>
             <when test="column == 'bTitle'">
                 B_TITLE LIKE '%' || #{keyword} || '%'
