@@ -82,3 +82,44 @@ body {
     }
 
 }
+
+@media screen and (max-width: 451px) {
+    .main-container {
+        width: 100%;
+        margin: 0 auto;
+        // font-family: Arial, sans-serif;
+    }
+    
+    .main-pic {
+        height: 200px; // 컨테이너 높이
+
+    }
+    
+    .region-top-section {
+        height: 650px;
+        display: flex;
+        justify-content: space-evenly;
+        .region-top {
+            padding: 80px 0px;
+            
+        }
+    }
+    
+    @media screen and (max-width: 450px) {
+        .today-price-section {
+            height: 0px; // 컨테이너 높이
+        }
+    
+        .region-top-section {
+            .region-top {
+                display: flex;
+                flex-direction: column;
+                padding:0px;
+                background-color: #f6f3f3;
+                position: relative;
+                top: 350px;
+            }
+        }
+    
+    }
+}
