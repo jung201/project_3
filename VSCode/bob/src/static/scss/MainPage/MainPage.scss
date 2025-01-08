@@ -79,22 +79,20 @@ body {
     }
 
     .main-pic {
-        height: 200px; // 컨테이너 높이
+        height: 150px; // 컨테이너 높이
 
     }
 
     .region-top-section {
-        height: 650px;
         display: flex;
         flex-direction: column;
 
         .lowest-price {
             height: 650px;
         }
-            .region-top {
-                padding: 0px;
-            }
+
+        .region-top {
+            padding: 0px;
         }
-
-
     }
+}

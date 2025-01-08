@@ -58,7 +58,7 @@
 
 @media screen and (max-width: 450px) {
     .lowest-price-container {
-        height: 500px;
+
         .container {
             padding: 20px;
     
@@ -71,9 +71,7 @@
                 justify-content: center;
                 gap: 50px;
                 padding: 10px;
-                margin-bottom: 100px;
-    
-                // 테이블 스타일
+
                 table {
                     border-collapse: collapse;
                     font-size: 35px;
