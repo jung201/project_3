@@ -75,8 +75,7 @@ const Board = () => {
 
   // 테이블 렌더링 
   const renderTable = () =>
-    posts
-      .filter(
+    posts.filter(
         (post) =>
           selectedCategory === '전체' ||
           getCategoryLabel(post.bcategory) === selectedCategory
