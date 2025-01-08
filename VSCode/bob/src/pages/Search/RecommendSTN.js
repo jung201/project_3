@@ -1,49 +1,37 @@
 import React from 'react';
-import '../../static/scss/Info/Sidebar.scss';
+import '../../static/scss/Search/RecommendSTN.scss';
 import soil from '../../static/images/stationLogo/soil.PNG';
-import gs from '../../static/images/stationLogo/gs.PNG';
 
-const RecommendSTN = () => {
+const RecommendSTN = ({ onClose, onStationSelect }) => {
+    const stations = [
+        { type: '가격순', name: '만수르 주유소', lat: 37.498175, lng: 127.027926, price: 1500, distance: 5.7, address:'서울시 강남구 역삼동 132'},
+        { type: '거리순', name: '빈살만 주유소', lat: 37.497575, lng: 127.026926, price: 1750, distance: 0.5, address:'서울시 강남구 삼성동 122'},
+    ];
+
     return (
-        <div className="recommendation">
-            <h3>주변 주유소 추천</h3>
-            <div className="station">
-                <div className="station-container">
-                    <div className="station-header">
-                        <div className="sort-indicator price">가격순</div>
-                        <img src={soil} alt="로고" className="station-logo" />
-                        <span className="station-name">쌍용주유소</span>
-                    </div>
-                    <br />
-                    <div className="station-body-container">
-                        <div className="station-body" style={{margin:"0px 0px 0px 20px"}}>
-                            <span className="station-price">- 가격: 1550원</span><br />
-                            <span className="station-distance">- 거리: 0.7km</span>
-                        </div>
-                        <div className="station-buttons" style={{margin:"0px 0px 0px 30px"}}>
-                            <button className="station-btn" style={{width:"120px", height:"40px"}}>경유지 설정</button>
-                        </div>
-                    </div>
-                </div>
+        <div className="recommend-popup">
+            <div className="recommend-header">
+                <h3>잠깐만요! <br></br>아래 주유소에 들르면 어떨까요?</h3>
+                <button className="close-btn" onClick={onClose}>
+                    ✖
+                </button>
             </div>
-            <div className="station">
-                <div className="station-container">
-                    <div className="station-header">
-                        <div className="sort-indicator distance">거리순</div>
-                        <img src={gs} alt="로고" className="station-logo" />
-                        <span className="station-name">천안주유소</span>
-                    </div>
-                    <br />
-                    <div className="station-body-container">
-                        <div className="station-body" style={{margin:"0px 0px 0px 20px"}}>
-                            <span className="station-price">- 가격: 1510원</span><br />
-                            <span className="station-distance">- 거리: 2.5km</span>
-                        </div>
-                        <div className="station-buttons" style={{margin:"0px 0px 0px 30px"}}>
-                            <button className="station-btn" style={{width:"120px", height:"40px"}}>경유지 설정</button>
+            <div className="recommend-content">
+                {stations.map((station, index) => (
+                    <div
+                        key={index}
+                        className="station-item"
+                        onClick={() => onStationSelect(station)}
+                    >
+                        <div className="station-type">{station.type}</div>
+                        <div className="station-info">                        
+                            <p><img src={soil}/>　<strong>{station.name}</strong></p>
+                            <span>- 가격: {station.price}원</span>
+                            <span>　　- 거리: {station.distance}km</span><br/>
+                            <span>- 주소: {station.address}</span>
                         </div>
                     </div>
-                </div>
+                ))}
             </div>
         </div>
     );

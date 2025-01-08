@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchDest from './SearchDest';
 import RecommendSTN from './RecommendSTN';
-import '../../static/scss/Info/Sidebar.scss';
+import '../../static/scss/Search/Sidebar.scss';
 
 const Sidebar = () => {
     return (

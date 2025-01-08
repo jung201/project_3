@@ -6,7 +6,7 @@ export const getCategoryLabel = (code) => {
     C: "코스",
     F: "자유이야기",
   };
-  return categories[code];
+  return categories[code] || null; // 유효하지 않은 값 처리
 };
 
 export const getCategoryCode = (label) => {
@@ -16,7 +16,9 @@ export const getCategoryCode = (label) => {
     코스: "C",
     자유이야기: "F",
   };
-  return categories[label];
+  // 대소문자 및 공백 제거 처리
+  const trimmedLabel = label.trim(); // 공백 제거
+  return categories[trimmedLabel] || null; // 유효하지 않은 값 처리
 };
 
 // 배기량 코드 변환 (CC)
