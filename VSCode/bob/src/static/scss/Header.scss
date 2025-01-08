@@ -70,8 +70,6 @@
         }
     }
 
-
-
     // 하단 아이콘 메뉴 (기본 숨김)
     .mobile-menu {
         display: none; // 기본 상태에서 숨김
@@ -79,9 +77,6 @@
 
     // 미디어쿼리 - 450px 이하
     @media (max-width: 450px) {
-        // .header-container {
-        //     background-color: rgb(7,34,52);
-        // }
         .header-size {
             display: flex;
             flex-direction: column;
@@ -89,7 +84,6 @@
 
             .logo {
                 margin-bottom: 10px;
-
                 a {
                     display: flex;
                     justify-content: center;
@@ -111,6 +105,7 @@
 
         // 하단 아이콘 메뉴 활성화
         .mobile-menu {
+            background-color: rgb(7,34,52) !important;
             flex-direction: column;
             display: flex ; // 모바일 화면에서 보이게 설정
             position:fixed; // 스크롤해도 항상 하단에 고정
