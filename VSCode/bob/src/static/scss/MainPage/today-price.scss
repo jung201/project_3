@@ -71,42 +71,60 @@
 
 @media screen and (max-width: 450px) {
     .price-container {
-        border: none;
-        background: transparent;
-        box-shadow: none;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 300px;
+        padding-bottom: 90px;
 
-        .h2 {
-            width: 400px;
-            position: relative;
-            left: 25px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            border-bottom: 2px solid $primary-color;
-            font-size: 25px;
-            padding: 10px;
-            padding-bottom: 5px;
+        .left {
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 {
+            width: 350px;
+            margin: 0px;
+            font-size: 35px;
             color: #333333;
         }
 
         .price-box {
-            @include box-style;
-            width: 100%;
-            margin-left: 0;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
+            @include flex-center;
+            // width: 550px;
+            height: 120px;
+
+            h3 {
+                font-size: 25px;
+                display: inline-block;
+                padding-right: 30px;
+                color: #333333;
+            }
+
+            .price {
+                color: #FF5733;
+
+                .value {
+                    font-size: 35px;
+                }
+
+                .change {
+                    font-size: 20px;
+                    color: #007bff;
+                }
+
+                .details {
+                    font-size: 20px;
+                    color: #555555;
+                }
 
 
-        h3 {
-            font-size: 20px; // 제목 크기 축소
-        }
-
-        .details {
-            font-size: 14px; // 텍스트 크기 축소
-        }
-
-        .price-box .price {
-            font-size: 20px; // 가격 텍스트 크기 조정
+            }
         }
     }
+
+    .price-img {
+        display: none;
+    }
+
 }

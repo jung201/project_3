@@ -12,7 +12,7 @@
         padding: 30px;
 
         .title {
-            width: 500px;
+            width: 380px;
             padding: 10px;
             font-size: 35px;
             font-weight: bold;
@@ -22,7 +22,7 @@
         // 테이블 정렬 컨테이너
         .oil-station-table {
             display: flex;
-            gap: 20px;
+            gap: 100px;
             padding: 10px;
 
             // 테이블 스타일
@@ -58,18 +58,23 @@
 
 @media screen and (max-width: 450px) {
     .lowest-price-container {
-        .container {
-            .title {
-                font-size: 25px;
-            }
 
-            // 테이블 정렬 컨테이너
+        .container {
+            padding: 20px;
+    
+            .title {
+            }
+    
             .oil-station-table {
-                // 테이블 스타일
+                height: 500px;
+                display: flex;
+                justify-content: center;
+                gap: 50px;
+                padding: 10px;
+
                 table {
                     border-collapse: collapse;
-                    max-width: 300px;
-                    font-size: 12px;
+                    font-size: 35px;
                 }
             }
         }
