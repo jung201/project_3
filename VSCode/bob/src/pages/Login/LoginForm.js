@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import "./LoginForm.css";
+import "../../static/scss/Login/LoginForm.scss";
+import { Link } from 'react-router-dom';
 
 function LoginForm() {
   const [userId, setUserId] = useState('');
@@ -30,34 +31,34 @@ function LoginForm() {
   };
 
   return (
-    <div>
+    <div className='login-container'>
       <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="userId">아이디:</label>
           <input
             type="text"
             id="userId"
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
+            placeholder='아이디를 입력하세요'
             required
           />
         </div>
         <div>
-          <label htmlFor="password">비밀번호:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder='비밀번호를 입력하세요'
             required
           />
         </div>
         <button type="submit">로그인</button>
         {error && <div className="error">{error}</div>}
       </form>
-      <div>
-        <a href="/Register">회원가입</a> |<a href="/findId">아이디 찾기</a> |<a href="/findPassword">비밀번호 찾기</a>
+      <div className='links'>
+        <Link to="/Signup">회원가입</Link><Link to="/FindId">아이디 찾기</Link><Link to="/FindPw">비밀번호 찾기</Link>
       </div>
     </div>
   );

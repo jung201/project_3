@@ -14,7 +14,7 @@ public class BoardRestController {
     @Autowired
     private BoardService boardService;
 
-    // 전체 데이터 반환 ( JSON )
+    // 1. 전체 데이터 반환 ( JSON )
     @GetMapping
     public List<BoardVO> getAllBoard() {
 
@@ -26,15 +26,15 @@ public class BoardRestController {
         }
     }
 
-    // 게시글 검색
+    // 2. 게시글 검색
     @GetMapping("/search")
     public List<BoardVO> searchBoard(
             @RequestParam("column") String column, // 검색 기준
             @RequestParam("keyword") String keyword // 검색어
     ) {
         // 컬럼명을 안전하게 검증
-        if (!List.of("B_ID","B_CC","B_CATEGORY", "B_TITLE", "B_CREATED_ID").contains(column)) {
-            throw new IllegalArgumentException("잘못된 검색 기준입니다.");
+        if(!List.of("bId", "bCategory", "bCc", "bTitle", "bCreatedId").contains(column)) {
+            throw new IllegalArgumentException("잘못된 검색 기준입니다. 입력값: " + column);
         }
         // 검색어 검증
         if (keyword == null || keyword.trim().isEmpty()) {
@@ -44,7 +44,7 @@ public class BoardRestController {
         return boardService.searchPosts(column, keyword);
     }
 
-    // 게시글 등록
+    // 3. 게시글 등록
     @PostMapping
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
         try {
