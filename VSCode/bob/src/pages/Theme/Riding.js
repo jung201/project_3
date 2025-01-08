@@ -97,7 +97,6 @@ useEffect(() => {
   return (
     <div className="riding-container">
       {/* 페이지 메인 제목 */}
-      <h1 className="riding-title"></h1>
 
       {/* 사진 박스 3개 컨테이너 */}
       <div className='riding-title'></div>
