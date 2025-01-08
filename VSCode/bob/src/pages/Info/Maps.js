@@ -148,7 +148,8 @@ const Maps = () => {
 
 
     const handleFavoriteClick = () => {
-        setIsFavorite(!isFavorite);
+        alert("로그인이 필요한 기능입니다. 로그인 페이지로 이동합니다.");
+        // navigate("/Login"); // 로그인 페이지로 이동
     };
 
     const handleStarClick = (category, value) => {
@@ -209,8 +210,9 @@ const renderStars = (rating) => {
                     <h3>
                         <img src={soil} alt="logo" /> {selectedStation.name}
                         <span
+                            style={{cursor:'pointer'}}
                             className={`favorite-icon ${isFavorite ? 'active' : ''}`}
-                            onClick={handleFavoriteClick}
+                            onClick={handleFavoriteClick} // 로그인 체크 로직
                         >
                             　☆
                         </span>
@@ -239,17 +241,17 @@ const renderStars = (rating) => {
                     </p>
                     <table className="rating-section">
                         <tr>
-                            <td>* 화장실 청결도</td>
+                            <td>- 화장실 청결도</td>
                             <td>{renderStars(selectedStation.restroomRating)}</td>
                             <td>{selectedStation.restroomRating.toFixed(2)}점</td>
                         </tr>
                         <tr>
-                            <td>* 접근성</td>
+                            <td>- 접근성</td>
                             <td>{renderStars(selectedStation.accessRating)}</td>
                             <td>{selectedStation.accessRating.toFixed(2)}점</td>
                         </tr>
                         <tr>
-                            <td>* 가격</td>
+                            <td>- 가격</td>
                             <td>{renderStars(selectedStation.priceRating)}</td>
                             <td>{selectedStation.priceRating.toFixed(2)}점</td>
                         </tr>
@@ -279,10 +281,10 @@ const renderStars = (rating) => {
                             alt="평점 등록"
                         />평점 등록
                    </h3>
-                    <p style={{textAlign:'center',fontSize:'10pt'}}>{selectedStation.name} 어떠셨나요? </p>
+                    <p style={{textAlign:'center',fontSize:'10pt'}}>{selectedStation.name}어떠셨나요? </p>
                     <table>
                         <tr>
-                            <td>화장실 청결도</td>
+                            <td> - 화장실 청결도</td>
                             <td>
                                 {[1, 2, 3, 4, 5].map((value) => (
                                     <FaStar
@@ -295,7 +297,7 @@ const renderStars = (rating) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>접근성</td>
+                            <td> - 접근성</td>
                             <td>
                                 {[1, 2, 3, 4, 5].map((value) => (
                                     <FaStar
@@ -308,7 +310,7 @@ const renderStars = (rating) => {
                             </td>
                         </tr>
                         <tr>
-                            <td>가격</td>
+                            <td> - 가격</td>
                             <td>
                                 {[1, 2, 3, 4, 5].map((value) => (
                                     <FaStar

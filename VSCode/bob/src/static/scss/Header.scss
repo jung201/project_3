@@ -1,63 +1,76 @@
 @import 'global.scss';
 @import 'variables';
 @import 'mixins';
-
 .header-container {
-    padding: 20px 0px;
-    width:100%;    
-    z-index: 9999; 
-    position:sticky;
-    top:0;    
-    background-color: #f6f3f3;
-    height: 42px; // 헤더 높이
+    padding: 20px 0;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: white;
     border: 1px solid #ddd;
+    z-index: 9999;
 
     .header-size {
-        @include flex-center(space-around, center);
+        display: flex;
+        justify-content: space-between; // 양 끝 정렬
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    // 로고 스타일
-    .logo {
-        a {
-            text-decoration: none;
-            color: $secondary-color;
-            font-size: 30px;
-            font-weight: bold;
-        }
-    }
-
-    // 네비게이션 메뉴
     .nav-menu {
+        flex: 1; // 33% 크기
         ul {
-            @include flex-center;
+            display: flex;
+            justify-content: flex-start; // 왼쪽 정렬
+            gap: 12px;
             list-style: none;
-            margin: 0px;
+            margin: 0;
             padding: 0;
 
-            li {
-                margin: 0 15px;
+            li a {
+                text-decoration: none;
+                color: rgb(7,34,52);
+                font-size: 14px;
 
-                a {
-                    text-decoration: none;
-                    color: #333;
-                    font-size: 18px;
-                    font-weight: bold;
-
-                    &:hover {
-                        color: $primary-color;
-                    }
+                &:hover {
+                    color: #007BFF;
                 }
             }
         }
     }
 
-    // 로그인 및 회원가입 버튼
-    .auth-buttons {
-        button {
-            @include mainButton-style;
-            margin-left: 10px;
+    .logo {
+        flex: 1; // 33% 크기
+        display: flex;
+        justify-content: center; // 중앙 정렬
+        font-size: 24px;
+        font-weight: bold;
+        color: rgb(7,34,52);
+        text-transform: uppercase;
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
     }
+
+    .auth-buttons {
+        flex: 1; // 33% 크기
+        display: flex;
+        justify-content: flex-end; // 오른쪽 정렬
+        gap: 10px;
+
+        .login-button,
+        .signup-button {
+            background-color: white;
+            width: 50px;
+            height: 40px;
+            cursor: pointer;
+        }
+    }
+
+
 
     // 하단 아이콘 메뉴 (기본 숨김)
     .mobile-menu {
@@ -66,7 +79,9 @@
 
     // 미디어쿼리 - 450px 이하
     @media (max-width: 450px) {
-
+        // .header-container {
+        //     background-color: rgb(7,34,52);
+        // }
         .header-size {
             display: flex;
             flex-direction: column;
