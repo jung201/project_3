@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './FindPw.css';
+import '../../static/scss/Login/FindPw.scss';
+import { Link } from 'react-router-dom';
 
 function FindPassword() {
   // 사용자 입력값 저장 로직
@@ -11,7 +12,6 @@ function FindPassword() {
   // 상태 관리
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
 
   // 개별 필드 유효성 검사
   const validateField = (name, value) => {
@@ -72,7 +72,8 @@ function FindPassword() {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // 임시로 비밀번호 발급 (아이디와 이메일에 해당하는 비밀번호를 찾는 로직 추가 필요)
-      setSuccessMessage('임시 비밀번호가 발급되었습니다. 이메일을 확인해주세요.'); // 이메일로 실제 임시 비밀번호를 보내는 로직 필요
+      alert("임시 비밀번호가 발급되었습니다");
+      window.location.href = '/Login';
     } catch (error) {
       setErrors((prev) => ({
         ...prev,
@@ -86,18 +87,11 @@ function FindPassword() {
   return (
     <div className="find-password-container">
       <h1>비밀번호 찾기</h1>
-      {successMessage && (
-        <div className="success-message">
-          <strong>{successMessage}</strong>
-        </div>
-      )}
       {errors.general && (
         <div className="error-message">{errors.general}</div>
       )}
-
       <form onSubmit={handleFindPassword} className="space-y-4">
         <div>
-          <label htmlFor="id">아이디</label>
           <input
             id="id"
             type="text"
@@ -112,7 +106,6 @@ function FindPassword() {
         </div>
 
         <div>
-          <label htmlFor="email">이메일</label>
           <input
             id="email"
             type="email"
@@ -137,7 +130,7 @@ function FindPassword() {
         </div>
       </form>
       <div className="links">
-        <a href="/find-id" className="link-button">아이디 찾기</a>
+        <Link to="/FindId">아이디 찾기</Link>
       </div>
     </div>
   );
