@@ -135,7 +135,8 @@ useEffect(() => {
                         <p className="riding-location"># {place.TR_NUMPRODUCE1}</p>
                       </div>
                       <div className="riding-description-container">
-                        <p className="riding-description">{place.description}</p>
+                      <p className="riding-description"># {place.TR_NUMPRODUCE2}</p>
+                        {/* <p className="riding-description">{place.description}</p> */}
                         <button className="set-dest-btn" onClick={() => alert(`${place.location}을(를) 목적지로 설정하였습니다.`)}>
                           목적지 설정
                         </button>
