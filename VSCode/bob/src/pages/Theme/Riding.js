@@ -78,11 +78,11 @@ const Riding = () => {
         {(category.places || []).map((place) => (
           <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
-                    <img
-                      src={require(`../../static/images/Riding/${place.image}`)}
+                  <img
+                    src={`/images/Riding/${place.image}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
-                    />
+                  />
                     <div className="riding-header">
                       <h3 className="riding-frame-title">{place.TR_PLACE_NAME}</h3>
                       <p className="riding-location"># {place.TR_NUMPRODUCE1}</p>
