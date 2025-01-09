@@ -53,7 +53,7 @@
 
       li a {
         padding: 15px;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: bold;
         text-decoration: none;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -109,55 +109,6 @@
     animation: smooth-blink 1s infinite;
   }
 
-  /* HOT 태그 스타일 */
-  .hot-tag {
-    margin-left: 5px;
-    padding: 2px 6px;
-    background-color: #ff9800;
-    /* 주황색 배경 */
-    color: white;
-    /* 흰색 글자 */
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 12px;
-    display: inline-block;
-    animation: smooth-blink 1s infinite;
-  }
-
-  /* 깜빡거리는 애니메이션 효과 */
-  @keyframes smooth-blink {
-
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  /* 작성자 프로필 이미지 스타일 */
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-left: 10px;
-  }
-
-  // 카테고리 이미지
-  .profile-img {
-    width: 25px;
-    height: 25px;
-  }
-
-  // 검색 이미지
-  .groupFilter-img {
-    width: 30px;
-    height: 30px;
-  }
-
-
   // 테이블 스타일
   .freeBoard-table {
     width: 100%;
@@ -168,6 +119,7 @@
       border-bottom: 1px solid #ddd;
       text-align: center;
       padding: 20px 10px;
+      font-size: 16px;
     }
 
     th {
@@ -229,6 +181,54 @@
       /* 날짜 열 크기 */
     }
   }
+
+    /* HOT 태그 스타일 */
+    .hot-tag {
+      margin-left: 5px;
+      padding: 2px 6px;
+      background-color: #ff9800;
+      /* 주황색 배경 */
+      color: white;
+      /* 흰색 글자 */
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 12px;
+      display: inline-block;
+      animation: smooth-blink 1s infinite;
+    }
+  
+    /* 깜빡거리는 애니메이션 효과 */
+    @keyframes smooth-blink {
+  
+      0%,
+      100% {
+        opacity: 1;
+      }
+  
+      50% {
+        opacity: 0.5;
+      }
+    }
+  
+    /* 작성자 프로필 이미지 스타일 */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-left: 10px;
+    }
+  
+    // 카테고리 이미지
+    .profile-img {
+      width: 25px;
+      height: 25px;
+    }
+  
+    // 검색 이미지
+    .groupFilter-img {
+      width: 30px;
+      height: 30px;
+    }
 
   /* 카테고리 스타일 */
   .category {
@@ -431,7 +431,13 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+    }
+
+    .title-bo {
+      // @include flex-center;
+      width: 100%;
+      border: 1px solid black;
+      margin-bottom: 10px;
     }
 
     .close-btn {
@@ -474,7 +480,10 @@
 
         .left,
         .right {
+          display: flex;
+          justify-content: space-between;
           p {
+            font-size: 18px;
             margin-top: 5px;
           }
         }

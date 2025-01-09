@@ -539,6 +539,7 @@ const Board = () => {
               X
             </button>
             <h2>{currentPost.btitle}</h2>
+            <div className="title-bo"></div>
             <div className="form-group">
               <div className="left">
                 <p>
