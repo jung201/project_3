@@ -1,62 +1,45 @@
 import React, { useState } from 'react';
-import '../../static/scss/Login/FindPw.scss';
 import { Link } from 'react-router-dom';
+import '../../static/scss/Login/FindAccount.scss';
 
 function FindPassword() {
-  // 사용자 입력값 저장 로직
   const [formData, setFormData] = useState({
     id: '',
-    email: '',
+    email: ''
   });
 
-  // 상태 관리
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // 개별 필드 유효성 검사
   const validateField = (name, value) => {
     switch (name) {
       case 'id':
-        if (!value) {
-          return '아이디를 입력해주세요';
-        }
-        break;
+        return !value ? '아이디를 입력해주세요' : '';
       case 'email':
-        if (!value) {
-          return '이메일을 입력해주세요';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return '올바른 이메일 형식이 아닙니다';
-        }
-        break;
+        return !value 
+          ? '이메일을 입력해주세요' 
+          : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? '올바른 이메일 형식이 아닙니다'
+          : '';
       default:
         return '';
     }
-    return '';
   };
 
-  // 입력값 변경 처리
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormData((prev) => ({
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({
       ...prev,
-      [name]: value,
-    }));
-
-    const error = validateField(name, value);
-    setErrors((prev) => ({
-      ...prev,
-      [name]: error,
+      [name]: validateField(name, value)
     }));
   };
 
-  // 비밀번호 찾기 처리
-  const handleFindPassword = async (event) => {
-    event.preventDefault();
-
-    // 전체 유효성 검사
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
     const newErrors = {};
-    Object.keys(formData).forEach((key) => {
+    Object.keys(formData).forEach(key => {
       const error = validateField(key, formData[key]);
       if (error) newErrors[key] = error;
     });
@@ -68,69 +51,59 @@ function FindPassword() {
 
     setIsLoading(true);
     try {
-      // 실제 API 호출로 대체 필요
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // 임시로 비밀번호 발급 (아이디와 이메일에 해당하는 비밀번호를 찾는 로직 추가 필요)
-      alert("임시 비밀번호가 발급되었습니다");
+      // API 호출 로직 구현 필요
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      alert("임시 비밀번호가 이메일로 전송되었습니다.");
       window.location.href = '/Login';
     } catch (error) {
-      setErrors((prev) => ({
-        ...prev,
-        general: '비밀번호 찾기 중 오류가 발생했습니다',
-      }));
+      setErrors({
+        general: '비밀번호 초기화 중 오류가 발생했습니다'
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="find-password-container">
-      <h1>비밀번호 찾기</h1>
-      {errors.general && (
-        <div className="error-message">{errors.general}</div>
-      )}
-      <form onSubmit={handleFindPassword} className="space-y-4">
-        <div>
-          <input
-            id="id"
-            type="text"
-            name="id"
-            placeholder="아이디 입력"
-            value={formData.id}
-            onChange={handleChange}
-            className={`input-field ${errors.id ? 'error' : ''}`}
-            aria-describedby="id-error"
-          />
-          {errors.id && <div id="id-error" className="error-message">{errors.id}</div>}
-        </div>
+    <div className="findAccount">
+      <div className="container">
+        <h1>비밀번호 초기화</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input
+              type="text"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              placeholder="아이디를 입력하세요"
+              className={errors.id ? 'error' : ''}
+              required
+            />
+            {errors.id && <div className="error-message">{errors.id}</div>}
+          </div>
 
-        <div>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="이메일 입력"
-            value={formData.email}
-            onChange={handleChange}
-            className={`input-field ${errors.email ? 'error' : ''}`}
-            aria-describedby="email-error"
-          />
-          {errors.email && <div id="email-error" className="error-message">{errors.email}</div>}
-        </div>
+          <div>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="이메일을 입력하세요"
+              className={errors.email ? 'error' : ''}
+              required
+            />
+            {errors.email && <div className="error-message">{errors.email}</div>}
+          </div>
 
-        <div className="button-group">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="submit-button"
-          >
-            {isLoading ? '처리중...' : '비밀번호 찾기'}
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? '처리중...' : '비밀번호 초기화'}
           </button>
+          {errors.general && <div className="error-message">{errors.general}</div>}
+        </form>
+        <div className="links">
+          <Link to="/Login">로그인페이지 이동</Link>
+          <Link to="/FindId">ID 찾기</Link>
         </div>
-      </form>
-      <div className="links">
-        <Link to="/FindId">아이디 찾기</Link>
       </div>
     </div>
   );

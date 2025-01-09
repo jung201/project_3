@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Login.DAO.UserDAO">
+    <select id="login" resultType="fs.four.human.Login.VO.UserVO">
+        SELECT
+        U_ID,
+        U_PWD,
+        U_EMAIL,
+        U_NICKNAME,
+        U_CC,
+        U_PHOTO_NAME,
+        U_PHOTO_PATH,
+        U_CREATED_DATE,
+        U_UPDATE_DATE
+        FROM BOB_USER
+        WHERE U_ID = #{U_ID}
+        AND U_PWD = #{U_PWD}
+    </select>
+</mapper>

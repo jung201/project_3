@@ -1,5 +1,4 @@
-/* LoginForm.scss */
-.loginForm {
+.findAccount {
   background-color: #eef2f7;
   display: flex;
   justify-content: center;
@@ -33,16 +32,8 @@
     }
   }
 
-  label {
-    font-size: 16px;
-    color: #34495e;
-    margin-bottom: 8px;
-    display: block;
-    font-weight: 500;
-  }
-
   input[type="text"],
-  input[type="password"] {
+  input[type="email"] {
     width: 100%;
     padding: 14px;
     font-size: 16px;
@@ -55,6 +46,10 @@
       border-color: #007bff;
       box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
       outline: none;
+    }
+
+    &.error {
+      border-color: #e74c3c;
     }
   }
 
@@ -78,9 +73,15 @@
       background-color: #003d82;
       transform: translateY(0);
     }
+
+    &:disabled {
+      background-color: #a0c4e9;
+      cursor: not-allowed;
+      transform: none;
+    }
   }
 
-  .error {
+  .error-message {
     color: #e74c3c;
     font-size: 15px;
     margin-top: 10px;

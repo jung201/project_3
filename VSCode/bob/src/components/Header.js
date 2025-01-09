@@ -10,6 +10,8 @@ import mypage from '../static/images/icons/mypage.png';
 import login from '../static/images/icons/login.PNG';
 import signin from '../static/images/icons/signin.PNG';
 import white from '../static/images/logoWhite.PNG'
+
+
 function Header() {
     return (
         <header className="header-container">
@@ -34,8 +36,8 @@ function Header() {
 
                 {/* 로그인 및 회원가입 버튼 */}
                 <div className="auth-buttons">
-                    <button className="login-button"><img src={login}/></button>
-                    <button className="signup-button"><img src={signin}/></button>
+                <Link to="/Login"><button className="login-button"><img src={login}/></button></Link>
+                <Link to="/Signup"><button className="signup-button"><img src={signin}/></button></Link>
                 </div>
             </div>
 
