@@ -8,13 +8,6 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  // 임의의 사용자 데이터
-  const users = [
-    { userId: 'testuser', password: '123456' },
-    { userId: 'admin', password: 'admin' },
-    { userId: 'guest', password: 'guestpass' },
-  ];
-
   const handleSubmit = async(event) => {
     event.preventDefault();
 
