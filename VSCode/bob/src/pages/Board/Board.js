@@ -179,7 +179,7 @@ const Board = () => {
       console.log("변환된 키워드:", keyword); // 디버깅 로그 추가
       if (!keyword) {
         console.log("검색어:", keyword); // 값 확인
-        alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유이야기)");
+        alert("유효한 구분을 입력해주세요! (정비, 꿀팁, 코스, 자유)");
         return;
       }
     }
@@ -243,13 +243,6 @@ const Board = () => {
       return;
     }
 
-    // Toast UI Editor에서 내용 가져오기
-    const content = editorRef.current.getInstance().getMarkdown(); // 에디터 내용 가져오기
-    if (!content.trim()) {
-      alert("내용을 입력해주세요!");
-      return;
-    }
-
     // 새 게시글 데이터
     const newPost = {
       btitle: title,
@@ -274,9 +267,6 @@ const Board = () => {
   };
 
   //=======================================================================
-
-  // 에디터 참조 생성
-  const editorRef = useRef(); // 에디터 참조 연결
 
   // 팝업
   const togglePopup = (type, post = null) => {
@@ -361,8 +351,8 @@ const Board = () => {
               </a>
             </li>
             <li>
-              <a href="#!" onClick={() => filterPosts("자유이야기")}>
-                자유이야기
+              <a href="#!" onClick={() => filterPosts("자유")}>
+                자유
               </a>
             </li>
           </ul>
@@ -489,7 +479,7 @@ const Board = () => {
                 <option value="정비">정비</option>
                 <option value="꿀팁">꿀팁</option>
                 <option value="코스">코스</option>
-                <option value="자유이야기">자유이야기</option>
+                <option value="자유">자유</option>
               </select>
               <select
                 value={category}
