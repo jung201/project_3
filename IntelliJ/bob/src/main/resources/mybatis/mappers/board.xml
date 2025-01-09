@@ -44,7 +44,7 @@
                 WHEN #{keyword} = '정비' THEN 'R'
                 WHEN #{keyword} = '꿀팁' THEN 'T'
                 WHEN #{keyword} = '코스' THEN 'C'
-                WHEN #{keyword} = '자유이야기' THEN 'F'
+                WHEN #{keyword} = '자유' THEN 'F'
                 END FROM DUAL
                 ))
             </when>

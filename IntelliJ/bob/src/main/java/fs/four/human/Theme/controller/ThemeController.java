@@ -15,15 +15,14 @@ public class ThemeController {
     private ThemeService themeService;
 
     // 전체 테마 불러오기 API
-    @GetMapping
+    @GetMapping("/api")
     public List<ThemeVO> getAllThemes() {
         System.out.println("---theme---");
         return themeService.getAllThemes();
     }
     // 기본 경로 요청 처리
-    @GetMapping
+    @GetMapping("/view")
     public List<ThemeVO> getDefaultThemes() {
         return themeService.getAllThemes();
     }
 }
-

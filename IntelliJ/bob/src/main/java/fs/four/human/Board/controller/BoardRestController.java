@@ -15,7 +15,7 @@ public class BoardRestController {
     private BoardService boardService;
 
     // 1. 전체 데이터 반환 ( JSON )
-    @GetMapping
+    @GetMapping("/list")
     public List<BoardVO> getAllBoard() {
 
         try {

@@ -402,7 +402,7 @@ const Board = () => {
 
           {/* 등록 버튼 */}
           <button type="button" onClick={() => togglePopup("register")}>
-            등록하기
+            등록
           </button>
         </form>
       </div>
