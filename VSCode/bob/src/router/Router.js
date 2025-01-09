@@ -8,7 +8,7 @@ import FindId from '../pages/Login/FindId';//회원가입 페이지
 import Board from '../pages/Board/Board'; // 보드 페이지
 import Info from '../pages/Info/InfoPage'; // 정보 페이지
 import MyPage from '../pages/MyPage/MyPage'; // 마이 페이지
-import MainMapPage from '../pages/Search/MainMapPage'; // 검색 페이지
+import MainMapPage from '../pages/Search/MainMapPage'; // 검색 페이지.
 import Riding from '../pages/Theme/Riding'; // 테마 페이지?
 
 
