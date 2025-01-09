@@ -20,13 +20,9 @@ public class ThemeController {
         System.out.println("---theme---");
         return themeService.getAllThemes();
     }
-<<<<<<< HEAD
     // 기본 경로 요청 처리
     @GetMapping("/view")
     public List<ThemeVO> getDefaultThemes() {
         return themeService.getAllThemes();
     }
 }
-=======
-}
->>>>>>> 0a2a7f6d7a59eb657edcb020785b00ba4e187d95
