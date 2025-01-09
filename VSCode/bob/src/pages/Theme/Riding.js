@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
+import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
 
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
@@ -13,27 +14,27 @@ const Riding = () => {
     window.scrollTo({ top: sectionTop, behavior: 'smooth' });
   };
 
-    // 백엔드에서 데이터 가져오는 함수
-  const fetchPosts = async () => {
-    const response = await axios.get('http://192.168.0.93:3006/api', {
-      withCredentials: true, // CORS 설정
-    });
-    return response.data; // 응답 데이터를 반환
-  };
+
+  //-=================================================================
+
+
   // 백엔드에서 데이터 불러오기
- 
   useEffect(() => {
-    const loadPosts = async () => {
+    const loadTheme = async () => {
       try {
-        const data = await fetchPosts(); // 공통 함수 사용
+        const data = await fetchTheme();
         setPosts(data); // 게시글 데이터 설정
       } catch (error) {
-        console.error('게시글 불러오기 실패:', error);
+        console.error("게시글 불러오기 실패:", error);
       }
     };
 
-    loadPosts(); // 데이터 불러오기 실행
+    loadTheme(); // 데이터 불러오기 실행
   }, []); // 컴포넌트 마운트 시 1회 실행
+
+//-=================================================================
+
+
   return (
     <div className="riding-container">
       {/* 페이지 메인 제목 */}
