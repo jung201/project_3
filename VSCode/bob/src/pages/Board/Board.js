@@ -14,9 +14,6 @@ import mypageImg from "../../static/images/icons/mypage.png";
 import navFiller from "../../static/images/icons/board.png";
 import groupFilter from "../../static/images/icons/searchBTN.png";
 import ReactPaginate from "react-paginate"; // 페이지네이션 라이브러리 임포트
-// 에디터 
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
 
 // 상태 변수 관리
 const Board = () => {
@@ -36,7 +33,7 @@ const Board = () => {
   // 사용자 입력 상태 관리
   const [title, setTitle] = useState(""); // 제목 상태
   const [category, setCategory] = useState("정비"); // 카테고리 상태
-  // const [content, setContent] = useState(""); // 내용 상태
+  const [content, setContent] = useState(""); // 내용 상태
 
   // 정렬 기준과 순서 상태 추가
   const [sortColumn, setSortColumn] = useState(""); // 정렬 기준
@@ -501,21 +498,11 @@ const Board = () => {
                 <option value="자유이야기">자유이야기</option>
               </select>
             </div>
-            {/* <textarea
+            <textarea
               placeholder="내용을 입력하세요"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-            ></textarea> */}
-            {/* Toast UI Editor 적용 */}
-            <Editor
-              ref={editorRef} // 에디터 참조 연결
-              initialValue="내용을 입력하세요!" // 초기값 설정
-              previewStyle="vertical" // 미리보기 스타일
-              height="300px" // 에디터 높이
-              initialEditType="wysiwyg" // 에디터 타입 (WYSIWYG)
-              useCommandShortcut={true} // 단축키 사용 여부
-              className="toast-editor"
-            />
+            ></textarea>
             <button type="button" onClick={registerPost} className="editor-submit-button">
               등록
             </button>
