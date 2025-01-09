@@ -17,18 +17,21 @@ export const fetchBoard = async () => {
 //================================================================================
 
 // login URL 설정
-const API_login_URL = "http://192.168.0.93:3006/login";
-export const fetchLogin = async () => {
+const API_login_URL = "http://192.168.0.93:3006/board";
+export const fetchLogin = async (userId, password) => {
   try {
-    // 서버에서 데이터 가져오기
-    const response = await axios.get(`${API_login_URL}`);
+    const response = await axios.post(API_login_URL, {
+      u_ID: userId,
+      u_PWD: password,
+    });
     console.log(response.data); // 디버깅용 로그 출력
     return response.data; // 데이터 반환
   } catch (error) {
-    console.error("데이터 불러오기 에러:", error); // 에러 처리
-    throw error; // 에러 전파
+    console.error("로그인 요청 중 오류:", error); // 에러 처리
+    throw error; // 에러 전달
   }
 };
+
 
 //================================================================================
 
@@ -81,8 +84,8 @@ export const fetchsearche = async () => {
 //================================================================================
 
 // theme URL 설정
-const API_theme_URL = "http://192.168.0.93:3006/theme";
-export const fetchtheme = async () => {
+const API_theme_URL = "http://192.168.0.93:3006/riding";
+export const fetchTheme = async () => {
   try {
     // 서버에서 데이터 가져오기
     const response = await axios.get(`${API_theme_URL}`);
