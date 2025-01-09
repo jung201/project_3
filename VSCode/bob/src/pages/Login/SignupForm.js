@@ -234,6 +234,7 @@ function SignupForm() {
   };
 
   return (
+    <div className='SignupForm'>
     <div className="signup-container">
       <h1>회원가입</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -447,6 +448,7 @@ function SignupForm() {
           onAgree={handlePrivacyAgree}
         />
       )}
+    </div>
     </div>
   );
 }
