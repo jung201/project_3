@@ -182,53 +182,53 @@
     }
   }
 
-    /* HOT 태그 스타일 */
-    .hot-tag {
-      margin-left: 5px;
-      padding: 2px 6px;
-      background-color: #ff9800;
-      /* 주황색 배경 */
-      color: white;
-      /* 흰색 글자 */
-      font-size: 12px;
-      font-weight: bold;
-      border-radius: 12px;
-      display: inline-block;
-      animation: smooth-blink 1s infinite;
+  /* HOT 태그 스타일 */
+  .hot-tag {
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: #ff9800;
+    /* 주황색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+    animation: smooth-blink 1s infinite;
+  }
+
+  /* 깜빡거리는 애니메이션 효과 */
+  @keyframes smooth-blink {
+
+    0%,
+    100% {
+      opacity: 1;
     }
-  
-    /* 깜빡거리는 애니메이션 효과 */
-    @keyframes smooth-blink {
-  
-      0%,
-      100% {
-        opacity: 1;
-      }
-  
-      50% {
-        opacity: 0.5;
-      }
+
+    50% {
+      opacity: 0.5;
     }
-  
-    /* 작성자 프로필 이미지 스타일 */
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-left: 10px;
-    }
-  
-    // 카테고리 이미지
-    .profile-img {
-      width: 25px;
-      height: 25px;
-    }
-  
-    // 검색 이미지
-    .groupFilter-img {
-      width: 30px;
-      height: 30px;
-    }
+  }
+
+  /* 작성자 프로필 이미지 스타일 */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 10px;
+  }
+
+  // 카테고리 이미지
+  .profile-img {
+    width: 25px;
+    height: 25px;
+  }
+
+  // 검색 이미지
+  .groupFilter-img {
+    width: 30px;
+    height: 30px;
+  }
 
   /* 카테고리 스타일 */
   .category {
@@ -483,6 +483,7 @@
           display: flex;
           justify-content: space-between;
           gap: 40px;
+
           p {
             font-size: 18px;
             margin-top: 5px;
@@ -491,7 +492,7 @@
       }
 
       textarea {
-        height: 400px;
+        height: 350px;
         resize: none;
         padding: 8px;
         border: 1px solid #ddd;
@@ -502,17 +503,27 @@
         font-size: 16px;
       }
 
-      button {
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
 
-        &:hover {
-          background-color: #0056b3;
+      .view-btn {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+        bottom: 15px;
+
+        button {
+          width: 80px;
+          padding: 10px;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #e64646;
+          }
         }
       }
     }

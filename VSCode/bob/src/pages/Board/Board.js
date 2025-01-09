@@ -563,6 +563,10 @@ const Board = () => {
               </div>
             </div>
             <textarea value={currentPost.bcontent} readOnly></textarea>
+            <div className="view-btn">
+              <button>수정</button>
+              <button>삭제</button>
+            </div>
           </form>
         </div>
       )}
