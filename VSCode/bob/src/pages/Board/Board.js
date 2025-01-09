@@ -482,12 +482,6 @@ const Board = () => {
               X
             </button>
             <div className="form-group">
-              <input
-                type="text"
-                placeholder="제목을 입력하세요"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -497,13 +491,34 @@ const Board = () => {
                 <option value="코스">코스</option>
                 <option value="자유이야기">자유이야기</option>
               </select>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="스쿠터">스쿠터</option>
+                <option value="소형">소형</option>
+                <option value="중형">중형</option>
+                <option value="리터">리터</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
             <textarea
               placeholder="내용을 입력하세요"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
-            <button type="button" onClick={registerPost} className="editor-submit-button">
+            <button
+              type="button"
+              onClick={registerPost}
+              className="editor-submit-button"
+            >
               등록
             </button>
           </form>
