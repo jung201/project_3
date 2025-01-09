@@ -530,7 +530,7 @@
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 360px) {
   .board {
     height: 100%;
     padding: 20px;
@@ -562,6 +562,7 @@
         select {
           margin: 0px;
           padding: 0px;
+          font-size: 12px;
         }
 
         button {
@@ -572,7 +573,6 @@
         }
       }
     }
-
 
     /* 작성자 프로필 이미지 스타일 */
     .user-profile {
@@ -597,10 +597,9 @@
       top: 0px;
       font-size: 16px;
 
-
       th,
       td {
-        font-size: 30px;
+        font-size: 16px;
       }
 
       th:nth-child(1),
