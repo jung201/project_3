@@ -84,7 +84,7 @@ const Board = () => {
       .slice(offset, offset + itemsPerPage) // 페이지네이션 적용
       .map((post, index) => {
         const isNew = (new Date() - new Date(post.bcreatedDate)) / 1000 < 86400;
-        const isHot = post.bviews >= 50;
+        const isHot = post.bviews >= 10;
 
         return (
           <tr key={post.bid || index} onClick={() => togglePopup("view", post)}>
