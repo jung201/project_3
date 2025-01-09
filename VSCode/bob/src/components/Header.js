@@ -34,8 +34,8 @@ function Header() {
 
                 {/* 로그인 및 회원가입 버튼 */}
                 <div className="auth-buttons">
-                    <button className="login-button"><img src={login}/></button>
-                    <button className="signup-button"><img src={signin}/></button>
+                <Link to="/Login"><button className="login-button"><img src={login}/></button></Link>
+                <Link to="/Signup"><button className="signup-button"><img src={signin}/></button></Link>
                 </div>
             </div>
 
