@@ -12,6 +12,6 @@ public class UserService {
     private UserDAO userDAO;
 
     public UserVO login(UserVO vo) {
-        return userDAO.login(vo);
+        return userDAO.login(vo); // DAO에서 로그인 데이터 조회
     }
 }
