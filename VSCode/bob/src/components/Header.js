@@ -10,6 +10,8 @@ import mypage from '../static/images/icons/mypage.png';
 import login from '../static/images/icons/login.PNG';
 import signin from '../static/images/icons/signin.PNG';
 import white from '../static/images/logoWhite.PNG'
+
+
 function Header() {
     return (
         <header className="header-container">

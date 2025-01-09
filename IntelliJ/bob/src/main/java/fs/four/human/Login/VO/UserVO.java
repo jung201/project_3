@@ -1,4 +1,4 @@
-package fs.four.human.Login;
+package fs.four.human.Login.VO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,86 +6,86 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class UserVO{
-    private String U_Id;          // 사용자 ID
-    private String U_Pwd;         // 사용자 비밀번호
-    private String U_Email;       // 사용자 이메일
-    private String U_Nickname;    // 사용자 닉네임
-    private String U_Cc;          // 배기량
-    private String U_PhotoName;   // 프로필 사진 이름
-    private String U_PhotoPath;   // 프로필 사진 경로
-    private String U_CreatedDate; // 생성일
-    private String U_UpdateDate;  // 업데이트일
+public class UserVO {
+    private String U_ID;
+    private String U_PWD;
+    private String U_EMAIL;
+    private String U_NICKNAME;
+    private String U_CC;
+    private String U_PHOTO_NAME;
+    private String U_PHOTO_PATH;
+    private String U_CREATED_DATE;
+    private String U_UPDATE_DATE;
 
-    public String getU_Id() {
-        return U_Id;
+    public String getU_ID() {
+        return U_ID;
     }
 
-    public void setU_Id(String u_Id) {
-        U_Id = u_Id;
+    public void setU_ID(String u_ID) {
+        U_ID = u_ID;
     }
 
-    public String getU_Pwd() {
-        return U_Pwd;
+    public String getU_PWD() {
+        return U_PWD;
     }
 
-    public void setU_Pwd(String u_Pwd) {
-        U_Pwd = u_Pwd;
+    public void setU_PWD(String u_PWD) {
+        U_PWD = u_PWD;
     }
 
-    public String getU_Email() {
-        return U_Email;
+    public String getU_EMAIL() {
+        return U_EMAIL;
     }
 
-    public void setU_Email(String u_Email) {
-        U_Email = u_Email;
+    public void setU_EMAIL(String u_EMAIL) {
+        U_EMAIL = u_EMAIL;
     }
 
-    public String getU_Nickname() {
-        return U_Nickname;
+    public String getU_NICKNAME() {
+        return U_NICKNAME;
     }
 
-    public void setU_Nickname(String u_Nickname) {
-        U_Nickname = u_Nickname;
+    public void setU_NICKNAME(String u_NICKNAME) {
+        U_NICKNAME = u_NICKNAME;
     }
 
-    public String getU_Cc() {
-        return U_Cc;
+    public String getU_CC() {
+        return U_CC;
     }
 
-    public void setU_Cc(String u_Cc) {
-        U_Cc = u_Cc;
+    public void setU_CC(String u_CC) {
+        U_CC = u_CC;
     }
 
-    public String getU_PhotoName() {
-        return U_PhotoName;
+    public String getU_PHOTO_NAME() {
+        return U_PHOTO_NAME;
     }
 
-    public void setU_PhotoName(String u_PhotoName) {
-        U_PhotoName = u_PhotoName;
+    public void setU_PHOTO_NAME(String u_PHOTO_NAME) {
+        U_PHOTO_NAME = u_PHOTO_NAME;
     }
 
-    public String getU_PhotoPath() {
-        return U_PhotoPath;
+    public String getU_PHOTO_PATH() {
+        return U_PHOTO_PATH;
     }
 
-    public void setU_PhotoPath(String u_PhotoPath) {
-        U_PhotoPath = u_PhotoPath;
+    public void setU_PHOTO_PATH(String u_PHOTO_PATH) {
+        U_PHOTO_PATH = u_PHOTO_PATH;
     }
 
-    public String getU_CreatedDate() {
-        return U_CreatedDate;
+    public String getU_CREATED_DATE() {
+        return U_CREATED_DATE;
     }
 
-    public void setU_CreatedDate(String u_CreatedDate) {
-        U_CreatedDate = u_CreatedDate;
+    public void setU_CREATED_DATE(String u_CREATED_DATE) {
+        U_CREATED_DATE = u_CREATED_DATE;
     }
 
-    public String getU_UpdateDate() {
-        return U_UpdateDate;
+    public String getU_UPDATE_DATE() {
+        return U_UPDATE_DATE;
     }
 
-    public void setU_UpdateDate(String u_UpdateDate) {
-        U_UpdateDate = u_UpdateDate;
+    public void setU_UPDATE_DATE(String u_UPDATE_DATE) {
+        U_UPDATE_DATE = u_UPDATE_DATE;
     }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import "../../static/scss/Login/LoginForm.scss";
 import { Link } from 'react-router-dom';
 
@@ -14,19 +15,26 @@ function LoginForm() {
     { userId: 'guest', password: 'guestpass' },
   ];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
 
-    // 입력값 검증
-    const user = users.find(
-      (u) => u.userId === userId && u.password === password
-    );
+    try {
+      // 백엔드 API 호출
+      const response = await axios.post('http://localhost:3006/login', {
+        u_ID: userId,
+        u_PWD: password,
+      });
 
-    if (user) {
-      alert('로그인 완료!');
-      window.location.href = '/'; // 성공 시 특정 페이지로 리디렉션
-    } else {
-      setError('아이디 또는 비밀번호가 잘못되었습니다.');
+      // 성공 응답 처리
+      alert(`로그인 성공! 환영합니다, ${response.data.u_NICKNAME}`);
+      window.location.href = '/'; // 메인 페이지로 리디렉션
+    } catch (err) {
+      // 오류 응답 처리
+      if (err.response && err.response.status === 400) {
+        setError('아이디 또는 비밀번호가 잘못되었습니다.');
+      } else {
+        setError('서버 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -61,7 +69,7 @@ function LoginForm() {
       <div className='links'>
         <Link to="/Signup">회원가입</Link>
         <Link to="/FindId">ID 찾기</Link>
-        <Link to="/FindPw">비밀번호 찾기</Link>
+        <Link to="/FindPw">비밀번호 초기화</Link>
       </div>
     </div>
     </div>

@@ -71,19 +71,6 @@ function FindId() {
         <form onSubmit={handleSubmit}>
           <div>
             <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="이름을 입력하세요"
-              className={errors.name ? 'error' : ''}
-              required
-            />
-            {errors.name && <div className="error-message">{errors.name}</div>}
-          </div>
-
-          <div>
-            <input
               type="email"
               name="email"
               value={formData.email}
@@ -102,7 +89,7 @@ function FindId() {
         </form>
         <div className="links">
           <Link to="/Login">로그인페이지 이동</Link>
-          <Link to="/FindPw">비밀번호 찾기</Link>
+          <Link to="/FindPw">비밀번호 초기화</Link>
         </div>
       </div>
     </div>

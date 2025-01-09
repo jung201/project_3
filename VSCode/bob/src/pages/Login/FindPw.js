@@ -57,7 +57,7 @@ function FindPassword() {
       window.location.href = '/Login';
     } catch (error) {
       setErrors({
-        general: '비밀번호 찾기 중 오류가 발생했습니다'
+        general: '비밀번호 초기화 중 오류가 발생했습니다'
       });
     } finally {
       setIsLoading(false);
@@ -67,7 +67,7 @@ function FindPassword() {
   return (
     <div className="findAccount">
       <div className="container">
-        <h1>비밀번호 찾기</h1>
+        <h1>비밀번호 초기화</h1>
         <form onSubmit={handleSubmit}>
           <div>
             <input
@@ -96,7 +96,7 @@ function FindPassword() {
           </div>
 
           <button type="submit" disabled={isLoading}>
-            {isLoading ? '처리중...' : '비밀번호 찾기'}
+            {isLoading ? '처리중...' : '비밀번호 초기화'}
           </button>
           {errors.general && <div className="error-message">{errors.general}</div>}
         </form>
