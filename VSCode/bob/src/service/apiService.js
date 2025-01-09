@@ -84,8 +84,8 @@ export const fetchsearche = async () => {
 //================================================================================
 
 // theme URL 설정
-const API_theme_URL = "http://192.168.0.93:3006/theme";
-export const fetchtheme = async () => {
+const API_theme_URL = "http://192.168.0.93:3006/riding";
+export const fetchTheme = async () => {
   try {
     // 서버에서 데이터 가져오기
     const response = await axios.get(`${API_theme_URL}`);
