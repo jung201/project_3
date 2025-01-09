@@ -15,7 +15,6 @@ public class ThemeController {
     private ThemeService themeService;
 
     // 전체 테마 불러오기 API
-    // 전체 테마 불러오기 API
     @GetMapping
     public List<ThemeVO> getAllThemes() {
         System.out.println("---theme---");
