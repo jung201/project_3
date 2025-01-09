@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
 import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
@@ -73,22 +73,25 @@ const Board = () => {
 
   //=======================================================================
 
-  // 테이블 렌더링 
+  // 테이블 렌더링
   const renderTable = () =>
-    posts.filter(
+    posts
+      .filter(
         (post) =>
-          selectedCategory === '전체' ||
+          selectedCategory === "전체" ||
           getCategoryLabel(post.bcategory) === selectedCategory
       )
       .slice(offset, offset + itemsPerPage) // 페이지네이션 적용
       .map((post, index) => {
         const isNew = (new Date() - new Date(post.bcreatedDate)) / 1000 < 86400;
         const isHot = post.bviews >= 50;
-  
+
         return (
-          <tr key={post.bid || index} onClick={() => togglePopup('view', post)}>
+          <tr key={post.bid || index} onClick={() => togglePopup("view", post)}>
             <td>{post.bid}</td>
-            <td className={`category ${post.bcategory}`}>{getCategoryLabel(post.bcategory)}</td>
+            <td className={`category ${post.bcategory}`}>
+              {getCategoryLabel(post.bcategory)}
+            </td>
             <td>{getCcLabel(post.bcc)}</td>
             <td>
               {post.btitle}
@@ -240,6 +243,13 @@ const Board = () => {
       return;
     }
 
+    // Toast UI Editor에서 내용 가져오기
+    const content = editorRef.current.getInstance().getMarkdown(); // 에디터 내용 가져오기
+    if (!content.trim()) {
+      alert("내용을 입력해주세요!");
+      return;
+    }
+
     // 새 게시글 데이터
     const newPost = {
       btitle: title,
@@ -264,6 +274,9 @@ const Board = () => {
   };
 
   //=======================================================================
+
+  // 에디터 참조 생성
+  const editorRef = useRef(); // 에디터 참조 연결
 
   // 팝업
   const togglePopup = (type, post = null) => {
@@ -490,7 +503,7 @@ const Board = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
-            <button type="button" onClick={registerPost}>
+            <button type="button" onClick={registerPost} className="editor-submit-button">
               등록
             </button>
           </form>
