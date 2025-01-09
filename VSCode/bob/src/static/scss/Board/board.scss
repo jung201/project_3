@@ -537,17 +537,7 @@
 
     /* 배경 이미지 설정 */
     .board-title {
-      height: 150px;
-    }
-
-    .board-title-font {
-      top: 35%;
-      left: 50%;
-      font-size: 30px;
-    }
-
-    .board-title {
-      width: 100%;
+      height: 100px;
     }
 
     .search-register {
@@ -561,7 +551,7 @@
         }
 
         li a {
-          font-size: 16px;
+          font-size: 14px;
         }
       }
 
@@ -575,10 +565,10 @@
         }
 
         button {
-          width: 75px;
+          width: 50px;
           position: relative;
           bottom: 4px;
-          font-size: 12px;
+          font-size: 14px;
         }
       }
     }
@@ -605,10 +595,12 @@
     .freeBoard-table {
       width: 100%;
       top: 0px;
+      font-size: 16px;
 
 
+      th,
       td {
-        height: 80px;
+        font-size: 30px;
       }
 
       th:nth-child(1),
@@ -655,7 +647,7 @@
     // 등록 팝업
     .register-popup {
       width: 300px;
-      height: 500px;
+      height: 200px;
 
       // 닫기 버튼 스타일
       .close-btn {
@@ -665,7 +657,7 @@
 
     // 보기 팝업
     .view-popup {
-      width: 350px;
+      width: 300px;
       height: 500px;
 
     }
