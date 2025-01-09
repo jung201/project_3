@@ -14,14 +14,11 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserVO vo) {
-        UserVO user = userService.login(vo);
+    public ResponseEntity<?> login(@RequestBody UserVO userVO) {
+        UserVO user = userService.login(userVO);
         if (user != null) {
-            // 비밀번호는 응답에서 제외
-            user.setU_PWD(null);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.badRequest().body("Invalid credentials");
+            return ResponseEntity.ok(user); // 성공 시 사용자 정보 반환
         }
+        return ResponseEntity.badRequest().body("아이디 또는 비밀번호가 잘못되었습니다.");
     }
 }
