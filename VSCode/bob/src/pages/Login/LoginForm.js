@@ -34,7 +34,7 @@ function LoginForm() {
   return (
     <div className='loginForm'>
     <div className='container'>
-      <h1>로그인</h1>
+      <h1>로그</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <input
