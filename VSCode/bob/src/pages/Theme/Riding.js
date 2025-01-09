@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
-import {}
+// import {}
 
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
@@ -35,7 +35,6 @@ const Riding = () => {
   }, []); // 컴포넌트 마운트 시 1회 실행
 
 //-=================================================================
-//dddddddd
 
   return (
     <div className="riding-container">
