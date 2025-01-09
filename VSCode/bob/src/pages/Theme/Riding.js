@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
+import {}
 
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
@@ -23,6 +24,7 @@ const Riding = () => {
     const loadTheme = async () => {
       try {
         const data = await fetchTheme();
+        console.log("가져온 데이터:", data);
         setPosts(data); // 게시글 데이터 설정
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
