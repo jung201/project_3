@@ -31,7 +31,8 @@ function LoginForm() {
   };
 
   return (
-    <div className='login-container'>
+    <div className='loginForm'>
+    <div className='container'>
       <h1>로그인</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -58,8 +59,11 @@ function LoginForm() {
         {error && <div className="error">{error}</div>}
       </form>
       <div className='links'>
-        <Link to="/Signup">회원가입</Link><Link to="/FindId">아이디 찾기</Link><Link to="/FindPw">비밀번호 찾기</Link>
+        <Link to="/Signup">회원가입</Link>
+        <Link to="/FindId">ID 찾기</Link>
+        <Link to="/FindPw">비밀번호 찾기</Link>
       </div>
+    </div>
     </div>
   );
 }
