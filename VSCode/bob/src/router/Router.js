@@ -22,7 +22,7 @@ function AppRouter() {
       <Route path="/FindId" element={<FindId />} /> 로그인 페이지
       <Route path="/board" element={<Board />} /> 게시판 페이지
       <Route path="/info" element={<Info />} /> {/*정보 페이지*/}
-      <Route path="/MyPage" element={<MyPage />} /> 마이 페이지
+      <Route path="/MyPage" element={<MyPage />} /> {/*마이 페이지*/}
       <Route path="/MainMapPage" element={<MainMapPage />} /> {/*검색 페이지*/}
       <Route path="/Riding" element={<Riding />} /> {/*테마 페이지*/}
     </Routes>

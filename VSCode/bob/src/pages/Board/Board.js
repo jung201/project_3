@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { fetchPosts } from "../../service/apiService"; // 공통 API 함수 불러오기
+import { fetchBoard } from "../../service/apiService"; // 공통 API 함수 불러오기
 import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
 import {
   getCategoryLabel,
@@ -10,7 +10,7 @@ import {
 } from "../../utils/categoryUtils"; // 유틸 함수 임포트
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
-import mypageImg from "../../static/images/icons/mypage.png";
+import mypageImg from "../../static/images/icons/signin.PNG";
 import navFiller from "../../static/images/icons/board.png";
 import groupFilter from "../../static/images/icons/searchBTN.png";
 import ReactPaginate from "react-paginate"; // 페이지네이션 라이브러리 임포트
@@ -59,16 +59,16 @@ const Board = () => {
 
   // 백엔드에서 데이터 불러오기
   useEffect(() => {
-    const loadPosts = async () => {
+    const loadBoard = async () => {
       try {
-        const data = await fetchPosts(); // 공통 함수 사용
+        const data = await fetchBoard();
         setPosts(data); // 게시글 데이터 설정
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
       }
     };
 
-    loadPosts(); // 데이터 불러오기 실행
+    loadBoard(); // 데이터 불러오기 실행
   }, []); // 컴포넌트 마운트 시 1회 실행
 
   //=======================================================================
@@ -84,7 +84,7 @@ const Board = () => {
       .slice(offset, offset + itemsPerPage) // 페이지네이션 적용
       .map((post, index) => {
         const isNew = (new Date() - new Date(post.bcreatedDate)) / 1000 < 86400;
-        const isHot = post.bviews >= 50;
+        const isHot = post.bviews >= 10;
 
         return (
           <tr key={post.bid || index} onClick={() => togglePopup("view", post)}>
@@ -116,10 +116,10 @@ const Board = () => {
   const filterPosts = (category) => {
     setSelectedCategory(category); // 선택된 카테고리 상태 업데이트
 
-    // API 요청 보내기
+    // board 요청 보내기
     axios
       .get(
-        `http://192.168.0.93:3006/api?category=${category === "전체" ? "" : getCategoryCode}`
+        `http://192.168.0.93:3006/board?category=${category === "전체" ? "" : getCategoryCode}`
       )
       .then((response) => {
         setPosts(response.data); // 필터링된 데이터 적용
@@ -200,9 +200,9 @@ const Board = () => {
       return;
     }
 
-    // API 호출
+    // board 호출
     axios
-      .get(`http://192.168.0.93:3006/api/search`, {
+      .get(`http://192.168.0.93:3006/board/search`, {
         params: { column, keyword },
       })
       .then((response) => {
@@ -261,7 +261,7 @@ const Board = () => {
     };
 
     axios
-      .post("http://192.168.0.93:3006/api", newPost)
+      .post("http://192.168.0.93:3006/board", newPost)
       .then((response) => {
         alert("게시글 등록 완료!");
         togglePopup("register");
@@ -316,7 +316,7 @@ const Board = () => {
     }
 
     axios
-      .patch(`http://192.168.0.93:3006/api/views/${postid}`) // PATCH 요청
+      .patch(`http://192.168.0.93:3006/board/views/${postid}`) // PATCH 요청
       .then(() => {
         setPosts((prevPosts) =>
           prevPosts.map((post) =>
@@ -482,12 +482,6 @@ const Board = () => {
               X
             </button>
             <div className="form-group">
-              <input
-                type="text"
-                placeholder="제목을 입력하세요"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -497,13 +491,34 @@ const Board = () => {
                 <option value="코스">코스</option>
                 <option value="자유이야기">자유이야기</option>
               </select>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="스쿠터">스쿠터</option>
+                <option value="소형">소형</option>
+                <option value="중형">중형</option>
+                <option value="리터">리터</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </div>
             <textarea
               placeholder="내용을 입력하세요"
               value={content}
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
-            <button type="button" onClick={registerPost} className="editor-submit-button">
+            <button
+              type="button"
+              onClick={registerPost}
+              className="editor-submit-button"
+            >
               등록
             </button>
           </form>

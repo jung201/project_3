@@ -3,7 +3,7 @@
 
 
 .region-container {
-    // @include box-style;
+    @include box-style;
     padding: 30px;
 
     .title {
@@ -50,9 +50,10 @@
     // 테이블 스타일
     .station-table {
         width: 450px;
+        height: 280px;
         border-collapse: collapse;
         margin-top: 10px;
-        font-size: 16px;
+        font-size: 18px;
 
         th,
         td {
