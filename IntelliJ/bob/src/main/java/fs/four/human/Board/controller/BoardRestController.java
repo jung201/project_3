@@ -45,7 +45,7 @@ public class BoardRestController {
     }
 
     // 3. 게시글 등록
-    @PostMapping
+    @PostMapping("/register")
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
         try {
             boardService.createBoard(boardVO);
