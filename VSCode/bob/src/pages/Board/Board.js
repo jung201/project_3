@@ -10,7 +10,7 @@ import {
 } from "../../utils/categoryUtils"; // 유틸 함수 임포트
 import "../../static/scss/Board/board.scss";
 import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
-import mypageImg from "../../static/images/icons/mypage.png";
+import mypageImg from "../../static/images/icons/signin.PNG";
 import navFiller from "../../static/images/icons/board.png";
 import groupFilter from "../../static/images/icons/searchBTN.png";
 import ReactPaginate from "react-paginate"; // 페이지네이션 라이브러리 임포트
