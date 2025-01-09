@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
+// import {}
 
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
@@ -23,6 +24,7 @@ const Riding = () => {
     const loadTheme = async () => {
       try {
         const data = await fetchTheme();
+        console.log("가져온 데이터:", data);
         setPosts(data); // 게시글 데이터 설정
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
@@ -33,7 +35,6 @@ const Riding = () => {
   }, []); // 컴포넌트 마운트 시 1회 실행
 
 //-=================================================================
-
 
   return (
     <div className="riding-container">
@@ -78,11 +79,11 @@ const Riding = () => {
         {(category.places || []).map((place) => (
           <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
-                    <img
-                      src={require(`../../static/images/Riding/${place.image}`)}
+                  <img
+                    src={`/images/Riding/${place.image}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
-                    />
+                  />
                     <div className="riding-header">
                       <h3 className="riding-frame-title">{place.TR_PLACE_NAME}</h3>
                       <p className="riding-location"># {place.TR_NUMPRODUCE1}</p>
