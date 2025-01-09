@@ -32,12 +32,12 @@ export const fetchLogin = async () => {
 
 //================================================================================
 
-// lnfo URL 설정
-const API_lnfo_URL = "http://192.168.0.93:3006/lnfo";
-export const fetchlnfo = async () => {
+// info URL 설정
+const API_info_URL = "http://192.168.0.93:3006/info";
+export const fetchInfo = async () => {
   try {
     // 서버에서 데이터 가져오기
-    const response = await axios.get(`${API_lnfo_URL}`);
+    const response = await axios.get(`${API_info_URL}`);
     console.log(response.data); // 디버깅용 로그 출력
     return response.data; // 데이터 반환
   } catch (error) {
