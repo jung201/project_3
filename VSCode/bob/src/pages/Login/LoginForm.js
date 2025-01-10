@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { fetchLogin } from '../../service/apiService';
 import "../../static/scss/Login/LoginForm.scss";
 import { Link } from 'react-router-dom';
 
@@ -8,26 +8,16 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
     try {
-      // API 호출
-      const response = await axios.post('http://192.168.0.93:3006/login', {
-        U_ID: userId,
-        U_PWD: password,
-      });
-
-      // 로그인 성공 처리
-      alert(`로그인 성공! 환영합니다, ${response.data.u_NICKNAME}`);
-      window.location.href = '/'; // 메인 페이지로 리디렉션
+      await fetchLogin(userId, password);
+      alert("로그인 성공! 환영합니다!:");
+      window.location.href = "/";
     } catch (err) {
-      // 오류 처리
-      if (err.response && err.response.status === 400) {
-        setError('아이디 또는 비밀번호가 잘못되었습니다.');
-      } else {
-        setError('서버 오류가 발생했습니다.');
-      }
+      console.error("로그인 실패:", err);
+      setError("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
     }
   };
 
@@ -35,7 +25,7 @@ function LoginForm() {
     <div className='loginForm'>
       <div className='container'>
         <h1>로그인</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div>
             <input
               type="text"

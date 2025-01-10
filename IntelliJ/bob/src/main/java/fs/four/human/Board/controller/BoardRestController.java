@@ -17,7 +17,6 @@ public class BoardRestController {
     // 1. 전체 데이터 반환 ( JSON )
     @GetMapping
     public List<BoardVO> getAllBoard() {
-
         try {
             System.out.println("--- board ---");
             return boardService.getAllBoard();

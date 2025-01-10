@@ -35,6 +35,23 @@ export const fetchLogin = async (userId, password) => {
 
 //================================================================================
 
+// 로그인 상태 확인 함수
+export const checkLoginStatus = () => {
+  const storedUserId = sessionStorage.getItem("userId");
+  if (storedUserId) {
+    return {
+      isLoggedIn: true,
+      userId: storedUserId,
+    };
+  }
+  return {
+    isLoggedIn: false,
+    userId: null,
+  };
+};
+
+//================================================================================
+
 // info URL 설정
 const API_info_URL = "http://192.168.0.93:3006/info";
 export const fetchInfo = async () => {
@@ -84,7 +101,7 @@ export const fetchsearche = async () => {
 //================================================================================
 
 // theme URL 설정
-const API_theme_URL = "http://192.168.0.93:3006/riding";
+const API_theme_URL = "http://192.168.0.93:3006/riding/api";
 export const fetchTheme = async () => {
   try {
     // 서버에서 데이터 가져오기
