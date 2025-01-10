@@ -10,6 +10,7 @@
     
 }
 .riding-header {
+    padding:20px;
     display: flex; /* 제목과 위치를 가로 정렬 */
     justify-content: center; /* 제목과 위치를 시작점에 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
@@ -85,6 +86,7 @@
 
 /* 이미지 스타일 */
 .riding-image {
+  border-radius: 15px;
     width: 100%; /* 카드 너비에 맞추기 */
     height: 280px; /* 이미지 높이를 키움 */
     object-fit: cover; /* 이미지를 잘라내거나 확장하여 공간에 맞춤 */
@@ -93,7 +95,7 @@
 
 /* 텍스트 컨텐츠 */
 .riding-content {
-    padding: 20px; /* 내부 여백 */
+    // padding: 20px; /* 내부 여백 */
     text-align: center; /* 텍스트를 중앙 정렬 */
     display: flex; /* 플렉스 박스 사용 */
     flex-direction: column; /* 세로 정렬 */
@@ -118,6 +120,7 @@
 
 /* 설명 및 버튼 컨테이너 */
 .riding-description-container {
+    padding: 20px;
     display: flex; /* 플렉스 컨테이너 */
     align-items: center; /* 수직 정렬 */
     justify-content: space-between; /* 설명과 버튼 사이 공간 분배 */
@@ -178,7 +181,7 @@
   /* 메인 제목 스타일 */
   .photo-box-heading {
     text-align: left;
-    font-size: 2rem;                  /* 제목 글자 크기 */
+    font-size: 18pt;                  /* 제목 글자 크기 */
     font-weight: bold;                /* 제목을 굵게 표시 */
     margin-bottom: 30px;              /* 제목과 아래 박스 사이의 여백 */
     color: #0b0972c7;                      /* 제목 글자 색상을 진한 회색으로 설정 */
@@ -229,6 +232,13 @@
   @media (max-width: 450px) {
     
     @media (max-width: 450px) {
+        h2.category-title{
+          font-size: 20px !important;;
+          text-align: center;
+        }
+        .riding-title{
+          
+        }
         .photo-box-container {
           display: flex;
           flex-direction: column; /* 사진 박스를 세로로 배치 */
@@ -239,6 +249,7 @@
       
         .photo-box-wrapper {
           display: flex; /* 세로 배치 */
+          gap: 5px;
         }
       
         .photo-box {
@@ -247,7 +258,7 @@
         }
       
         .photo-box-image {
-          height: 150px; /* 이미지 높이 축소 */
+          height: auto; /* 이미지 높이 축소 */
           width: 100px;
         }
       
@@ -281,7 +292,7 @@
   
     /* 제목 스타일 */
     .riding-frame-title {
-      font-size: 1rem;              /* 카드 제목 글자 크기 축소 */
+      font-size: 9pt !important;              /* 카드 제목 글자 크기 축소 */
     }
   
     /* 위치 스타일 */
@@ -301,9 +312,13 @@
       width: 100%;                  /* 설명 너비 100% */
     }
   
-    .set-destination-btn {
+    .set-dest-btn {
       width: 100%;                  /* 버튼 너비를 100%로 설정 */
-      height: auto;                 /* 버튼 높이 자동 조정 */
+      padding: 0px;
+      height: 30px !important;                 /* 버튼 높이 자동 조정 */
       font-size: 14px;              /* 버튼 텍스트 크기 조정 */
+    }
+    .riding-header{
+      padding:0;
     }
   }
