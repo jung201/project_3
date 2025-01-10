@@ -9,19 +9,18 @@ import board from "../static/images/icons/board.png";
 import mypage from "../static/images/icons/mypage.png";
 import login from "../static/images/icons/login.PNG";
 import signin from "../static/images/icons/signin.PNG";
+import { checkLoginStatus } from "../service/apiService"; // 로그인 상태 확인 함수 가져오기
 
 function Header() {
   // 로그인 상태 관리
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 기본값: 로그아웃 상태
   const [userId, setUserId] = useState(""); // 로그인한 유저 ID 저장
 
-  // 페이지 로드 시 로그인 상태 확인
+  // 로그인 상태 확인
   useEffect(() => {
-    const storedUserId = sessionStorage.getItem("userId");
-    if (storedUserId) {
-      setIsLoggedIn(true); // 로그인 상태로 설정
-      setUserId(storedUserId); // 유저 ID 설정
-    }
+    const { isLoggedIn, userId } = checkLoginStatus(); // 로그인 상태 확인
+    setIsLoggedIn(isLoggedIn); // 로그인 여부 설정
+    setUserId(userId); // 사용자 ID 설정
   }, []);
 
   // 로그아웃 버튼 클릭 시
