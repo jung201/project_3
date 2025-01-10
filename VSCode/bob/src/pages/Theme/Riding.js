@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 // import {}
 
 // 백업 데이터: 기본 카테고리와 장소 목록
