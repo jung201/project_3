@@ -13,7 +13,7 @@ function LoginForm() {
 
     try {
       // API 호출
-      const response = await axios.post('http://192.168.0.93:3006/api/auth/login', {
+      const response = await axios.post('http://192.168.0.93:3006/login', {
         U_ID: userId,
         U_PWD: password,
       });
