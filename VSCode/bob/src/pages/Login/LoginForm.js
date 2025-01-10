@@ -13,8 +13,8 @@ function LoginForm() {
 
     try {
       const data = await fetchLogin(userId, password);
-      console.log("로그인 성공:", data);
-      // 로그인 성공 시 페이지 이동 등 처리
+      alert("로그인 성공! 환영합니다!:");
+      window.location.href = "/";
     } catch (err) {
       console.error("로그인 실패:", err);
       setError("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");

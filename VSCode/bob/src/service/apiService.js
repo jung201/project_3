@@ -17,7 +17,7 @@ export const fetchBoard = async () => {
 //================================================================================
 
 // login URL 설정
-const API_login_URL = "http://192.168.0.93:3006/Login";
+const API_login_URL = "http://localhost:3006/Login";
 export const fetchLogin = async (userId, password) => {
   try {
     const response = await axios.post(API_login_URL, {
