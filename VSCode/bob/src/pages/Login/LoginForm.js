@@ -12,7 +12,7 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const data = await fetchLogin(userId, password);
+      await fetchLogin(userId, password);
       alert("로그인 성공! 환영합니다!:");
       window.location.href = "/";
     } catch (err) {
