@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Login")
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -18,6 +17,7 @@ public class UserController {
     @PostMapping
     public UserVO login(@RequestBody UserVO user) {
         UserVO loggedInUser = userService.login(user.getU_ID(), user.getU_PWD());
+        System.out.println("---login---");
 
         if (loggedInUser == null) {
             throw new IllegalArgumentException("아이디 또는 비밀번호가 잘못되었습니다.");
