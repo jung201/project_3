@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
-
 // import {}
 
 // 백업 데이터: 기본 카테고리와 장소 목록
@@ -146,7 +145,7 @@ const Riding = () => {
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
-                      src={require(../../static/images/Riding/${place.image})}
+                      src={require(`../../static/images/Riding/${place.image}`)}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
                     />
@@ -158,7 +157,7 @@ const Riding = () => {
                       <p className="riding-description"># {place.TR_NUMPRODUCE2}</p>
                       <button
                         className="set-dest-btn"
-                        onClick={() => alert(${place.TR_PLACE_NAME}을(를) 목적지로 설정하였습니다.)}
+                        onClick={() => alert(`${place.TR_PLACE_NAME}을(를) 목적지로 설정하였습니다.`)}
                       >
                         목적지 설정
                       </button>
@@ -176,4 +175,4 @@ const Riding = () => {
   );
 };
 
-export default Riding; 변경해줘
+export default Riding;
