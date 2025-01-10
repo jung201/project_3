@@ -12,23 +12,24 @@ import signin from "../static/images/icons/signin.PNG";
 import { checkLoginStatus } from "../service/apiService"; // 로그인 상태 확인 함수 가져오기
 
 function Header() {
-  // 로그인 상태 관리
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 기본값: 로그아웃 상태
-  const [userId, setUserId] = useState(""); // 로그인한 유저 ID 저장
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [nickname, setNickname] = useState("");
 
-  // 로그인 상태 확인
   useEffect(() => {
-    const { isLoggedIn, userId } = checkLoginStatus(); // 로그인 상태 확인
-    setIsLoggedIn(isLoggedIn); // 로그인 여부 설정
-    setUserId(userId); // 사용자 ID 설정
+    const storedUserId = sessionStorage.getItem("userId");
+    const storedNickname = sessionStorage.getItem("nickname");
+
+    if (storedUserId) {
+      setIsLoggedIn(true);
+      setNickname(storedNickname);
+    }
   }, []);
 
-  // 로그아웃 버튼 클릭 시
   const handleLogout = () => {
-    sessionStorage.removeItem("userId"); // 세션에서 사용자 정보 삭제
-    setIsLoggedIn(false); // 로그아웃 상태로 변경
-    setUserId(""); // 유저 ID 초기화
+    sessionStorage.clear(); // 세션 초기화
+    setIsLoggedIn(false);
     alert("로그아웃 되었습니다.");
+    window.location.reload(); // 페이지 새로고침
   };
 
   return (
@@ -64,7 +65,7 @@ function Header() {
           {isLoggedIn ? (
             // 로그인 상태일 때
             <>
-              <span className="welcome-message">{userId} 님 환영합니다!</span>
+              <span className="welcome-message">{nickname} 님 환영합니다!</span>
               <button className="logout-button" onClick={handleLogout}>
                 로그아웃
               </button>

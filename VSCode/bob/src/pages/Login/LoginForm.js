@@ -12,12 +12,13 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      await fetchLogin(userId, password);
-      alert("로그인 성공! 환영합니다!:");
+      const userData = await fetchLogin(userId, password);
+      alert(`${userData.u_NICKNAME}님 환영합니다!`);
+      sessionStorage.setItem('userId', userData.u_ID);
+      sessionStorage.setItem('nickname', userData.u_NICKNAME);
       window.location.href = "/";
     } catch (err) {
-      console.error("로그인 실패:", err);
-      setError("로그인 실패: 아이디 또는 비밀번호를 확인하세요.");
+      setError(err.message);
     }
   };
 
