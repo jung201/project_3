@@ -12,7 +12,7 @@ public class ThemeVO {
     private String TR_NUMPRODUCE1;
     private String TR_NUMPRODUCE2;
     private String CATEGORY;
-    private String IMAGE; //
+    private String IMAGE;
 
     public ThemeVO() {
     }

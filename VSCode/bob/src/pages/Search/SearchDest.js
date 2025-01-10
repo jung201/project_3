@@ -5,7 +5,44 @@ const SearchDest = ({ onClose, onDestinationSelect, waypoint }) => {
     const [departure] = useState('강남역'); // 기본값 강남역
     const [destination, setDestination] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [isListening, setIsListening] = useState(false);
 
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+    // 음성인식 시작
+    const startListening = () => {
+        if (!recognition) {
+            alert('음성 인식이 지원되지 않는 브라우저입니다.');
+            return;
+        }
+
+        setIsListening(true);
+        recognition.start();
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            setDestination(transcript); // 검색창에 음성으로 입력된 내용 설정
+            handleSearch(transcript); // 검색 실행
+            setIsListening(false);
+        };
+
+        recognition.onerror = (event) => {
+            console.error('음성 인식 에러:', event.error);
+            setIsListening(false);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+    };
+
+    const stopListening = () => {
+        if (recognition) recognition.stop();
+        setIsListening(false);
+    };
+
+    // 검색 실행
     const handleSearch = (query) => {
         const results = [
             { name: '역삼역', address: '서울시 역삼동 124', lat: 37.500622, lng: 127.036456 },
@@ -57,16 +94,30 @@ const SearchDest = ({ onClose, onDestinationSelect, waypoint }) => {
             {/* 도착지 */}
             <div className="destination-container">
                 <label>도착지:</label>
-                <input
-                    className="searchInput"
-                    type="text"
-                    value={destination}
-                    onChange={(e) => {
-                        setDestination(e.target.value);
-                        handleSearch(e.target.value);
-                    }}
-                    placeholder="도착지를 검색하세요"
-                />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <input
+                        className="searchInput"
+                        type="text"
+                        value={destination}
+                        onChange={(e) => {
+                            setDestination(e.target.value);
+                            handleSearch(e.target.value);
+                        }}
+                        placeholder="도착지를 검색하세요"
+                    />
+                    <button
+                        className={`voice-btn ${isListening ? 'listening' : ''}`}
+                        onClick={() => {
+                            if (isListening) {
+                                stopListening(); // 음성인식 중지
+                            } else {
+                                startListening(); // 음성인식 시작
+                            }
+                        }}
+                    >
+                        {isListening ? '🎙️ 듣는 중...' : '🎤 음성 입력'}
+                    </button>
+                </div>
                 {searchResults.length > 0 && (
                     <div className="search-results">
                         {searchResults.map((result, index) => (
@@ -74,12 +125,12 @@ const SearchDest = ({ onClose, onDestinationSelect, waypoint }) => {
                                 key={index}
                                 className="search-result-item"
                                 onClick={() => handleDestinationSelect(result)}
-                            >   
-                                <span style={{fontSize:'13pt'}}>
-                                {result.name}
+                            >
+                                <span style={{ fontSize: '13pt' }}>
+                                    {result.name}
                                 </span>
-                                <span style={{fontSize:'10pt'}}>
-                                　{result.address}　
+                                <span style={{ fontSize: '10pt' }}>
+                                    　{result.address}　
                                 </span>
                                 <button
                                     className="set-destination-btn"
