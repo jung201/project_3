@@ -84,7 +84,7 @@ export const fetchsearche = async () => {
 //================================================================================
 
 // theme URL 설정
-const API_theme_URL = "http://192.168.0.93:3006/riding";
+const API_theme_URL = "http://192.168.0.93:3006/riding/api";
 export const fetchTheme = async () => {
   try {
     // 서버에서 데이터 가져오기
