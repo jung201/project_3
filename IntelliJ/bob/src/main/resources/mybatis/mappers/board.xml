@@ -22,16 +22,16 @@
     <!-- 검색 기능 -->
     <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
         SELECT
-        B_ID as bId,
-        B_CATEGORY as bCategory,
-        B_CC as bCc,
-        B_TITLE as bTitle,
-        B_CONTENT as bContent,
-        B_CREATED_ID as bCreatedId,
-        B_CREATED_DATE as bCreatedDate,
-        B_UPDATED_ID as bUpdatedId,
-        B_UPDATED_DATE as bUpdatedDate,
-        B_VIEWS as bViews
+            B_ID as bId,
+            B_CATEGORY as bCategory,
+            B_CC as bCc,
+            B_TITLE as bTitle,
+            B_CONTENT as bContent,
+            B_CREATED_ID as bCreatedId,
+            B_CREATED_DATE as bCreatedDate,
+            B_UPDATED_ID as bUpdatedId,
+            B_UPDATED_DATE as bUpdatedDate,
+            B_VIEWS as bViews
         FROM BOARD
         WHERE
         <choose>
@@ -44,7 +44,7 @@
                 WHEN #{keyword} = '정비' THEN 'R'
                 WHEN #{keyword} = '꿀팁' THEN 'T'
                 WHEN #{keyword} = '코스' THEN 'C'
-                WHEN #{keyword} = '자유이야기' THEN 'F'
+                WHEN #{keyword} = '자유' THEN 'F'
                 END FROM DUAL
                 ))
             </when>

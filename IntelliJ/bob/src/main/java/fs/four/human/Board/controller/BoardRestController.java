@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/board")
 public class BoardRestController {
 
     @Autowired
@@ -45,7 +45,7 @@ public class BoardRestController {
     }
 
     // 3. 게시글 등록
-    @PostMapping
+    @PostMapping("/register")
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
         try {
             boardService.createBoard(boardVO);

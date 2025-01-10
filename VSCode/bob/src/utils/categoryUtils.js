@@ -4,7 +4,7 @@ export const getCategoryLabel = (code) => {
     R: "정비",
     T: "꿀팁",
     C: "코스",
-    F: "자유이야기",
+    F: "자유",
   };
   return categories[code] || null; // 유효하지 않은 값 처리
 };

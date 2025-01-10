@@ -53,7 +53,7 @@
 
       li a {
         padding: 15px;
-        font-size: 15px;
+        font-size: 16px;
         font-weight: bold;
         text-decoration: none;
         transition: transform 0.3s ease, color 0.3s ease;
@@ -109,55 +109,6 @@
     animation: smooth-blink 1s infinite;
   }
 
-  /* HOT 태그 스타일 */
-  .hot-tag {
-    margin-left: 5px;
-    padding: 2px 6px;
-    background-color: #ff9800;
-    /* 주황색 배경 */
-    color: white;
-    /* 흰색 글자 */
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 12px;
-    display: inline-block;
-    animation: smooth-blink 1s infinite;
-  }
-
-  /* 깜빡거리는 애니메이션 효과 */
-  @keyframes smooth-blink {
-
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  /* 작성자 프로필 이미지 스타일 */
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-left: 10px;
-  }
-
-  // 카테고리 이미지
-  .profile-img {
-    width: 25px;
-    height: 25px;
-  }
-
-  // 검색 이미지
-  .groupFilter-img {
-    width: 30px;
-    height: 30px;
-  }
-
-
   // 테이블 스타일
   .freeBoard-table {
     width: 100%;
@@ -168,6 +119,7 @@
       border-bottom: 1px solid #ddd;
       text-align: center;
       padding: 20px 10px;
+      font-size: 16px;
     }
 
     th {
@@ -228,6 +180,54 @@
       width: 6%;
       /* 날짜 열 크기 */
     }
+  }
+
+  /* HOT 태그 스타일 */
+  .hot-tag {
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: #ff9800;
+    /* 주황색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+    animation: smooth-blink 1s infinite;
+  }
+
+  /* 깜빡거리는 애니메이션 효과 */
+  @keyframes smooth-blink {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* 작성자 프로필 이미지 스타일 */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 10px;
+  }
+
+  // 카테고리 이미지
+  .profile-img {
+    width: 25px;
+    height: 25px;
+  }
+
+  // 검색 이미지
+  .groupFilter-img {
+    width: 30px;
+    height: 30px;
   }
 
   /* 카테고리 스타일 */
@@ -306,7 +306,7 @@
     padding: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 800px;
-    height: 550px;
+    height: 600px;
     z-index: 1000;
 
     // 애니메이션 효과
@@ -331,7 +331,7 @@
     // 닫기 버튼 스타일
     .close-btn {
       position: absolute;
-      top: -10px;
+      top: 20px;
       right: 15px;
       width: 35px;
       height: 35px;
@@ -375,7 +375,7 @@
 
       // 내용 박스 스타일
       textarea {
-        height: 300px;
+        height: 350px;
         resize: none;
         padding: 8px;
         border: 1px solid #ddd;
@@ -386,7 +386,6 @@
       }
 
       button {
-        margin-top: 20px;
         padding: 10px;
         background-color: #007bff;
         color: #fff;
@@ -413,7 +412,7 @@
     padding: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 800px;
-    height: 550px;
+    height: 600px;
     z-index: 1000;
 
     // 애니메이션 효과
@@ -432,7 +431,13 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
+    }
+
+    .title-bo {
+      // @include flex-center;
+      width: 100%;
+      border: 1px solid black;
+      margin-bottom: 10px;
     }
 
     .close-btn {
@@ -475,14 +480,19 @@
 
         .left,
         .right {
+          display: flex;
+          justify-content: space-between;
+          gap: 40px;
+
           p {
+            font-size: 18px;
             margin-top: 5px;
           }
         }
       }
 
       textarea {
-        height: 300px;
+        height: 350px;
         resize: none;
         padding: 8px;
         border: 1px solid #ddd;
@@ -493,41 +503,41 @@
         font-size: 16px;
       }
 
-      button {
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
 
-        &:hover {
-          background-color: #0056b3;
+      .view-btn {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+        bottom: 15px;
+
+        button {
+          width: 80px;
+          padding: 10px;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #e64646;
+          }
         }
       }
     }
   }
 }
 
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 360px) {
   .board {
     height: 100%;
     padding: 20px;
 
     /* 배경 이미지 설정 */
     .board-title {
-      height: 150px;
-    }
-
-    .board-title-font {
-      top: 35%;
-      left: 50%;
-      font-size: 30px;
-    }
-
-    .board-title {
-      width: 100%;
+      height: 100px;
     }
 
     .search-register {
@@ -546,7 +556,7 @@
         }
 
         li a {
-          font-size: 20px;
+          font-size: 14px;
         }
       }
 
@@ -557,17 +567,17 @@
         select {
           margin: 0px;
           padding: 0px;
+          font-size: 12px;
         }
 
         button {
-          width: 75px;
+          width: 50px;
           position: relative;
           bottom: 4px;
-          font-size: 12px;
+          font-size: 14px;
         }
       }
     }
-
 
     /* 작성자 프로필 이미지 스타일 */
     .user-profile {
@@ -590,10 +600,11 @@
     .freeBoard-table {
       width: 100%;
       top: 0px;
+      font-size: 16px;
 
-
+      th,
       td {
-        height: 80px;
+        font-size: 16px;
       }
 
       th:nth-child(1),
@@ -640,7 +651,7 @@
     // 등록 팝업
     .register-popup {
       width: 300px;
-      height: 500px;
+      height: 200px;
 
       // 닫기 버튼 스타일
       .close-btn {
@@ -650,22 +661,10 @@
 
     // 보기 팝업
     .view-popup {
-      width: 350px;
+      width: 300px;
       height: 500px;
 
     }
-  }
-
-  /* 에디터 전체 스타일 */
-  .custom-editor .ql-toolbar {
-    border: 1px solid #ccc;
-    /* 테두리 추가 */
-    border-radius: 5px;
-    /* 둥근 모서리 */
-    margin-bottom: 10px;
-    /* 아래 여백 */
-    background-color: #f9f9f9;
-    /* 배경색 */
   }
 
 }

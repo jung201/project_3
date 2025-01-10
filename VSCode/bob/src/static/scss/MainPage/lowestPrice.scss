@@ -8,11 +8,11 @@
     // @include box-style;
 
     .container {
-        // @include box-style;
+        @include box-style;
         padding: 30px;
 
         .title {
-            width: 380px;
+            width: 510px;
             padding: 10px;
             font-size: 35px;
             font-weight: bold;
