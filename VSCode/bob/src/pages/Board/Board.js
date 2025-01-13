@@ -213,7 +213,7 @@ const Board = () => {
       bcontent: content,
       bcreatedId: sessionStorage.getItem("userId"),
     };
-
+    console.log("수정 요청 ID:", postId); // 디버깅
     console.log("수정 요청 데이터:", updatedPost); // 디버깅 로그 추가
 
     try {
@@ -674,12 +674,14 @@ const Board = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
+                <option value="">카테고리 선택</option>
                 <option value="정비">정비</option>
                 <option value="꿀팁">꿀팁</option>
                 <option value="코스">코스</option>
                 <option value="자유">자유</option>
               </select>
               <select value={cc} onChange={(e) => setCc(e.target.value)}>
+                <option value="">배기량 선택</option>
                 <option value="스쿠터">스쿠터</option>
                 <option value="소형">소형</option>
                 <option value="중형">중형</option>
