@@ -17,9 +17,12 @@ public interface BoardDAO {
     // 3. 게시글 등록
     void createBoard(BoardVO boardVO);
 
-    // 4. 조회수 증가
-    void increaseViewCount(int id); // 조회수 증가
-
-    // 5. 게시글 삭제
+    // 4. 게시글 삭제
     void deletePost(int postId);
+
+    // 5. 게시글 수정
+    void updatePost(BoardVO boardVO);
+
+    // 6. 조회수 증가
+    void increaseViewCount(int id); // 조회수 증가
 }

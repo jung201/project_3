@@ -46,10 +46,12 @@ public class BoardRestController {
     // 3. 게시글 등록
     @PostMapping("/register")
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
+
         try {
             System.out.println("게시글 등록 요청 데이터: " + boardVO);
             boardService.createBoard(boardVO);
             return boardVO; // 등록된 게시글 반환
+
         } catch (Exception e) {
             System.err.println("게시글 등록 중 오류 발생: " + e.getMessage());
             e.printStackTrace(); // 상세 로그 출력
@@ -57,26 +59,45 @@ public class BoardRestController {
         }
     }
 
-    // 4. 조회수 증가
-    @PatchMapping("/views/{id}")
-    public void increaseViewCount(@PathVariable("id") int id) {
-        try {
-            boardService.increaseViewCount(id);
-        } catch (Exception e) {
-            throw new RuntimeException("조회수 업데이트 중 오류가 발생했습니다.");
-        }
-    }
-
-    // 5. 게시글 삭제
+    // 4. 게시글 삭제
     @DeleteMapping("/{postId}")
     public String deletePost (
             @PathVariable("postId") int postId,
             @RequestParam("currentUserId") String currentUserId) {
+
         try {
+            System.out.println("게시글 삭제 요청 데이터: " + postId);
             boardService.deletePost(postId, currentUserId);
             return "게시글이 성공적으로 삭제되었습니다.";
+
         } catch (RuntimeException e) {
             return "삭제 실패 : " + e.getMessage();
+        }
+    }
+
+    // 5. 게시글 수정
+    @PutMapping("/{postId}")
+    public String updatePost(
+            @PathVariable("postId") int postId,
+            @RequestBody BoardVO boardVO) {
+        try {
+            boardVO.setBId(postId);
+            boardService.updatePost(boardVO);
+            return "게시글이 성공적으로 수정되었습니다 !";
+        } catch (Exception e) {
+            throw new RuntimeException("게시글 수정 중 오류가 발생했습니다 !");
+        }
+    }
+
+    // 6. 조회수 증가
+    @PatchMapping("/views/{id}")
+    public void increaseViewCount(@PathVariable("id") int id) {
+
+        try {
+            boardService.increaseViewCount(id);
+
+        } catch (Exception e) {
+            throw new RuntimeException("조회수 업데이트 중 오류가 발생했습니다.");
         }
     }
 

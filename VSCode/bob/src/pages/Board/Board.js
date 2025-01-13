@@ -3,6 +3,7 @@ import axios from "axios";
 import { fetchBoard } from "../../service/apiService"; // 공통 API 함수
 import { registerBoard } from "../../service/apiService"; // 등록 API 함수
 import { deleteBoard } from "../../service/apiService"; // 삭제 API 함수
+import { updateBoard } from "../../service/apiService"; // 삭제 API 함수
 import { formatRelativeDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
 import {
   getCategoryLabel,
@@ -23,9 +24,9 @@ const Board = () => {
   SparkleEffect();
 
   // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
-  const userId = sessionStorage.getItem("userId"); // localStorage에서 사용자 ID 가져오기
+  const userId = sessionStorage.getItem("userId"); // sessionStorage에서 사용자 ID 가져오기
 
-  const [posts, setPosts] = useState([]); // 게시글 목록 상태
+  const [posts, setPosts] = useState([]); // 게시글 목록 상태c
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
   const [popupType, setPopupType] = useState(""); // 팝업 타입 (등록, 보기)
   const [currentPost, setCurrentPost] = useState(null); // 선택된 게시글 정보
@@ -189,9 +190,29 @@ const Board = () => {
   };
 
   // 게시글 수정
-  const handleEdit = (postId) => {
-    console.log("수정 버튼 클릭:", postId);
-    // 수정 로직 추가
+  const handleUpdate = async (postId) => {
+    // 카테고리와 배기량 변환
+    const categoryCode = getCategoryCode(category); // 한글 -> 코드 (예: "정비" -> "R")
+    const ccCode = getCcCode(cc); // 한글 -> 코드 (예: "스쿠터" -> "S")
+
+    const updatedPost = {
+      btitle: title,
+      bcategory: categoryCode,
+      bcc: ccCode,
+      bcontent: content,
+      bcreatedId: sessionStorage.getItem("userId"),
+    };
+
+    console.log("수정 요청 데이터:", updatedPost); // 디버깅 로그 추가
+
+    try {
+      const message = await updateBoard(postId, updatedPost);
+      alert(message);
+      window.location.reload(); // 페이지 리프레시
+    } catch (error) {
+      console.error("게시글 수정 실패:", error);
+      alert("수정 중 오류가 발생했습니다.");
+    }
   };
 
   //=======================================================================
@@ -309,30 +330,35 @@ const Board = () => {
 
   // 팝업
   const togglePopup = (type, post = null) => {
-    setPopupType(type);
-    setCurrentPost(post);
-    setShowPopup(!showPopup);
-
     if (type === "view" && post) {
-      // 조회수 증가 함수 호출
+      // 보기 팝업: 조회수 증가 함수 호출
       increaseViewCount(post.bid);
     }
 
+    if (type === "edit" && post) {
+      // 수정 팝업: 입력 필드 초기화
+      setTitle(post.btitle || "");
+      setCategory(getCategoryLabel(post.bcategory) || "");
+      setCc(getCcLabel(post.bcc) || "");
+      setContent(post.bcontent || "");
+    }
+    
     if (!showPopup) {
       // 팝업 열기
-      setPopupType(type);
       setCurrentPost(post);
+      setPopupType(type);
       setShowPopup(true);
       setTimeout(() => setIsAnimating(true), 10);
     } else {
       // 팝업 닫기
-      setIsAnimating(false); // 애니메이션 종료
+      setIsAnimating(false);
       setTimeout(() => {
         setShowPopup(false);
-        setPopupType(""); // 팝업 타입 초기화
-        setCurrentPost(null); // 선택된 게시글 초기화
+        setPopupType("");
+        setCurrentPost(null);
       }, 300);
     }
+
   };
 
   //=======================================================================
@@ -596,7 +622,11 @@ const Board = () => {
               {/* 작성자와 로그인 사용자 ID 비교 */}
               {currentPost.bcreatedId === sessionStorage.getItem("userId") && (
                 <>
-                  <button onClick={() => handleEdit(currentPost.bid)}>
+                  <button
+                    type="button"
+                    onClick={() => togglePopup("edit", currentPost)} // 수정 팝업으로 전환
+                    className="editor-submit-button"
+                  >
                     수정
                   </button>
                   <button onClick={() => handleDelete(currentPost.bid)}>
@@ -605,6 +635,60 @@ const Board = () => {
                 </>
               )}
             </div>
+          </form>
+        </div>
+      )}
+
+      {/* ================================================================== */}
+      {/* 수정 팝업 */}
+      {showPopup && popupType === "edit" && currentPost && (
+        <div className={`edit-popup ${isAnimating ? "open" : "close"}`}>
+          <h2>게시글 수정</h2>
+          <form>
+            <button
+              type="button"
+              className="close-btn"
+              onClick={() => togglePopup("edit")}
+            >
+              X
+            </button>
+            <div className="form-group">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="정비">정비</option>
+                <option value="꿀팁">꿀팁</option>
+                <option value="코스">코스</option>
+                <option value="자유">자유</option>
+              </select>
+              <select value={cc} onChange={(e) => setCc(e.target.value)}>
+                <option value="스쿠터">스쿠터</option>
+                <option value="소형">소형</option>
+                <option value="중형">중형</option>
+                <option value="리터">리터</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="제목을 입력하세요"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <textarea
+              placeholder="내용을 입력하세요"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
+            <button
+              type="button"
+              onClick={() => handleUpdate(currentPost.bid)}
+              className="editor-submit-button"
+            >
+              수정
+            </button>
           </form>
         </div>
       )}

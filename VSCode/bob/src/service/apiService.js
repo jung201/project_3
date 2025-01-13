@@ -42,6 +42,19 @@ export const deleteBoard = async (postId, currentUserId) => {
 };
 
 // 게시글 수정
+export const updateBoard = async (postId, updatedPost) => {
+  try {
+    const response = await axios.put(
+      `http://192.168.0.93:3006/board/${postId}`,
+      updatedPost
+    );
+    console.log("게시글 수정 성공:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("게시글 수정 실패:", error);
+    throw error;
+  }
+};
 
 //================================================================================
 
