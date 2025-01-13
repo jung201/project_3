@@ -9,7 +9,6 @@ import board from "../static/images/icons/board.png";
 import mypage from "../static/images/icons/mypage.png";
 import login from "../static/images/icons/login.PNG";
 import signin from "../static/images/icons/signin.PNG";
-import { checkLoginStatus } from "../service/apiService"; // 로그인 상태 확인 함수 가져오기
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
