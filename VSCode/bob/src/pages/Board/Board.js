@@ -283,7 +283,7 @@ const Board = () => {
       bcategory: "bCategory",
       bcc: "bCc",
       btitle: "bTitle",
-      bcreatedid: "bCreatedId",
+      bcreatedid: "bWriter",
     };
 
     const column = columnMap[searchColumn.toLowerCase()] || searchColumn; // 대소문자 변환
@@ -454,7 +454,7 @@ const Board = () => {
             <option value="bcategory">구분</option>
             <option value="bcc">배기량</option>
             <option value="btitle">제목</option>
-            <option value="bcreatedId">작성자</option>
+            <option value="bWriter">닉네임</option>
           </select>
 
           {/* 검색어 입력 */}
