@@ -529,30 +529,37 @@
     }
   }
 
-  // 수정 팝업
   .edit-popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 20px;
+    transform: translate(-50%, -50%) scale(0.9);
+    /* 초기 크기 축소 */
     z-index: 1000;
-    width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 800px;
+    height: 600px;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    opacity: 0;
+    /* 기본적으로 투명 */
+
+    &.open {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      /* 크기 확대 */
+    }
+
+    &.close {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+      /* 크기 축소 */
+    }
   }
 
-  .edit-popup .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 16px;
-  }
 }
+
 
 
 
