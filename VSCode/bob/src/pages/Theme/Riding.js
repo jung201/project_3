@@ -98,13 +98,13 @@ const Riding = () => {
   
         // 카테고리별로 그룹화
         const groupedData = data.reduce((acc, item) => {
-          const categoryIndex = acc.findIndex(cat => cat.CATEGORY === item.category);
+          const categoryIndex = acc.findIndex(cat => cat.CATEGORY === item.CATEGORY);
           if (categoryIndex === -1) {
             // 새로운 카테고리 추가
-            acc.push({ CATEGORY: item.category, places: [item] });
+            acc.push({ CATEGORY: item.CATEGORY, PLACES: [item] });
           } else {
             // 기존 카테고리에 장소 추가
-            acc[categoryIndex].places.push(item);
+            acc[categoryIndex].PLACES.push(item);
           }
           return acc;
         }, []);
