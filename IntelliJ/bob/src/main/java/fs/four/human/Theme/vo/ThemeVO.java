@@ -11,7 +11,7 @@ public class ThemeVO {
     private String TR_PLACE_NAME;
     private String TR_NUMPRODUCE1;
     private String TR_NUMPRODUCE2;
-//    private String CATEGORY;
+    private String CATEGORY;
     private String IMAGE;
 
     public ThemeVO() {

@@ -7,7 +7,7 @@
 
     <!-- 전체 테마 불러오기 -->
     <select id="getAllThemes" resultType="fs.four.human.Theme.vo.ThemeVO">
-        SELECT TR_PLACE_ID, TR_PLACE_NAME, TR_NUMPRODUCE1, TR_NUMPRODUCE2, IMAGE
+        SELECT TR_PLACE_ID, TR_PLACE_NAME, TR_NUMPRODUCE1, TR_NUMPRODUCE2 as trNumproduce2, IMAGE as image, CATEGORY as category
         FROM THEME_RIDING
     </select>
 
