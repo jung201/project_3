@@ -95,30 +95,15 @@ const Riding = () => {
       try {
         const data = await fetchTheme();
         console.log("가져온 데이터:", data);
-  
-        // 카테고리별로 그룹화
-        const groupedData = data.reduce((acc, item) => {
-          const categoryIndex = acc.findIndex(cat => cat.CATEGORY === item.CATEGORY);
-          if (categoryIndex === -1) {
-            // 새로운 카테고리 추가
-            acc.push({ CATEGORY: item.CATEGORY, PLACES: [item] });
-          } else {
-            // 기존 카테고리에 장소 추가
-            acc[categoryIndex].PLACES.push(item);
-          }
-          return acc;
-        }, []);
-  
-        console.log("그룹화된 데이터:", groupedData);
-        setPosts(groupedData); // 그룹화된 데이터 설정
+        setPosts(data); // 게시글 데이터 설정
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
         setPosts(categories); // 실패 시 백업 데이터 사용
       }
     };
-  
+
     loadTheme(); // 데이터 불러오기 실행
-  }, []);
+  }, []); // 컴포넌트 마운트 시 1회 실행
 
   return (
     <div className="riding-container">
