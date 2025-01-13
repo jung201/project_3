@@ -109,19 +109,32 @@ export const fetchInfo = async () => {
 
 //================================================================================
 
-// mypage URL 설정
-const API_mypage_URL = "http://192.168.0.93:3006/mypage";
-export const fetchmypage = async () => {
+// myPage URL 설정
+const API_myPage_URL = "http://192.168.0.93:3006/myPage";
+export const fetchMyPage = async (userId) => {
   try {
     // 서버에서 데이터 가져오기
-    const response = await axios.get(`${API_mypage_URL}`);
+    const response = await axios.get(`${API_myPage_URL}/${userId}`);
     console.log(response.data); // 디버깅용 로그 출력
     return response.data; // 데이터 반환
   } catch (error) {
-    console.error("데이터 불러오기 에러:", error); // 에러 처리
+    console.error("사용자 정보 가져오기 실패:", error); // 에러 처리
     throw error; // 에러 전파
   }
 };
+
+// 사용자 정보 수정 (추가 가능)
+export const updateMyPage = async (userId, updatedInfo) => {
+  try {
+    const response = await axios.put(`${API_myPage_URL}/${userId}`, updatedInfo);
+    console.log("사용자 정보 수정 성공:", response.data); // 디버깅 로그
+    return response.data; // 수정된 데이터 반환
+  } catch (error) {
+    console.error("사용자 정보 수정 실패:", error); // 에러 처리
+    throw error; // 에러 전달
+  }
+};
+
 
 //================================================================================
 

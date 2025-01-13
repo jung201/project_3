@@ -1,10 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchMyPage } from "../../service/apiService";
+import { formatDate } from "../../utils/dateUtils"; // 날짜 포맷 변환 함수 가져오기
+import { getCcLabel } from "../../utils/categoryUtils"; // 배기량 변환 함수 가져오기
 import "../../static/scss/MyPage/MyInfo.scss";
 import sample from "../../static/images/icons/샘플.PNG";
 import UserEditPopup from "./UserEditPopup";
 
 const MyInfo = ({ setView }) => {
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    nickname: "",
+    cc: "",
+    joinDate: "",
+  });
+  useEffect(() => {
+    const loadUserInfo = async () => {
+      try {
+        // sessionStorage에서 userId 가져오기 (로그인 시 저장)
+        const userId = sessionStorage.getItem("userId");
+        if (!userId) {
+          console.error("로그인이 필요합니다."); // userId가 없을 경우
+          return;
+        }
+
+        // 백엔드에서 사용자 정보 가져오기
+        const data = await fetchMyPage(userId);
+        console.log("가져온 사용자 정보:", data); // 디버깅용 로그
+
+        // 날짜 포맷 변환
+        const formattedDate = formatDate(data.u_CREATED_DATE);
+        const ccLabel = getCcLabel(data.u_CC);
+
+        // 사용자 정보 상태 업데이트
+        setUserInfo({
+          nickname: data.u_NICKNAME,
+          cc: ccLabel,
+          joinDate: formattedDate, // 날짜 필드 사용
+        });
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    loadUserInfo(); // 컴포넌트 마운트 시 사용자 정보 가져오기
+  }, []);
+
   const handleScroll = (targetId) => {
     // 450px 이하에서만 스크롤 이동
     if (window.innerWidth <= 450) {
@@ -30,16 +70,18 @@ const MyInfo = ({ setView }) => {
 
       {/* 유저 정보 */}
       <div className="profile-info">
-        <h2>천안라이더</h2>
-        <p>- 배기량: 125cc</p>
-        <p>- 가입일: 2021. 11. 11</p>
+        <h2>{userInfo.nickname}</h2>
+        <p>- 배기량: {userInfo.cc}</p>
+        <p>- 가입일: {userInfo.joinDate}</p>
       </div>
 
       {/* 정보 수정 버튼 */}
       <div className="profile-button">
         <button onClick={() => setShowEditPopup(true)}>정보 수정</button>
       </div>
-      <br /><br /><br />
+      <br />
+      <br />
+      <br />
       {/* 메뉴 버튼 */}
       <div className="profile-menu">
         <button
@@ -64,7 +106,6 @@ const MyInfo = ({ setView }) => {
         </button>
       </div>
       {showEditPopup && <UserEditPopup setShowEditPopup={setShowEditPopup} />}
-
     </div>
   );
 };
