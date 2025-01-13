@@ -71,7 +71,7 @@ function Header() {
               </button>
               <Link to="/MyPage">
                 <button className="mypage-button">
-                  <img src={mypage} alt="마이페이지" className="button-icon" />
+                  <img src={logout} alt="마이페이지" className="button-icon" />
                 </button>
               </Link>
             </>
