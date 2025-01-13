@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
-import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
 
-// 백업 데이터: 기본 카테고리와 장소 목록
 const categories = [
   {
     CATEGORY: '끝없이 펼쳐진 바다와 함께하는',
@@ -78,6 +76,8 @@ const categories = [
   },
 ];
 
+
+
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
   const sectionRefs = useRef([]); // 섹션 참조 관리
@@ -95,30 +95,15 @@ const Riding = () => {
       try {
         const data = await fetchTheme();
         console.log("가져온 데이터:", data);
-  
-        // 카테고리별로 그룹화
-        const groupedData = data.reduce((acc, item) => {
-          const categoryIndex = acc.findIndex(cat => cat.CATEGORY === item.CATEGORY);
-          if (categoryIndex === -1) {
-            // 새로운 카테고리 추가
-            acc.push({ CATEGORY: item.CATEGORY, PLACES: [item] });
-          } else {
-            // 기존 카테고리에 장소 추가
-            acc[categoryIndex].PLACES.push(item);
-          }
-          return acc;
-        }, []);
-  
-        console.log("그룹화된 데이터:", groupedData);
-        setPosts(groupedData); // 그룹화된 데이터 설정
+        setPosts(data); // 게시글 데이터 설정
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
         setPosts(categories); // 실패 시 백업 데이터 사용
       }
     };
-  
+
     loadTheme(); // 데이터 불러오기 실행
-  }, []);
+  }, []); // 컴포넌트 마운트 시 1회 실행
 
   return (
     <div className="riding-container">
@@ -128,21 +113,21 @@ const Riding = () => {
         <div className="photo-box-wrapper">
           <div className="photo-box" onClick={() => scrollToSection(0)}>
             <img
-              src={require('../../static/images/Riding/해안.png')}
+              src="/images/Riding/해안.png"
               alt="어우러짐의 미학"
               className="photo-box-image"
             />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(1)}>
             <img
-              src={require('../../static/images/Riding/단풍.png')}
+              src="/images/Riding/단풍.png"
               alt="노을이 가장 아름다운"
               className="photo-box-image"
             />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(2)}>
             <img
-              src={require('../../static/images/Riding/야경.png')}
+              src="/images/Riding/야경.png"
               alt="야간"
               className="photo-box-image"
             />
@@ -159,7 +144,7 @@ const Riding = () => {
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
-                      src={require(`../../static/images/Riding/${place.IMAGE}`)}
+                      src={`/images/Riding/${place.IMAGE || 'default.png'}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
                     />
