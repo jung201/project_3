@@ -8,6 +8,7 @@ import riding from "../static/images/icons/riding.png";
 import board from "../static/images/icons/board.png";
 import mypage from "../static/images/icons/mypage.png";
 import login from "../static/images/icons/login.PNG";
+import logout from "../static/images/icons/logout.PNG";
 import signin from "../static/images/icons/signin.PNG";
 
 function Header() {
@@ -66,10 +67,12 @@ function Header() {
             <>
               <span className="welcome-message">{nickname} 님 환영합니다!</span>
               <button className="logout-button" onClick={handleLogout}>
-                로그아웃
+                <img src={logout} alt="로그아웃" className="button-icon" />
               </button>
               <Link to="/MyPage">
-                <button className="mypage-button">마이페이지</button>
+                <button className="mypage-button">
+                  <img src={mypage} alt="마이페이지" className="button-icon" />
+                </button>
               </Link>
             </>
           ) : (
