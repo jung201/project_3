@@ -33,23 +33,16 @@ const Board = () => {
   const [isAnimating, setIsAnimating] = useState(false); // 팝업 애니메이션 상태
   const [selectedCategory, setSelectedCategory] = useState("전체"); // 선택된 카테고리
 
-
-
-
   useEffect(() => {
     console.log("showPopup 상태 변경 감지:", showPopup);
     console.log("popupType 상태 변경 감지:", popupType);
     console.log("currentPost 상태 변경 감지:", currentPost);
-  
+
     // 팝업 상태가 true일 때 로직 추가 가능
     if (showPopup) {
       console.log("팝업이 열림:", popupType);
     }
   }, [showPopup, popupType, currentPost]);
-  
-
-
-
 
   // 사용자 입력 상태 관리
   const [title, setTitle] = useState(""); // 제목 상태
@@ -346,48 +339,6 @@ const Board = () => {
 
   //=======================================================================
 
-  // 팝업
-  const togglePopup = (type, post = null) => {
-    console.log("togglePopup:", type, "post:", post);
-
-    if (type === "view" && post) {
-      // 보기 팝업: 조회수 증가 함수 호출
-      increaseViewCount(post.bid);
-    }
-
-    if (type === "edit" && post) {
-      // 수정 팝업: 입력 필드 초기화
-      setTitle(post.btitle || "");
-      setCategory(getCategoryLabel(post.bcategory) || "");
-      setCc(getCcLabel(post.bcc) || "");
-      setContent(post.bcontent || "");
-    }
-
-    if (!showPopup) {
-      // 팝업 열기
-      setCurrentPost(post);
-      setPopupType(type);
-      setShowPopup(true);
-      setTimeout(() => setIsAnimating(true), 10);
-      console.log("팝업 열기 요청:", { type, post });
-
-    } else {
-      // 팝업 닫기
-      setIsAnimating(false);
-      setTimeout(() => {
-        setShowPopup(false);
-        setPopupType("");
-        setCurrentPost(null);
-        console.log("Popup opened. States:");
-        console.log("showPopup:", showPopup);
-        console.log("popupType:", popupType);
-        console.log("currentPost:", currentPost);
-      }, 300);
-    }
-  };
-
-  //=======================================================================
-
   // 조회수 증가
   const increaseViewCount = (postid) => {
     if (!postid) {
@@ -407,6 +358,46 @@ const Board = () => {
       .catch((error) => {
         console.error("조회수 업데이트 실패:", error);
       });
+  };
+
+  //=======================================================================
+
+  // 팝업
+  const togglePopup = (type, post = null) => {
+    console.log("togglePopup called:", { type, post });
+
+    // 보기 팝업: 조회수 증가 함수 호출
+    if (type === "view" && post) {
+      increaseViewCount(post.bid);
+    }
+
+    // 수정 팝업: 필드 초기화
+    if (type === "edit" && post) {
+      console.log("Initializing edit popup with post:", post);
+      setTitle(post.bTitle || "");
+      setCategory(getCategoryLabel(post.bCategory) || "");
+      setCc(getCcLabel(post.bCc) || "");
+      setContent(post.bContent || "");
+    }
+
+    // 팝업 열기
+    if (!showPopup || popupType !== type) {
+      setCurrentPost(post);
+      setPopupType(type);
+      setShowPopup(true);
+      setTimeout(() => setIsAnimating(true), 10);
+      console.log("팝업 열기 요청:", { type, post });
+
+      // 팝업 닫기
+    } else {
+      setIsAnimating(false);
+      setTimeout(() => {
+        setShowPopup(false);
+        setPopupType("");
+        setCurrentPost(null);
+        console.log("팝업 닫힘 상태 초기화 완료.");
+      }, 300);
+    }
   };
 
   //=======================================================================
@@ -650,13 +641,8 @@ const Board = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      console.log(
-                        "Edit button clicked with post:",
-                        currentPost
-                      );
                       togglePopup("edit", currentPost);
                     }}
-                    className="editor-submit-button"
                   >
                     수정
                   </button>
@@ -713,13 +699,15 @@ const Board = () => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
             ></textarea>
-            <button
-              type="button"
-              onClick={() => handleUpdate(currentPost.bid)}
-              className="editor-submit-button"
-            >
-              확인
-            </button>
+            <div className="edit-btn">
+              <button
+                type="button"
+                onClick={() => handleUpdate(currentPost.bid)}
+                className="editor-submit-button"
+              >
+                확인
+              </button>
+            </div>
           </form>
         </div>
       )}
