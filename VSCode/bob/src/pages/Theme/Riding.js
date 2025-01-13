@@ -156,7 +156,7 @@ const Riding = () => {
                       <p className="riding-description"># {place.TR_NUMPRODUCE2}</p>
                       <button
                         className="set-dest-btn"
-                        onClick={() => alert(`${place.TR_PLACE_NAME}을(를) 목적지로 설정하였습니다.`)}
+                        onClick={() => alert(`${place.TR_NUMPRODUCE1}을(를) 목적지로 설정하였습니다.`)}
                       >
                         목적지 설정
                       </button>
