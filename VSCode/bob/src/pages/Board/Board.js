@@ -116,7 +116,7 @@ const Board = () => {
             <td>
               <div className="user-profile">
                 <img src={mypageImg} alt="프로필" className="profile-img" />
-                {post.bcreatedId}
+                {post.bwriter}
               </div>
             </td>
             <td>{post.bviews}</td>
@@ -629,7 +629,7 @@ const Board = () => {
                   )}
                 </p>
                 <p>
-                  <strong>작성자 : </strong> {currentPost.bcreatedId}
+                  <strong>작성자 : </strong> {currentPost.bwriter}
                 </p>
               </div>
             </div>
