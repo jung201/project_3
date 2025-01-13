@@ -90,20 +90,21 @@ const Riding = () => {
   };
 
   // 백엔드에서 데이터 불러오기
-  useEffect(() => {
-    const loadTheme = async () => {
-      try {
-        const data = await fetchTheme();
-        console.log("가져온 데이터:", data);
-        setPosts(data); // 게시글 데이터 설정
-      } catch (error) {
-        console.error("게시글 불러오기 실패:", error);
-        setPosts(categories); // 실패 시 백업 데이터 사용
-      }
-    };
+// 백엔드에서 데이터 불러오기
+useEffect(() => {
+  const loadTheme = async () => {
+    try {
+      const data = await fetchTheme(); // 백엔드 API 호출
+      console.log("가져온 데이터:", data);
+      setPosts(data); // 정상적으로 데이터를 가져왔을 때 설정
+    } catch (error) {
+      console.error("게시글 불러오기 실패:", error);
+      setPosts(categories); // 오류 발생 시 백업 데이터 사용
+    }
+  };
 
-    loadTheme(); // 데이터 불러오기 실행
-  }, []); // 컴포넌트 마운트 시 1회 실행
+  loadTheme(); // 데이터 불러오기 실행
+}, []); // 컴포넌트 마운트 시 1회 실행
 
   return (
     <div className="riding-container">
