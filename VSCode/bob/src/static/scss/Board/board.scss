@@ -402,9 +402,10 @@
   }
 
   // 보기 팝업
-  .view-popup {
+  .view-popup,
+  .edit-popup {
     position: fixed;
-    top: 50%;
+    top: 54%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     background: #fff;
@@ -412,7 +413,7 @@
     padding: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 800px;
-    height: 600px;
+    height: 620px;
     z-index: 1000;
 
     // 애니메이션 효과
@@ -489,6 +490,28 @@
             margin-top: 5px;
           }
         }
+
+        select,
+        input {
+          width: 100%;
+          height: 30px;
+          border-radius: 5px;
+          outline: none;
+          border: 1px solid #ddd;
+          padding-left: 10px;
+          margin: 0;
+
+          &:focus {
+            outline: none;
+            border-color: #bbb;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+          }
+
+          &:hover {
+            border-color: #ccc;
+          }
+        }
+
       }
 
       textarea {
@@ -501,10 +524,20 @@
         background-color: #f9f9f9;
         color: #333;
         font-size: 16px;
+
+        &:focus {
+          outline: none;
+          border-color: #bbb;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+        }
+
+        &:hover {
+          border-color: #ccc;
+        }
       }
 
-
-      .view-btn {
+      .view-btn,
+      .edit-btn {
         display: flex;
         justify-content: center;
         gap: 20px;
@@ -528,36 +561,6 @@
       }
     }
   }
-
-  .edit-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    /* 초기 크기 축소 */
-    z-index: 1000;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 800px;
-    height: 600px;
-    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-    opacity: 0;
-    /* 기본적으로 투명 */
-
-    &.open {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      /* 크기 확대 */
-    }
-
-    &.close {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.8);
-      /* 크기 축소 */
-    }
-  }
-
 }
 
 
