@@ -2,13 +2,12 @@ import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../static/scss/Theme/themeriding.scss';
 import { fetchTheme } from "../../service/apiService"; // 공통 API 함수 불러오기
-// import {}
 
 // 백업 데이터: 기본 카테고리와 장소 목록
 const categories = [
   {
     CATEGORY: '끝없이 펼쳐진 바다와 함께하는',
-    places: [
+    PLACES: [
       {
         TR_PLACE_ID: 1,
         TR_PLACE_NAME: '동해안의 숨은 비경',
@@ -40,8 +39,8 @@ const categories = [
     ],
   },
   {
-    category: '가을 단풍 라이딩 명소',
-    places: [
+    CATEGORY: '가을 단풍 라이딩 명소',
+    PLACES: [
       {
         TR_PLACE_ID: 5,
         TR_PLACE_NAME: '대통령 공식 별장',
@@ -59,8 +58,8 @@ const categories = [
     ],
   },
   {
-    category: '도시의 야경 라이딩 명소',
-    places: [
+    CATEGORY: '도시의 야경 라이딩 명소',
+    PLACES: [
       {
         TR_PLACE_ID: 7,
         TR_PLACE_NAME: '낮보다 찬란한 밤',
@@ -141,7 +140,7 @@ const Riding = () => {
           <div key={index} className="category-section" ref={(el) => (sectionRefs.current[index] = el)}>
             <h2 className="category-title">{category.CATEGORY}</h2>
             <div className="riding-grid">
-              {(category.places || []).map((place) => (
+              {(category.PLACES || []).map((place) => (
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
