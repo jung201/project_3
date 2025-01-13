@@ -186,8 +186,8 @@ const Board = () => {
 
     if (window.confirm("정말 삭제하시겠습니까?")) {
       try {
-        await deleteBoard(postId, currentUserId);
         alert("게시글이 삭제되었습니다 !")
+        await deleteBoard(postId, currentUserId);
         window.location.reload();
       } catch (error) {
         console.error("삭제 실패 : ", error);
