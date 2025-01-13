@@ -33,4 +33,9 @@ public class BoardService {
         boardDAO.increaseViewCount(id); // MyBatis 호출
     }
 
+    // 5. 게시물 삭제
+    public void deletePost(int id, String currentUserId) {
+        boardDAO.deletePost(id);
+    }
+
 }

@@ -72,22 +72,24 @@
     <!-- 게시물 등록  -->
     <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
         INSERT INTO BOARD (
-            B_CATEGORY as bCategory,
-            B_CC as bCc,
-            B_TITLE as bTitle,
-            B_CONTENT as bContent,
-            B_CREATED_ID as bCreatedId,
-            B_CREATED_DATE as bCreatedDate,
-            B_VIEWS as bViews
+            B_ID,
+            B_CATEGORY ,
+            B_CC ,
+            B_TITLE,
+            B_CONTENT,
+            B_CREATED_ID,
+            B_CREATED_DATE,
+            B_VIEWS
             )
         VALUES (
-            #{B_CATEGORY},
-            #{B_CC},
-            #{B_TITLE},
-            #{B_CONTENT},
-            #{B_CREATED_ID},
+            BOARD_SEQ.NEXTVAL,
+            #{bCategory},
+            #{bCc},
+            #{bTitle},
+            #{bContent},
+            #{bCreatedId},
             SYSDATE,
-            #{B_VIEWS})
+            #{bViews})
     </insert>
 
     <!-- 4. 조회수 증가 -->
@@ -96,5 +98,9 @@
         SET B_VIEWS = B_VIEWS + 1
         WHERE B_ID = #{id}
     </update>
+
+    <delete id="deletePost" parameterType="int">
+        DELETE FROM BOARD WHERE B_ID = #{postId}
+    </delete>
 
 </mapper>

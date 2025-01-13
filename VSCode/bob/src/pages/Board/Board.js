@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { fetchBoard } from "../../service/apiService"; // 공통 API 함수 불러오기
-import { formatRelativeDate, formatDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
+import { fetchBoard } from "../../service/apiService"; // 공통 API 함수
+import { registerBoard } from "../../service/apiService"; // 등록 API 함수
+import { deleteBoard } from "../../service/apiService"; // 삭제 API 함수
+import { formatRelativeDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
 import {
   getCategoryLabel,
   getCategoryCode,
@@ -21,7 +23,7 @@ const Board = () => {
   SparkleEffect();
 
   // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
-  const userId = localStorage.getItem("userId"); // localStorage에서 사용자 ID 가져오기
+  const userId = sessionStorage.getItem("userId"); // localStorage에서 사용자 ID 가져오기
 
   const [posts, setPosts] = useState([]); // 게시글 목록 상태
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
@@ -32,7 +34,8 @@ const Board = () => {
 
   // 사용자 입력 상태 관리
   const [title, setTitle] = useState(""); // 제목 상태
-  const [category, setCategory] = useState("정비"); // 카테고리 상태
+  const [category, setCategory] = useState(""); // 카테고리 상태
+  const [cc, setCc] = useState(""); // 배기량 상태 추가
   const [content, setContent] = useState(""); // 내용 상태
 
   // 정렬 기준과 순서 상태 추가
@@ -109,6 +112,87 @@ const Board = () => {
           </tr>
         );
       });
+
+  //=======================================================================
+
+  // 게시글 등록
+  const registerPost = async () => {
+    // 로그인된 사용자 정보 가져오기 (sessionStorage)
+    const userId = sessionStorage.getItem("userId"); // 로그인 시 저장한 값 사용
+    // 카테고리와 배기량 변환
+    const categoryCode = getCategoryCode(category); // 한글 -> 코드 (예: "정비" -> "R")
+    const ccCode = getCcCode(cc); // 한글 -> 코드 (예: "스쿠터" -> "S")
+
+    console.log("변환된 카테고리 코드:", categoryCode);
+    console.log("변환된 배기량 코드:", ccCode);
+
+    // 데이터 유효성 검사 추가
+    if (!userId) {
+      alert("로그인이 필요합니다!");
+      return;
+    }
+
+    if (!title.trim()) {
+      alert("제목을 입력해주세요!");
+      return;
+    }
+    if (!content.trim()) {
+      alert("내용을 입력해주세요!");
+      return;
+    }
+
+    if (!categoryCode || !ccCode) {
+      alert("유효하지 않은 카테고리 또는 배기량입니다.");
+      return;
+    }
+
+    // 새 게시글 데이터
+    const newPost = {
+      btitle: title,
+      bcategory: categoryCode,
+      bcc: ccCode,
+      bcontent: content,
+      bcreatedId: userId,
+      bviews: 0,
+    };
+
+    try {
+      const response = await registerBoard(newPost);
+      alert("게시글 등록 완료!");
+      togglePopup("register");
+      setPosts([...posts, response]);
+      window.location.reload(); // 페이지 리프레시
+    } catch (error) {
+      console.error("게시글 등록 실패:", error);
+      alert("등록 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 게시글 삭제
+  const handleDelete = async (postId) => {
+    const currentUserId = sessionStorage.getItem("userId");
+
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      try {
+        const message = await deleteBoard(postId, currentUserId);
+        alert(message);
+        window.location.reload();
+      } catch (error) {
+        console.error("삭제 실패 : ", error);
+        if (error.response && error.response.status === 403) {
+          alert("작성자만 삭제할 수 있습니다 !");
+        } else {
+          alert("오류가 발생했습니다. 다시 시도해 주세요 !");
+        }
+      }
+    }
+  };
+
+  // 게시글 수정
+  const handleEdit = (postId) => {
+    console.log("수정 버튼 클릭:", postId);
+    // 수정 로직 추가
+  };
 
   //=======================================================================
 
@@ -219,51 +303,6 @@ const Board = () => {
     if (e.key === "Enter") {
       handleSearch(); // 엔터키 입력 시 검색 함수 호출
     }
-  };
-
-  //=======================================================================
-
-  // 게시글 등록
-  const registerPost = () => {
-    // 로그인된 사용자 정보 가져오기 (예: localStorage에서)
-    const userId = localStorage.getItem("userId"); // 로그인 시 저장한 값 사용
-
-    // 데이터 유효성 검사 추가
-    if (!userId) {
-      alert("로그인이 필요합니다!");
-      return;
-    }
-
-    if (!title.trim()) {
-      alert("제목을 입력해주세요!");
-      return;
-    }
-    if (!content.trim()) {
-      alert("내용을 입력해주세요!");
-      return;
-    }
-
-    // 새 게시글 데이터
-    const newPost = {
-      btitle: title,
-      bcategory: category,
-      bcc: "",
-      bcontent: content,
-      bcreatedId: userId,
-      bviews: 0,
-    };
-
-    axios
-      .post("http://192.168.0.93:3006/board", newPost)
-      .then((response) => {
-        alert("게시글 등록 완료!");
-        togglePopup("register");
-        setPosts([...posts, response.data]); // 데이터 추가가
-      })
-      .catch((error) => {
-        console.error("게시글 등록 실패:", error);
-        alert("등록 중 오류가 발생했습니다.");
-      });
   };
 
   //=======================================================================
@@ -476,15 +515,15 @@ const Board = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
+                <option value="">카테고리 선택</option>
                 <option value="정비">정비</option>
                 <option value="꿀팁">꿀팁</option>
                 <option value="코스">코스</option>
                 <option value="자유">자유</option>
               </select>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              >
+
+              <select value={cc} onChange={(e) => setCc(e.target.value)}>
+                <option value="">배기량 선택</option>
                 <option value="스쿠터">스쿠터</option>
                 <option value="소형">소형</option>
                 <option value="중형">중형</option>
@@ -554,8 +593,17 @@ const Board = () => {
             </div>
             <textarea value={currentPost.bcontent} readOnly></textarea>
             <div className="view-btn">
-              <button>수정</button>
-              <button>삭제</button>
+              {/* 작성자와 로그인 사용자 ID 비교 */}
+              {currentPost.bcreatedId === sessionStorage.getItem("userId") && (
+                <>
+                  <button onClick={() => handleEdit(currentPost.bid)}>
+                    수정
+                  </button>
+                  <button onClick={() => handleDelete(currentPost.bid)}>
+                    삭제
+                  </button>
+                </>
+              )}
             </div>
           </form>
         </div>

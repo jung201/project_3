@@ -1,7 +1,8 @@
 import axios from "axios";
 
-// board URL 설정
+// 공통 board URL 설정
 const API_board_URL = "http://192.168.0.93:3006/board";
+
 export const fetchBoard = async () => {
   try {
     // 서버에서 데이터 가져오기
@@ -13,6 +14,34 @@ export const fetchBoard = async () => {
     throw error; // 에러 전파
   }
 };
+
+// 게시글 등록
+export const registerBoard = async (newPost) => {
+  try {
+    const response = await axios.post(`${API_board_URL}/register`, newPost);
+    console.log("게시글 등록 성공:", response.data); // 디버깅 로그
+    return response.data; // 등록된 데이터 반환
+  } catch (error) {
+    console.error("게시글 등록 실패:", error);
+    throw error; // 에러 전파
+  }
+};
+
+// 게시글 삭제
+export const deleteBoard = async (postId, currentUserId) => {
+  try {
+    const response = await axios.delete(`${API_board_URL}/${postId}`, {
+      params: { currentUserId },
+    });
+    console.log(response.data); // 디버깅용
+    return response.data; // 성공 메시지 반환
+  } catch (error) {
+    console.error("게시글 삭제 오류:", error); // 오류 처리
+    throw error; // 오류 전파
+  }
+};
+
+// 게시글 수정
 
 //================================================================================
 
@@ -31,7 +60,6 @@ export const fetchLogin = async (userId, password) => {
     throw error; // 에러 전달
   }
 };
-
 
 //================================================================================
 
@@ -114,19 +142,18 @@ export const fetchTheme = async () => {
   }
 };
 
-
 //==============================================================================
 
-  // // 백엔드에서 데이터 불러오기
-  // useEffect(() => {
-  //   const loadBoard = async () => {
-  //     try {
-  //       const data = await fetchBoard();
-  //       setPosts(data); // 게시글 데이터 설정
-  //     } catch (error) {
-  //       console.error("게시글 불러오기 실패:", error);
-  //     }
-  //   };
+// // 백엔드에서 데이터 불러오기
+// useEffect(() => {
+//   const loadBoard = async () => {
+//     try {
+//       const data = await fetchBoard();
+//       setPosts(data); // 게시글 데이터 설정
+//     } catch (error) {
+//       console.error("게시글 불러오기 실패:", error);
+//     }
+//   };
 
-  //   loadBoard(); // 데이터 불러오기 실행
-  // }, []); // 컴포넌트 마운트 시 1회 실행
+//   loadBoard(); // 데이터 불러오기 실행
+// }, []); // 컴포넌트 마운트 시 1회 실행

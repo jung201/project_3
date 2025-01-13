@@ -8,15 +8,18 @@ import java.util.List;
 @Mapper
 public interface BoardDAO {
 
-    // 전체 게시판 조회
+    // 1. 전체 게시판 조회
     List<BoardVO> getAllBoard();
 
-    // 게시글 조회
+    // 2. 게시글 조회
     List<BoardVO> searchPosts(String column, String keyword);
 
-    // 게시글 등록
+    // 3. 게시글 등록
     void createBoard(BoardVO boardVO);
 
     // 4. 조회수 증가
     void increaseViewCount(int id); // 조회수 증가
+
+    // 5. 게시글 삭제
+    void deletePost(int postId);
 }

@@ -544,13 +544,13 @@
       flex-direction: column;
       height: 150px;
 
-      li{
-          padding: 5px !important;
-          font-size: 12pt !important;
+      li {
+        padding: 5px !important;
+        font-size: 12pt !important;
       }
 
       .navbar ul {
-        
+
         li::after {
           display: none;
         }

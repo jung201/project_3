@@ -14,7 +14,7 @@ export const getCategoryCode = (label) => {
     정비: "R",
     꿀팁: "T",
     코스: "C",
-    자유이야기: "F",
+    자유: "F",
   };
   // 대소문자 및 공백 제거 처리
   const trimmedLabel = label.trim(); // 공백 제거
