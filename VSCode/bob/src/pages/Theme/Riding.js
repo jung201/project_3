@@ -95,7 +95,7 @@ const Riding = () => {
       try {
         const data = await fetchTheme();
         console.log("가져온 데이터:", data);
-  
+
         // 카테고리별로 그룹화
         const groupedData = data.reduce((acc, item) => {
           const categoryIndex = acc.findIndex(cat => cat.CATEGORY === item.CATEGORY);
@@ -108,15 +108,14 @@ const Riding = () => {
           }
           return acc;
         }, []);
-  
+
         console.log("그룹화된 데이터:", groupedData);
         setPosts(groupedData); // 그룹화된 데이터 설정
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
-        setPosts(categories); // 실패 시 백업 데이터 사용
       }
     };
-  
+
     loadTheme(); // 데이터 불러오기 실행
   }, []);
 
@@ -128,21 +127,21 @@ const Riding = () => {
         <div className="photo-box-wrapper">
           <div className="photo-box" onClick={() => scrollToSection(0)}>
             <img
-              src={require('../../static/images/Riding/해안.png')}
+              src={'http://192.168.0.93:3006/images/Riding/해안.png'}
               alt="어우러짐의 미학"
               className="photo-box-image"
             />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(1)}>
             <img
-              src={require('../../static/images/Riding/단풍.png')}
+              src={'http://192.168.0.93:3006/images/Riding/단풍.png'}
               alt="노을이 가장 아름다운"
               className="photo-box-image"
             />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(2)}>
             <img
-              src={require('../../static/images/Riding/야경.png')}
+              src={'http://192.168.0.93:3006/images/Riding/야경.png'}
               alt="야간"
               className="photo-box-image"
             />
@@ -159,7 +158,7 @@ const Riding = () => {
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
-                      src={require(`../../static/images/Riding/${place.IMAGE}`)}
+                      src={`http://192.168.0.93:3006/images/Riding/${place.IMAGE}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
                     />
