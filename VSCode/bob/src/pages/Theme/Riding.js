@@ -18,7 +18,7 @@ const categories = [
         TR_PLACE_NAME: '어우러짐의 미학',
         TR_NUMPRODUCE1: '제주 신풍해안도로',
         TR_NUMPRODUCE2: '제주의 깊은 바다, 현무암, 풍력발전기와 산뜻한 바람 이 모든 것이 어우러지는 최고의 명소.',
-        IMAGE: 'SinpoongCoastalRoad.PNG',
+        IMAGE: 'Sinpoong.PNG',
       },
       {
         TR_PLACE_ID: 3,
