@@ -14,4 +14,19 @@
         WHERE U_ID = #{u_ID}
     </select>
 
+<!--    &lt;!&ndash;사용자 정보 수정&ndash;&gt;-->
+<!--    <update id="updateUserInfo" parameterType="fs.four.human.MyPage.vo.MyPageVO">-->
+<!--        UPDATE BOB_USER-->
+<!--        SET-->
+<!--            u_NICKNAME = #{u_NICKNAME},-->
+<!--            u_CC = #{u_CC},-->
+<!--            u_PWD = #{u_PWD},-->
+<!--            u_EMAIL = #{u_EMAIL},-->
+<!--            u_PHONE = #{u_PHONE},-->
+<!--            u_PHOTO_PATH = #{u_PHOTO_PATH},-->
+<!--            u_UPDATE_DATE = SYSDATE-->
+<!--        WHERE u_ID = #{u_ID}-->
+<!--    </update>-->
+
+
 </mapper>
