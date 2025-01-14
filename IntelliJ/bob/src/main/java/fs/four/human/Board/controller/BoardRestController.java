@@ -32,7 +32,7 @@ public class BoardRestController {
             @RequestParam("keyword") String keyword // 검색어
     ) {
         // 컬럼명을 안전하게 검증
-        if(!List.of("bId", "bCategory", "bCc", "bTitle", "bCreatedId").contains(column)) {
+        if(!List.of("bId", "bCategory", "bCc", "bTitle", "bWriter").contains(column)) {
             throw new IllegalArgumentException("잘못된 검색 기준입니다. 입력값: " + column);
         }
         // 검색어 검증
@@ -81,10 +81,16 @@ public class BoardRestController {
             @PathVariable("postId") int postId,
             @RequestBody BoardVO boardVO) {
         try {
+            System.out.println("수정 요청 ID: " + postId);
+            System.out.println("수정 요청 데이터: " + boardVO);
+
             boardVO.setBId(postId);
             boardService.updatePost(boardVO);
             return "게시글이 성공적으로 수정되었습니다 !";
+
         } catch (Exception e) {
+            e.printStackTrace(); // 에러 스택 출력
+            System.err.println("수정 작업 중 오류 발생: " + e.getMessage());
             throw new RuntimeException("게시글 수정 중 오류가 발생했습니다 !");
         }
     }

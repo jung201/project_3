@@ -19,6 +19,7 @@ public class BoardVO {
     private String bUpdatedId;
     private Date bUpdatedDate;
     private int bViews;
+    private String bWriter;     // 작성자 닉네임 (추가)
 
     public BoardVO() {
     }
