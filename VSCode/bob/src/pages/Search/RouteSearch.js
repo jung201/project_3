@@ -79,12 +79,12 @@ const RouteSearch = ({ mapRef, selectedDestination, onRouteDataFetched }) => {
                         (destination.lng + 127.1471658) / 2 // 출발지와 도착지 중간 경도
                     )
                 );
-                // 팝업 표시 <div class="popup-header">도착지</div>
+                // 팝업 표시 
                 new Tmapv2.InfoWindow({
                     position: new Tmapv2.LatLng(destination.lat - 0.005, destination.lng + 0.05), // 팝업 위치
                     content: `
                         <div class="info-popup">
-                        
+                        <div class="popup-header">${destination.name || "도착지"}</div> <!-- 입력한 경로 이름 표시 -->
                         <div class="popup-info">소요 시간: ${Math.ceil(resultData[0].properties.totalTime / 60)}분</div>
                         <div class="popup-info distance">남은 거리: ${(resultData[0].properties.totalDistance / 1000).toFixed(2)}km</div>
                         <button class="popup-button">목적지 저장</button>
