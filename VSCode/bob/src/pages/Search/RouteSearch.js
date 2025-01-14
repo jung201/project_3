@@ -4,10 +4,15 @@ import navFiller from "../../static/images/icons/board.png";
 import "../../static/scss/Search/RouteSearch.scss";
 
 /* global Tmapv2 */
-const RouteSearch = ({ mapRef, selectedDestination, onRouteDataFetched }) => {
+const RouteSearch = ({ mapRef, selectedDestination }) => {
 
     const searchRoute = (destination) => { // 경로 탐색 함수: 선택된 목적지로 경로를 탐색
         if (!mapRef.current || !destination) return; // 지도 객체 또는 목적지가 없으면 함수 종료
+        //--------------------------------------------------------------------
+        // const RouteSearch = ({ mapRef, selectedDestination, selectedStation }) => {
+        //     const searchRouteWithWaypoint = () => {
+        //         if (!mapRef.current || !selectedDestination || !selectedStation) return;
+        //--------------------------------------------------------------------
 
         const headers = { // 요청 헤더 설정
             "Content-Type": "application/json", // JSON 형식 데이터 전송
@@ -18,6 +23,7 @@ const RouteSearch = ({ mapRef, selectedDestination, onRouteDataFetched }) => {
         const data = {
             startX: "127.1471658", // 출발지 경도
             startY: "36.80732281", // 출발지 위도
+            // passList: `${selectedStation.lng},${selectedStation.lat}`, // 경유지 추가
             endX: destination.lng, // 도착지 경도
             endY: destination.lat, // 도착지 위도
             reqCoordType: "WGS84GEO", // 요청 좌표계 타입

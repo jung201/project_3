@@ -90,6 +90,13 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
     onClose(); // 팝업 닫기
   };
 
+  // Enter 키 감지 함수
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(); // Enter 키 입력 시 검색 실행
+    }
+  };
+
   return (
     <div className="search-dest">
       <button className="close-btn" onClick={onClose}>
@@ -101,6 +108,7 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
           type="text"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
+          onKeyPress={handleKeyPress} // Enter 키 감지
           placeholder="장소를 검색하세요"
         />
         <button className="searchBtn" onClick={handleSearch}>
