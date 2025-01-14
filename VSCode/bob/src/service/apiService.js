@@ -123,7 +123,7 @@ export const fetchMyPage = async (userId) => {
   }
 };
 
-// 사용자 정보 수정 (추가 가능)
+// 사용자 정보 수정
 export const updateMyPage = async (userId, updatedInfo) => {
   try {
     const response = await axios.put(`${API_myPage_URL}/${userId}`, updatedInfo);

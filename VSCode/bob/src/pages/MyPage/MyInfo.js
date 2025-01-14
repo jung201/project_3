@@ -16,10 +16,9 @@ const MyInfo = ({ setView }) => {
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
-        // sessionStorage에서 userId 가져오기 (로그인 시 저장)
         const userId = sessionStorage.getItem("userId");
         if (!userId) {
-          console.error("로그인이 필요합니다."); // userId가 없을 경우
+          console.error("로그인이 필요합니다.");
           return;
         }
 
