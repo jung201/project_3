@@ -18,7 +18,7 @@ const TMap = ({ mapRef }) => {
       new Tmapv2.Marker({
         position: initialPosition, // 마커 좌표 설정
         map: mapRef.current,      // 마커를 추가할 지도
-        title: "초기 위치",        // 마커 타이틀
+        title: "초기 위치(휴먼교육센터)",        // 마커 타이틀
       });
 
       console.log("TMap initialized:", mapRef.current); // mapRef 초기화 확인
