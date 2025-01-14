@@ -1,9 +1,11 @@
 import React, { useState, useRef } from "react";
 import TMap from "./TMap";
 import SearchDest from "./SearchDest";
+import RouteSearch from "./RouteSearch";
 import "../../static/scss/Search/MainMapPage.scss";
 
 const MainMapPage = () => {
+  const [selectedDestination, setSelectedDestination] = useState(null); // 선택된 도착지 상태
   const [activePopup, setActivePopup] = useState("search"); // 팝업 상태
   const mapRef = useRef(null); // TMap 객체를 참조할 Ref
 
@@ -18,11 +20,15 @@ const MainMapPage = () => {
         <TMap mapRef={mapRef} />
       </div>
 
+      {/* 경로 탐색 */}
+      <RouteSearch mapRef={mapRef} selectedDestination={selectedDestination} />
+
       {/* SearchDest 팝업 */}
       {activePopup === "search" && (
         <div className="search-overlay">
           <SearchDest
             onClose={togglePopup} // 팝업 닫기
+            onDestinationSelect={setSelectedDestination} // 도착지 선택
             mapRef={mapRef} // 지도 객체 전달
           />
         </div>
