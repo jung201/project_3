@@ -139,13 +139,13 @@ useEffect(() => {
       {posts.length > 0 ? (
         posts.map((category, index) => (
           <div key={index} className="category-section" ref={(el) => (sectionRefs.current[index] = el)}>
-            <h2 className="category-title">{category.CATEGORY}</h2>
+            <h2 className="category-title">{category.category}</h2>
             <div className="riding-grid">
               {(category.PLACES || []).map((place) => (
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
-                      src={`/images/Riding/${place.IMAGE || 'default.png'}`}
+                      src={`/images/Riding/${place.Image || 'default.png'}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
                     />
