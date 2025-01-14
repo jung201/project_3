@@ -11,13 +11,11 @@
             B_TITLE as bTitle,
             B_CONTENT as bContent,
             B_CREATED_ID as bCreatedId,
-            U_NICKNAME as bWriter,
             B_CREATED_DATE as bCreatedDate,
             B_UPDATED_ID as bUpdatedId,
             B_UPDATED_DATE as bUpdatedDate,
             B_VIEWS as bViews
-        FROM BOARD B
-        JOIN BOB_USER U ON B_CREATED_ID = U_ID
+        FROM BOARD
         ORDER BY B_ID DESC
     </select>
 
@@ -30,13 +28,11 @@
             B_TITLE as bTitle,
             B_CONTENT as bContent,
             B_CREATED_ID as bCreatedId,
-            U_NICKNAME as bWriter,
             B_CREATED_DATE as bCreatedDate,
             B_UPDATED_ID as bUpdatedId,
             B_UPDATED_DATE as bUpdatedDate,
             B_VIEWS as bViews
-        FROM BOARD b
-        LEFT JOIN BOB_USER u ON B_CREATED_ID = U_ID
+        FROM BOARD
         WHERE
         <choose>
             <when test="column == 'bId'">
@@ -65,8 +61,8 @@
             <when test="column == 'bTitle'">
                 B_TITLE LIKE '%' || #{keyword} || '%'
             </when>
-            <when test="column == 'bWriter'">
-                u.U_NICKNAME LIKE '%' || #{keyword} || '%'
+            <when test="column == 'bCreatedId'">
+                B_CREATED_ID LIKE '%' || #{keyword} || '%'
             </when>
         </choose>
         ORDER BY B_CREATED_DATE DESC

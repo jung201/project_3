@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { updateMyPage } from "../../service/apiService"; // 공통 서비스 함수 불러오기
 import "../../static/scss/MyPage/UserEditPopup.scss";
 
-const UserEditPopup = ({ setShowEditPopup }) => {
+const UserEditPopup = ({ setShowEditPopup,userId }) => {
   // 폼 데이터를 관리하기 위한 상태 정의
   const [formData, setFormData] = useState({
     nickname: "",
@@ -45,7 +45,7 @@ const UserEditPopup = ({ setShowEditPopup }) => {
         payload.append("bikeImage", formData.bikeImage); // 파일 데이터 추가
       }
 
-      const response = await updateMyPage(UserEditPopup, FormData);
+      const response = await updateMyPage(userId, payload);
       alert("정보가 성공적으로 수정되었습니다 !");
       console.log("응답 데이터 : ", response);
 

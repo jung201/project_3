@@ -124,9 +124,14 @@ export const fetchMyPage = async (userId) => {
 };
 
 // 사용자 정보 수정
-export const updateMyPage = async (userId, updatedInfo) => {
+export const updateMyPage = async (userId, payload) => {
   try {
-    const response = await axios.put(`${API_myPage_URL}/${userId}`, updatedInfo);
+    const response = await axios.post(`${API_myPage_URL}/${userId}`, payload, {
+      headers: {
+        "Content-Type": "multipart/form-data", // 파일 업로드
+      },
+      withCredentials: true, // CORS 문제 해결
+    });
     console.log("사용자 정보 수정 성공:", response.data); // 디버깅 로그
     return response.data; // 수정된 데이터 반환
   } catch (error) {
