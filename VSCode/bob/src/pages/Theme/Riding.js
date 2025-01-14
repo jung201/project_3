@@ -96,7 +96,35 @@ useEffect(() => {
     try {
       const data = await fetchTheme(); // 백엔드 API 호출
       console.log("가져온 데이터:", data);
-      setPosts(data); // 정상적으로 데이터를 가져왔을 때 설정
+      
+      // 키 이름 변환
+      const transformedData = data.reduce((acc, curr) => {
+        const existingCategory = acc.find(item => item.CATEGORY === curr.category);
+        
+        if (existingCategory) {
+          existingCategory.PLACES.push({
+            TR_PLACE_ID: curr.tr_PLACE_ID,
+            TR_PLACE_NAME: curr.tr_PLACE_NAME,
+            TR_NUMPRODUCE1: curr.tr_NUMPRODUCE1,
+            TR_NUMPRODUCE2: curr.tr_NUMPRODUCE2,
+            IMAGE: curr.image
+          });
+        } else {
+          acc.push({
+            CATEGORY: curr.category,
+            PLACES: [{
+              TR_PLACE_ID: curr.tr_PLACE_ID,
+              TR_PLACE_NAME: curr.tr_PLACE_NAME,
+              TR_NUMPRODUCE1: curr.tr_NUMPRODUCE1,
+              TR_NUMPRODUCE2: curr.tr_NUMPRODUCE2,
+              IMAGE: curr.image
+            }]
+          });
+        }
+        return acc;
+      }, []);
+      
+      setPosts(transformedData); // 변환된 데이터 설정
     } catch (error) {
       console.error("게시글 불러오기 실패:", error);
       setPosts(categories); // 오류 발생 시 백업 데이터 사용
@@ -104,7 +132,7 @@ useEffect(() => {
   };
 
   loadTheme(); // 데이터 불러오기 실행
-}, []); // 컴포넌트 마운트 시 1회 실행
+}, []);
 
   return (
     <div className="riding-container">
@@ -139,13 +167,13 @@ useEffect(() => {
       {posts.length > 0 ? (
         posts.map((category, index) => (
           <div key={index} className="category-section" ref={(el) => (sectionRefs.current[index] = el)}>
-            <h2 className="category-title">{category.category}</h2>
+            <h2 className="category-title">{category.CATEGORY}</h2>
             <div className="riding-grid">
               {(category.PLACES || []).map((place) => (
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
-                      src={`/images/Riding/${place.Image || 'default.png'}`}
+                      src={`/images/Riding/${place.IMAGE || 'default.png'}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
                     />
