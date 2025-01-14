@@ -15,13 +15,17 @@ const MainMapPage = () => {
 
   return (
     <div className="main-map-page">
+
       {/* 지도 화면 */}
       <div className="map-container">
         <TMap mapRef={mapRef} />
       </div>
 
       {/* 경로 탐색 */}
-      <RouteSearch mapRef={mapRef} selectedDestination={selectedDestination} />
+      <RouteSearch
+        mapRef={mapRef}
+        selectedDestination={selectedDestination}
+      />
 
       {/* SearchDest 팝업 */}
       {activePopup === "search" && (
