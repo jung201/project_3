@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { updateMyPage } from "../../service/apiService"; // 공통 서비스 함수 불러오기
 import "../../static/scss/MyPage/UserEditPopup.scss";
 
-const UserEditPopup = ({ setShowEditPopup,userId }) => {
+const UserEditPopup = ({ setShowEditPopup, userId}) => {
+  console.log("전달된 userId:", userId);
   // 폼 데이터를 관리하기 위한 상태 정의
   const [formData, setFormData] = useState({
     nickname: "",
@@ -36,6 +37,7 @@ const UserEditPopup = ({ setShowEditPopup,userId }) => {
     try {
       // FormData 객체 생성
       const payload = new FormData();
+      payload.append("userId", userId);
       payload.append("nickname", formData.nickname);
       payload.append("type", formData.type);
       payload.append("password", formData.password);
@@ -71,6 +73,7 @@ const UserEditPopup = ({ setShowEditPopup,userId }) => {
               name="nickname"
               value={formData.nickname}
               onChange={handleChange}
+              autoComplete="username"
             />
           </label>
           <label>
@@ -94,6 +97,7 @@ const UserEditPopup = ({ setShowEditPopup,userId }) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              autoComplete ="new-password"
             />
           </label>
           <label>
@@ -103,6 +107,7 @@ const UserEditPopup = ({ setShowEditPopup,userId }) => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
+              autoComplete ="new-password"
             />
           </label>
           <label>
@@ -112,6 +117,7 @@ const UserEditPopup = ({ setShowEditPopup,userId }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              autoComplete="email"
             />
           </label>
           <label>
@@ -121,6 +127,7 @@ const UserEditPopup = ({ setShowEditPopup,userId }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              autoComplete="tel"
             />
           </label>
           <label>

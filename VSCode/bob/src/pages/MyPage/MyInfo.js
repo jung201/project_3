@@ -104,7 +104,12 @@ const MyInfo = ({ setView }) => {
           내가 쓴 글 보기
         </button>
       </div>
-      {showEditPopup && <UserEditPopup setShowEditPopup={setShowEditPopup} />}
+      {showEditPopup && (
+        <UserEditPopup
+          setShowEditPopup={setShowEditPopup}
+          userId={sessionStorage.getItem("userId")} // 세션에서 userId 가져오기
+        />
+      )}
     </div>
   );
 };
