@@ -9,6 +9,6 @@ public interface MyPageDAO {
     // 기존 조회
     MyPageVO getUserInfo(String uId);
 
-//    // 사용자 저보 수정
-//    int updateUserInfo(MyPageVO userInfo);
+    // 사용자 저보 수정
+    int updateUserInfo(MyPageVO userInfo);
 }

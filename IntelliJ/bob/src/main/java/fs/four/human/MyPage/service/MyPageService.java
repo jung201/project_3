@@ -15,9 +15,9 @@ public class MyPageService {
     public MyPageVO getUserInfo(String uId) {
         return myPageDAO.getUserInfo(uId);
     }
-//
-//    public boolean updateUserInfo(MyPageVO userInfo) {
-//        int result = myPageDAO.updateUserInfo(userInfo);
-//        return result > 0; // 성공 여부 반환
-//    }
+
+    public boolean updateUserInfo(MyPageVO userInfo) {
+        int result = myPageDAO.updateUserInfo(userInfo);
+        return result > 0; // 성공 여부 반환
+    }
 }
