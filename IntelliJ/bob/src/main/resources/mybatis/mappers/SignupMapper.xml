@@ -4,13 +4,20 @@
 
 <mapper namespace="fs.four.human.Login.DAO.SignupDAO">
 
-    <select id="checkIdDuplicate" resultType="int">
-        SELECT COUNT(*) FROM BOB_USER WHERE U_ID = #{uId}
+    <!-- 아이디 중복 체크: 중복된 U_ID가 있는지 확인하는 쿼리 -->
+    <select id="checkIdDuplicate" parameterType="string" resultType="int">
+        SELECT COUNT(*) AS count
+        FROM BOB_USER
+        WHERE U_ID = #{uId}
     </select>
 
-    <insert id="registerUser">
-        INSERT INTO BOB_USER (U_ID, U_PWD, U_EMAIL, U_NICKNAME, U_PHONE, U_PHOTO_NAME, U_PHOTO_PATH, U_CC)
-        VALUES (#{uId}, #{uPwd}, #{uEmail}, #{uNickname}, #{uPhone}, #{uPhotoName}, #{uPhotoPath}, #{uType})
+    <!-- 회원 정보 등록: 회원가입 시 사용자 정보를 삽입하는 쿼리 -->
+    <insert id="registerUser" parameterType="fs.four.human.Login.VO.SignupVO">
+        INSERT INTO BOB_USER (
+        U_ID, U_PWD, U_EMAIL, U_NICKNAME, U_CC, U_PHOTO_NAME, U_PHOTO_PATH, U_CREATED_DATE
+        ) VALUES (
+        #{uId}, #{uPwd}, #{uEmail}, #{uNickname}, #{uCc}, #{uPhotoName}, #{uPhotoPath}, SYSDATE
+        )
     </insert>
 
 </mapper>
