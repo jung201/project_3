@@ -16,29 +16,25 @@ const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
         </button>
       </div>
       <div className="recommend-content">
-        {stations.length > 0 ? (
-          stations.map((station, index) => (
-            <div
-              key={index}
-              className="station-item"
-              onClick={() => onStationSelect(station)}
-            >
-              <div className="station-type">{station.type}</div>
-              <div className="station-info">
-                <p>
-                  <img src={soil} alt="주유소 로고" />{" "}
-                  <strong>{station.name}</strong>
-                </p>
-                <span>- 가격: {station.price}원</span>
-                <span> - 거리: {station.distance}km</span>
-                <br />
-                <span>- 주소: {station.address}</span>
-              </div>
+        {stations.map((station, index) => (
+          <div
+            key={index}
+            className="station-item"
+            onClick={() => onStationSelect(station)}
+          >
+            <div className="station-type">{station.type}</div>
+            <div className="station-info">
+              <p>
+                <img src={soil} alt="주유소 로고" />{" "}
+                <strong>{station.name}</strong>
+              </p>
+              <span>- 가격: {station.price}원</span>
+              <span> - 거리: {station.distance}km</span>
+              <br />
+              <span>- 주소: {station.address}</span>
             </div>
-          ))
-        ) : (
-          <p>주유소 정보를 불러오는 중입니다...</p>
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

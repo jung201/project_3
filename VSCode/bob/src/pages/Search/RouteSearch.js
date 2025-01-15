@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import "../../static/scss/Search/RouteSearch.scss";
 import markerIcon from "../../static/images/icons/도착.png";
 import { fetchsearch } from "../../service/apiService"; // API 연동 함수 가져오기
+import RecommendSTN from "./RecommendSTN"; // 주유소 추천 팝업 컴포넌트
 
 /* global Tmapv2 */
 const RouteSearch = ({ mapRef, selectedDestination }) => {
   const [stations, setStations] = useState([]); // 주유소 데이터 상태
   const [selectedStation, setSelectedStation] = useState(null); // 선택된 경유지 상태
+  const [showPopup, setShowPopup] = useState(false); // 팝업 표시 상태
+
+
 
   // 주유소 데이터 가져오기
   const fetchStations = async () => {
@@ -16,14 +20,17 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
         selectedDestination.lat,
         selectedDestination.lng
       );
-  
+
       console.log("받아온 주유소 데이터:", stationData);
       setStations(stationData); // 주유소 데이터를 상태로 저장
-      // setShowPopup(true); // 팝업 표시
+      setShowPopup(true); // 팝업 표시
+
     } catch (error) {
       console.error("주유소 데이터를 가져오는 중 오류 발생:", error);
     }
   };
+
+
 
   // 경로 탐색 함수
   const searchRoute = (destination, station) => {
@@ -46,6 +53,8 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
       searchOption: "12",
       trafficInfo: "N",
     };
+
+
 
     fetch("https://apis.openapi.sk.com/tmap/routes?version=1&format=json", {
       method: "POST",
@@ -132,22 +141,62 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
       .catch((error) => console.error("경로 탐색 중 오류 발생:", error));
   };
 
-  // 목적지 변경 시 주유소 데이터 및 경로 업데이트
+
+  
+  // useEffect(() => {
+  //   if (selectedDestination) {
+  //     fetchStations()
+  //       .then((data) => {
+  //         console.log("받아온 주유소 데이터:", data); // 데이터 확인
+  //         searchRoute(selectedDestination, null); // 경유지 없는 기본 경로 탐색
+  //         setStations(data); // 상태로 저장
+  //       })
+  //       .catch((error) => {
+  //         console.error("주유소 데이터 불러오기 실패:", error);
+  //       });
+  //   }
+  // }, [selectedDestination]);
+
+  // // 선택된 주유소 변경 시 경로 업데이트
+  // useEffect(() => {
+  //   if (selectedStation) {
+  //     searchRoute(selectedDestination, selectedStation);
+  //   }
+  // }, [selectedStation]);
+
+
   useEffect(() => {
     if (selectedDestination) {
       fetchStations(); // 주유소 데이터 가져오기
-      searchRoute(selectedDestination, null); // 경유지 없는 기본 경로 탐색
+      searchRoute(selectedDestination, null); // 경유지 없이 기본 경로 탐색
     }
   }, [selectedDestination]);
 
-  // 선택된 주유소 변경 시 경로 업데이트
+  // 선택된 주유소 변경 시 경로 탐색
   useEffect(() => {
     if (selectedStation) {
-      searchRoute(selectedDestination, selectedStation);
+      searchRoute(selectedDestination, selectedStation); // 선택된 경유지를 포함한 경로 탐색
     }
   }, [selectedStation]);
 
-  return null; // UI 렌더링 필요 없음
+
+
+
+  return (
+    <>
+      {/* 주유소 추천 팝업 */}
+      {showPopup && (
+        <RecommendSTN
+          onClose={() => setShowPopup(false)} // 팝업 닫기
+          stations={stations} // 주유소 데이터 전달
+          onStationSelect={(station) => {
+            setSelectedStation(station); // 선택된 주유소 설정
+            setShowPopup(false); // 팝업 닫기
+          }}
+        />
+      )}
+    </>
+  );
 };
 
 export default RouteSearch;
