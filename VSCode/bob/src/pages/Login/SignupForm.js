@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaMotorcycle } from 'react-icons/fa';
 import { MdAddToPhotos } from "react-icons/md";
+import axios from 'axios';
 import '../../static/scss/Login/SignupForm.scss';
 import { checkIdDuplicate, registerUser } from '../../service/apiService'; // 공통 API 함수 불러오기
 

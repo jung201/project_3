@@ -6,24 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/signup")
+@RequestMapping("/signup/api")
 public class SignupController {
 
     @Autowired
     private SignupService signupService;
 
-
-
-    // 아이디 중복 체크 API (GET 요청)
-    @GetMapping("/check-id")
+    // 아이디 중복 체크 API - POST 요청으로 변경
+    @PostMapping("/check-id")
     public boolean checkIdDuplicate(@RequestParam String uId) {
         return signupService.checkIdDuplicate(uId);
     }
 
-    // 회원가입 API (POST 요청)
+    // 회원가입 API
     @PostMapping("/register")
     public String registerUser(@RequestBody SignupVO signupVO) {
-        signupService.registerUser(signupVO);
-        return "회원가입이 완료되었습니다.";
+        try {
+            signupService.registerUser(signupVO);
+            return "회원가입이 완료되었습니다.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "회원가입 중 오류가 발생했습니다.";
+        }
     }
 }
