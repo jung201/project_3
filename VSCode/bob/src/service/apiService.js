@@ -175,19 +175,37 @@ export const fetchTheme = async () => {
 
 //==============================================================================
 
-// theme URL 설정
-// const API_singup_URL = "http://192.168.0.93:3006/api/singup/";
-// export const fetchSingup = async () => {
-//   try {
-//     // 서버에서 데이터 가져오기
-//     const response = await axios.get(`${API_theme_URL}`);
-//     console.log(response.data); // 디버깅용 로그 출력
-//     return response.data; // 데이터 반환
-//   } catch (error) {
-//     console.error("데이터 불러오기 에러:", error); // 에러 처리
-//     throw error; // 에러 전파
-//   }
-// };
+// import axios from 'axios';
+
+// signup URL 설정
+const API_SIGNUP_URL = "http://192.168.0.93:3006//signup/api";
+
+
+// 아이디 중복 체크 함수
+export const checkIdDuplicate = async (uId) => {
+  try {
+    const response = await axios.post(`${API_SIGNUP_URL}check-id`, null, {
+      params: { uId }
+    });
+    console.log("아이디 중복 체크 결과:", response.data); // 디버깅용 로그 출력
+    return response.data; // 중복 여부 반환
+  } catch (error) {
+    console.error("아이디 중복 체크 에러:", error); // 에러 처리
+    throw error; // 에러 전파
+  }
+};
+
+// 회원가입 함수
+export const registerUser = async (signupData) => {
+  try {
+    const response = await axios.post(`${API_SIGNUP_URL}register`, signupData);
+    console.log("회원가입 결과:", response.data); // 디버깅용 로그 출력
+    return response.data; // 회원가입 결과 반환
+  } catch (error) {
+    console.error("회원가입 에러:", error); // 에러 처리
+    throw error; // 에러 전파
+  }
+};
 
 //==============================================================================
 

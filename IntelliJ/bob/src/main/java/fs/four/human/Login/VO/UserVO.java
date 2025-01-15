@@ -3,9 +3,10 @@ package fs.four.human.Login.VO;
 import lombok.Getter;
 import lombok.Setter;
 
+import lombok.Data;
 @Getter
 @Setter
-
+@Data
 public class UserVO {
     private String u_ID;
     private String u_PWD;
