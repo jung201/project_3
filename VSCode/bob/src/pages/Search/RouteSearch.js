@@ -4,6 +4,29 @@ import markerIcon from "../../static/images/icons/도착.png";
 import { fetchsearch } from "../../service/apiService"; // API 연동 함수 가져오기
 
 /* global Tmapv2 */
+
+const getFilteredStations = (stations) => {
+  if (stations.length === 0) return [];
+
+  // 최단거리 주유소
+  const closestStation = stations.reduce((prev, curr) =>
+    prev.distance < curr.distance ? prev : curr
+  );
+
+  // 최저가 주유소
+  const cheapestStation = stations.reduce((prev, curr) =>
+    prev.price < curr.price ? prev : curr
+  );
+
+  // 중복 방지
+  const filteredStations = [closestStation];
+  if (closestStation !== cheapestStation) {
+    filteredStations.push(cheapestStation);
+  }
+
+  return filteredStations;
+};
+
 const RouteSearch = ({
   mapRef,
   selectedDestination,
@@ -31,7 +54,9 @@ const RouteSearch = ({
         selectedDestination.lng
       );
       console.log("받아온 주유소 데이터:", stationData);
-      onStationsUpdate(stationData); // 부모 컴포넌트(MainMapPage)로 데이터 전달
+
+      const filteredStations = getFilteredStations(stationData); // 필터링
+      onStationsUpdate(filteredStations); // 부모 컴포넌트(MainMapPage)로 데이터 전달
     } catch (error) {
       console.error("주유소 데이터를 가져오는 중 오류 발생:", error);
     }

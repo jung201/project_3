@@ -3,6 +3,7 @@ import "../../static/scss/Search/RecommendSTN.scss";
 import soil from "../../static/images/stationLogo/soil.PNG";
 
 const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
+  console.log("RecommendSTN에 전달된 stations:", stations);
   return (
     <div className="recommend-popup">
       <div className="recommend-header">

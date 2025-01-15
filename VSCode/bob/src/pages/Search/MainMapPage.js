@@ -44,8 +44,10 @@ const MainMapPage = () => {
       <RouteSearch
         mapRef={mapRef}
         selectedDestination={selectedDestination}
-        selectedStation={selectedStation} // 주유소 정보 전달
-        onStationsUpdate={(stations) => setStations(stations)} // 주유소 데이터 전달
+        onStationsUpdate={(filteredStations) => {
+          setStations(filteredStations); // 필터링된 주유소 업데이트
+          setShowRecommendPopup(true); // 팝업 표시
+        }}
       />
 
       {/* SearchDest 팝업 */}
