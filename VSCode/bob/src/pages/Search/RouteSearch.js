@@ -4,9 +4,9 @@ import markerIcon from "../../static/images/icons/도착.png";
 import { fetchsearch } from "../../service/apiService"; // API 연동 함수 가져오기
 
 /* global Tmapv2 */
-const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate }) => {
-  const [stations, setStations] = useState([]); // 주유소 데이터 상태
-  const [selectedStation, setSelectedStation] = useState(null); // 선택된 경유지 상태
+const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate, selectedStation }) => {
+  // const [stations, setStations] = useState([]); // 주유소 데이터 상태
+  // const [selectedStation, setSelectedStation] = useState(null); // 선택된 경유지 상태
 
   // 주유소 데이터 가져오기
   const fetchStations = async () => {
@@ -17,7 +17,7 @@ const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate }) => {
       );
       console.log("받아온 주유소 데이터:", stationData);
 
-      setStations(stationData); // 로컬 상태 업데이트
+      // setStations(stationData); // 로컬 상태 업데이트
       onStationsUpdate(stationData); // 부모 컴포넌트(MainMapPage)로 데이터 전달
     } catch (error) {
       console.error("주유소 데이터를 가져오는 중 오류 발생:", error);
