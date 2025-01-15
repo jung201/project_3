@@ -208,6 +208,47 @@ export const registerUser = async (signupData) => {
 };
 
 //==============================================================================
+//아이디 찾기
+const API_FindId_URL = process.env.REACT_APP_API_FindPw_URL || "http://192.168.0.93:3006/api";
+
+export const ForgotId = {
+  findIdByEmail: async (email) => {
+    try {
+      const response = await axios.get(`${API_FindId_URL}/findid/findIdByEmail`, {
+        params: { email },
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        throw new Error('등록된 이메일이 없습니다.');
+      }
+      throw new Error('아이디 찾기 요청 중 오류가 발생했습니다.');
+    }
+  },
+};
+
+
+//비밀번호 찾기
+
+const API_FindPw_URL = process.env.REACT_APP_API_BASE_URL || "http://192.168.0.93:3006/api";
+
+export const ForgotPassword = {
+  resetPassword: async (id, email) => {
+    try {
+      const response = await axios.post(`${API_FindPw_URL}/findpw/resetPassword`, null, {
+        params: { u_id: id, email },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response && error.response.data
+          ? error.response.data
+          : '비밀번호 초기화 요청 중 오류가 발생했습니다.'
+      );
+    }
+  },
+};
+//==============================================================================
 
 // // 백엔드에서 데이터 불러오기
 // useEffect(() => {
