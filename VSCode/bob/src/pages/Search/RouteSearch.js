@@ -4,9 +4,24 @@ import markerIcon from "../../static/images/icons/도착.png";
 import { fetchsearch } from "../../service/apiService"; // API 연동 함수 가져오기
 
 /* global Tmapv2 */
-const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate, selectedStation }) => {
-  // const [stations, setStations] = useState([]); // 주유소 데이터 상태
-  // const [selectedStation, setSelectedStation] = useState(null); // 선택된 경유지 상태
+const RouteSearch = ({
+  mapRef,
+  selectedDestination,
+  selectedStation,
+  onStationsUpdate,
+}) => {
+  const [markers, setMarkers] = useState([]); // 마커 관리
+  const [polylines, setPolylines] = useState([]); // 경로 관리
+
+  const clearMap = () => {
+    // 기존 마커 제거
+    markers.forEach((marker) => marker.setMap(null));
+    setMarkers([]);
+
+    // 기존 경로 제거
+    polylines.forEach((polyline) => polyline.setMap(null));
+    setPolylines([]);
+  };
 
   // 주유소 데이터 가져오기
   const fetchStations = async () => {
@@ -16,8 +31,6 @@ const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate, selectedSt
         selectedDestination.lng
       );
       console.log("받아온 주유소 데이터:", stationData);
-
-      // setStations(stationData); // 로컬 상태 업데이트
       onStationsUpdate(stationData); // 부모 컴포넌트(MainMapPage)로 데이터 전달
     } catch (error) {
       console.error("주유소 데이터를 가져오는 중 오류 발생:", error);
@@ -55,6 +68,9 @@ const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate, selectedSt
       .then((response) => {
         const resultData = response.features;
 
+        // 기존 경로 및 마커 제거
+        clearMap();
+
         // 경로 표시
         const drawInfoArr = [];
         resultData.forEach((item) => {
@@ -84,6 +100,19 @@ const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate, selectedSt
           },
           title: "초기 위치(휴먼교육센터)",
         });
+
+        // 경유지 마커
+        if (station) {
+          new Tmapv2.Marker({
+            position: new Tmapv2.LatLng(station.lat, station.lng),
+            map: mapRef.current,
+            icon: {
+              url: markerIcon,
+              size: new Tmapv2.Size(32, 32),
+            },
+            title: station.name || "경유지",
+          });
+        }
 
         // 도착 마커
         new Tmapv2.Marker({
@@ -138,14 +167,13 @@ const RouteSearch = ({ mapRef, selectedDestination, onStationsUpdate, selectedSt
     }
   }, [selectedDestination]);
 
-  // 선택된 주유소 변경 시 경로 탐색
   useEffect(() => {
     if (selectedStation) {
-      searchRoute(selectedDestination, selectedStation); // 선택된 경유지를 포함한 경로 탐색
+      searchRoute(selectedDestination, selectedStation); // 경유지를 포함한 경로 탐색
     }
   }, [selectedStation]);
 
-  return null; // 팝업 제거, UI 렌더링 없음
+  return null;
 };
 
 export default RouteSearch;

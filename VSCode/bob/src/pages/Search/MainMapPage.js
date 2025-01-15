@@ -45,7 +45,7 @@ const MainMapPage = () => {
         mapRef={mapRef}
         selectedDestination={selectedDestination}
         selectedStation={selectedStation} // 주유소 정보 전달
-        onStationsUpdate={setStations} // 주유소 데이터 업데이트
+        onStationsUpdate={(stations) => setStations(stations)} // 주유소 데이터 전달
       />
 
       {/* SearchDest 팝업 */}
