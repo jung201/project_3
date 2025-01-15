@@ -13,18 +13,18 @@ const getFilteredStations = (stations) => {
     prev.distance < curr.distance ? prev : curr
   );
 
-  // 최저가 주유소
+  // 최저단가 주유소
   const cheapestStation = stations.reduce((prev, curr) =>
     prev.price < curr.price ? prev : curr
   );
 
   // 중복 방지
-  const filteredStations = [closestStation];
+  const result = [closestStation];
   if (closestStation !== cheapestStation) {
-    filteredStations.push(cheapestStation);
+    result.push(cheapestStation);
   }
 
-  return filteredStations;
+  return result;
 };
 
 const RouteSearch = ({
@@ -49,14 +49,16 @@ const RouteSearch = ({
   // 주유소 데이터 가져오기
   const fetchStations = async () => {
     try {
-      const stationData = await fetchsearch(
-        selectedDestination.lat,
-        selectedDestination.lng
-      );
+      const stationData = await fetchsearch(36.80732281, 127.1471658); // 출발지 위도, 경도
       console.log("받아온 주유소 데이터:", stationData);
 
-      const filteredStations = getFilteredStations(stationData); // 필터링
-      onStationsUpdate(filteredStations); // 부모 컴포넌트(MainMapPage)로 데이터 전달
+      if (stationData && stationData.length > 0) {
+        const filteredStations = getFilteredStations(stationData); // 최단거리, 최저단가 필터링
+        onStationsUpdate(filteredStations); // 부모 컴포넌트(MainMapPage)로 데이터 전달
+      } else {
+        console.log("추천할 주유소가 없습니다.");
+        onStationsUpdate([]); // 빈 데이터 전달
+      }
     } catch (error) {
       console.error("주유소 데이터를 가져오는 중 오류 발생:", error);
     }
@@ -106,17 +108,18 @@ const RouteSearch = ({
               drawInfoArr.push(new Tmapv2.LatLng(latLng._lat, latLng._lng));
             });
 
-            new Tmapv2.Polyline({
+            const polyline = new Tmapv2.Polyline({
               path: drawInfoArr,
               strokeColor: "#FF0000",
               strokeWeight: 6,
               map: mapRef.current,
             });
+            setPolylines((prev) => [...prev, polyline]);
           }
         });
 
         // 시작 마커
-        new Tmapv2.Marker({
+        const startMarker = new Tmapv2.Marker({
           position: new Tmapv2.LatLng(36.80732281, 127.1471658),
           map: mapRef.current,
           icon: {
@@ -125,10 +128,11 @@ const RouteSearch = ({
           },
           title: "초기 위치(휴먼교육센터)",
         });
+        setMarkers((prev) => [...prev, startMarker]);
 
         // 경유지 마커
         if (station) {
-          new Tmapv2.Marker({
+          const waypointMarker = new Tmapv2.Marker({
             position: new Tmapv2.LatLng(station.lat, station.lng),
             map: mapRef.current,
             icon: {
@@ -137,10 +141,11 @@ const RouteSearch = ({
             },
             title: station.name || "경유지",
           });
+          setMarkers((prev) => [...prev, waypointMarker]);
         }
 
         // 도착 마커
-        new Tmapv2.Marker({
+        const endMarker = new Tmapv2.Marker({
           position: new Tmapv2.LatLng(destination.lat, destination.lng),
           map: mapRef.current,
           icon: {
@@ -149,6 +154,7 @@ const RouteSearch = ({
           },
           title: destination.name || "도착지",
         });
+        setMarkers((prev) => [...prev, endMarker]);
 
         // 지도 중심 및 줌 조정
         mapRef.current.setZoom(12);
@@ -158,14 +164,12 @@ const RouteSearch = ({
             (destination.lng + 127.1471658) / 2
           )
         );
-
-        // **팝업 표시** - 목적지 정보 표시
+        // 팝업 표시
         new Tmapv2.InfoWindow({
           position: new Tmapv2.LatLng(
             destination.lat - 0.005,
             destination.lng + 0.05
           ),
-
           content: `
             <div class="info-popup">
               <div class="popup-header">${destination.name || "도착지"}</div>
