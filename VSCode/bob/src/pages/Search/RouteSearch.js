@@ -8,14 +8,20 @@ import { fetchsearch } from "../../service/apiService"; // API 연동 함수 가
 const getFilteredStations = (stations) => {
   if (stations.length === 0) return [];
 
+  // 거리를 킬로미터로 변환
+  const stationsInKilometers = stations.map((station) => ({
+    ...station,
+    distance: (station.distance / 1000).toFixed(2), // 미터 → 킬로미터 변환 및 소수점 2자리 유지
+  }));
+
   // 최단거리 주유소
-  const closestStation = stations.reduce((prev, curr) =>
-    prev.distance < curr.distance ? prev : curr
+  const closestStation = stationsInKilometers.reduce((prev, curr) =>
+    parseFloat(prev.distance) < parseFloat(curr.distance) ? prev : curr
   );
 
   // 최저단가 주유소
-  const cheapestStation = stations.reduce((prev, curr) =>
-    prev.price < curr.price ? prev : curr
+  const cheapestStation = stationsInKilometers.reduce((prev, curr) =>
+    parseFloat(prev.price) < parseFloat(curr.price) ? prev : curr
   );
 
   // 중복 방지
