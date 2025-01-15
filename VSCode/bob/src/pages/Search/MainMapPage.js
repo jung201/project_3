@@ -13,10 +13,20 @@ const MainMapPage = () => {
   const [stations, setStations] = useState([]); // 주유소 목록
   const mapRef = useRef(null); // TMap 객체를 참조할 Ref
 
+  // 주유소 선택 핸들러
   const handleStationSelect = (station) => {
     console.log("선택한 주유소:", station);
     setSelectedStation(station); // 선택된 주유소 업데이트
     setShowRecommendPopup(false); // 팝업 닫기
+  };
+
+  // 목적지 선택 핸들러
+  const handleDestinationSelect = (destination, stationData) => {
+    setSelectedDestination(destination); // 선택된 목적지 업데이트
+    setStations(stationData || []); // 주유소 목록 업데이트
+    setShowRecommendPopup(true); // 주유소 추천 팝업 표시
+    console.log("선택된 목적지:", destination);
+    console.log("받아온 주유소 데이터:", stationData);
   };
 
   const togglePopup = () => {
@@ -35,6 +45,7 @@ const MainMapPage = () => {
         mapRef={mapRef}
         selectedDestination={selectedDestination}
         selectedStation={selectedStation} // 주유소 정보 전달
+        onStationsUpdate={setStations} // 주유소 데이터 업데이트
       />
 
       {/* SearchDest 팝업 */}
@@ -42,24 +53,21 @@ const MainMapPage = () => {
         <div className="search-overlay">
           <SearchDest
             onClose={togglePopup} // 팝업 닫기
-            onDestinationSelect={(destination) => {
-              setSelectedDestination(destination);
-              setShowRecommendPopup(true); // 검색 후 추천 팝업 띄우기
-            }}
+            onDestinationSelect={(destination, stationData) =>
+              handleDestinationSelect(destination, stationData)
+            }
             mapRef={mapRef} // 지도 객체 전달
           />
         </div>
       )}
 
+      {/* RecommendSTN 팝업 */}
       {showRecommendPopup && (
-        <>
-          {console.log("현재 전달되는 stations 데이터:", stations)}
-          <RecommendSTN
-            onClose={() => setShowRecommendPopup(false)} // 팝업 닫기
-            onStationSelect={handleStationSelect} // 주유소 선택
-            stations={stations} // 주유소 목록 전달
-          />
-        </>
+        <RecommendSTN
+          onClose={() => setShowRecommendPopup(false)} // 팝업 닫기
+          stations={stations} // 주유소 데이터 전달
+          onStationSelect={handleStationSelect} // 주유소 선택 핸들러
+        />
       )}
 
       {/* 우측 하단 아이콘 */}

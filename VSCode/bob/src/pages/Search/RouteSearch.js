@@ -180,23 +180,23 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
   }, [selectedStation]);
 
 
+  return null; // 팝업 제거, UI 렌더링 없음
 
-
-  return (
-    <>
-      {/* 주유소 추천 팝업 */}
-      {showPopup && (
-        <RecommendSTN
-          onClose={() => setShowPopup(false)} // 팝업 닫기
-          stations={stations} // 주유소 데이터 전달
-          onStationSelect={(station) => {
-            setSelectedStation(station); // 선택된 주유소 설정
-            setShowPopup(false); // 팝업 닫기
-          }}
-        />
-      )}
-    </>
-  );
+  // return (
+  //   <>
+  //     {/* 주유소 추천 팝업 */}
+  //     {showPopup && (
+  //       <RecommendSTN
+  //         onClose={() => setShowPopup(false)} // 팝업 닫기
+  //         stations={stations} // 주유소 데이터 전달
+  //         onStationSelect={(station) => {
+  //           setSelectedStation(station); // 선택된 주유소 설정
+  //           setShowPopup(false); // 팝업 닫기
+  //         }}
+  //       />
+  //     )}
+  //   </>
+  // );
 };
 
 export default RouteSearch;
