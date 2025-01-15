@@ -13,7 +13,7 @@ const TMap = ({ mapRef, selectedDestination }) => {
         // TMap 초기화
         if (window.Tmapv2) {
           mapRef.current = new Tmapv2.Map("map_div", {
-            center: new Tmapv2.LatLng(latitude, longitude), // 사용자 위치로 설정
+            center: new Tmapv2.LatLng(36.80732281, 127.1471658), // 사용자 위치로 설정
             width: "100%",
             height: "750px",
             zoom: 15, // 줌 레벨

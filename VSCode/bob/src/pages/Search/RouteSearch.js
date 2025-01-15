@@ -68,6 +68,7 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
                     position: new Tmapv2.LatLng(36.80732281, 127.1471658), // 출발지 좌표
                     map: mapRef.current,
                     icon: { mypageImg }, // 출발지 마커 이미지
+                    title:"초기 위치(휴먼교육센터)"
                 });
 
                 // 도착 마커
