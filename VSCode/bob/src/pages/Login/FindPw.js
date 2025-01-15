@@ -1,105 +1,60 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../static/scss/Login/FindAccount.scss';
+import { ForgotPassword } from '../../service/apiService';
 
 function FindPassword() {
-  const [formData, setFormData] = useState({
-    id: '',
-    email: ''
-  });
-
-  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({ id: '', email: '' });
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateField = (name, value) => {
-    switch (name) {
-      case 'id':
-        return !value ? '아이디를 입력해주세요' : '';
-      case 'email':
-        return !value 
-          ? '이메일을 입력해주세요' 
-          : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-          ? '올바른 이메일 형식이 아닙니다'
-          : '';
-      default:
-        return '';
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({
-      ...prev,
-      [name]: validateField(name, value)
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const newErrors = {};
-    Object.keys(formData).forEach(key => {
-      const error = validateField(key, formData[key]);
-      if (error) newErrors[key] = error;
-    });
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
     setIsLoading(true);
+
     try {
-      // API 호출 로직 구현 필요
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      alert("임시 비밀번호가 이메일로 전송되었습니다.");
-      window.location.href = '/Login';
+      const result = await ForgotPassword.resetPassword(formData.id, formData.email);
+      alert(result); // 서버에서 반환된 메시지
+      setFormData({ id: '', email: '' });
     } catch (error) {
-      setErrors({
-        general: '비밀번호 초기화 중 오류가 발생했습니다'
-      });
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
+
   return (
     <div className="findAccount">
       <div className="container">
         <h1>비밀번호 초기화</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
+            <form onSubmit={handleSubmit}>
             <input
               type="text"
               name="id"
+              placeholder="아이디"
               value={formData.id}
               onChange={handleChange}
-              placeholder="아이디를 입력하세요"
-              className={errors.id ? 'error' : ''}
-              required
             />
-            {errors.id && <div className="error-message">{errors.id}</div>}
-          </div>
-
-          <div>
             <input
               type="email"
               name="email"
+              placeholder="이메일"
               value={formData.email}
               onChange={handleChange}
-              placeholder="이메일을 입력하세요"
-              className={errors.email ? 'error' : ''}
-              required
             />
-            {errors.email && <div className="error-message">{errors.email}</div>}
-          </div>
-
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? '처리중...' : '비밀번호 초기화'}
-          </button>
-          {errors.general && <div className="error-message">{errors.general}</div>}
-        </form>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? '처리 중...' : '비밀번호 초기화'}
+            </button>
+            {error && <p>{error}</p>}
+          </form>
         <div className="links">
           <Link to="/Login">로그인페이지 이동</Link>
           <Link to="/FindId">ID 찾기</Link>
