@@ -48,9 +48,6 @@ const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
                   <span>- 가격: {closestStation.price}원</span>
                   <span> - 거리: {closestStation.distance}km</span>
                   <br />
-                  <span>
-                    - 주소: {closestStation.address || "주소 정보 없음"}
-                  </span>
                 </div>
               </div>
             )}
@@ -69,9 +66,6 @@ const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
                   <span>- 가격: {cheapestStation.price}원</span>
                   <span> - 거리: {cheapestStation.distance}km</span>
                   <br />
-                  <span>
-                    - 주소: {cheapestStation.address || "주소 정보 없음"}
-                  </span>
                 </div>
               </div>
             )}
