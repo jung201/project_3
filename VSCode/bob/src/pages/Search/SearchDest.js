@@ -39,24 +39,36 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
     }
   };
 
-
   // 지도에 마커추가
   const addMarkerToMap = (poi) => {
     const { noorLat, noorLon, name } = poi;
-    console.log("Original POI:", poi); // 원본 좌표 확인
 
+    console.log("Original POI:", poi); // 원본 좌표 확인
+    console.log("Name:", name, "Lat:", noorLat, "Lon:", noorLon); // 좌표 값 확인
+
+    // 좌표 변환
     const point = new Tmapv2.Point(Number(noorLon), Number(noorLat));
     const convertedPoint = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(point);
     console.log("Converted Point:", convertedPoint); // 변환된 좌표 확인
 
-    // 마커 생성
-    const marker = new Tmapv2.Marker({
-      position: new Tmapv2.LatLng(convertedPoint._lat, convertedPoint._lng),
-      map: mapRef.current,
-      title: name,
-    });
+    // TMap 객체 확인
+    if (!mapRef.current) {
+      console.error("TMap is not initialized.");
+      return;
+    }
 
-    markerRefs.current.push(marker);
+    try {
+      // 마커 생성
+      const marker = new Tmapv2.Marker({
+        position: new Tmapv2.LatLng(convertedPoint._lat, convertedPoint._lng),
+        map: mapRef.current,
+        title: name || "Unknown Location",
+      });
+      markerRefs.current.push(marker); // 마커 배열에 추가
+      console.log("Marker added:", marker); // 마커 추가 확인
+    } catch (error) {
+      console.error("Error adding marker:", error);
+    }
   };
 
   // 목적지 선택
