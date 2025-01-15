@@ -390,9 +390,12 @@ function SignupForm() {
             className={`select-field ${errors.type ? 'error' : ''}`}
           >
             <option value="">배기량을 선택해주세요</option>
-            <option value="500cc">500cc</option>
-            <option value="1000cc">1000cc</option>
-            <option value="1500cc">1500cc</option>
+            <option value="50cc">50cc이하</option>
+            <option value="125cc">125cc이하</option>
+            <option value="250cc">250cc이하(쿼터급)</option>
+            <option value="500cc">500cc(미들급)</option>
+            <option value="1000cc">1000cc(리터급)</option>
+            
           </select>
           {errors.type && <div className="error-message">{errors.type}</div>}
         </div>
