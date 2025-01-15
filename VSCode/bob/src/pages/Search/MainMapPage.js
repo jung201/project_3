@@ -31,10 +31,10 @@ const MainMapPage = () => {
       </div>
 
       {/* 경로 탐색 */}
-      <RouteSearch 
-      mapRef={mapRef} 
-      selectedDestination={selectedDestination} 
-      selectedStation={selectedStation} // 주유소 정보 전달
+      <RouteSearch
+        mapRef={mapRef}
+        selectedDestination={selectedDestination}
+        selectedStation={selectedStation} // 주유소 정보 전달
       />
 
       {/* SearchDest 팝업 */}
@@ -51,14 +51,15 @@ const MainMapPage = () => {
         </div>
       )}
 
-      {/* RecommendSTN 팝업 */}
       {showRecommendPopup && (
-        <RecommendSTN
-          onClose={() => setShowRecommendPopup(false) } // 팝업 닫기
-          // onClose={() => setStations([])}
-          onStationSelect={handleStationSelect} // 주유소 선택
-          stations={stations} // 주유소 목록 전달
-        />
+        <>
+          {console.log("현재 전달되는 stations 데이터:", stations)}
+          <RecommendSTN
+            onClose={() => setShowRecommendPopup(false)} // 팝업 닫기
+            onStationSelect={handleStationSelect} // 주유소 선택
+            stations={stations} // 주유소 목록 전달
+          />
+        </>
       )}
 
       {/* 우측 하단 아이콘 */}

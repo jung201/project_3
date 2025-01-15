@@ -21,6 +21,9 @@ public class SearchRestController {
     @GetMapping("/stations")
     public List<SearchVO> getStations(@RequestParam("destinationLat") double destinationLat,
                                       @RequestParam("destinationLng") double destinationLng) {
+        System.out.println("---search/stations---");
+        System.out.println("destinationLat : " + destinationLat );
+        System.out.println("destinationLng : " + destinationLng );
         return searchService.findStationsByDistance(destinationLat, destinationLng);
     }
 

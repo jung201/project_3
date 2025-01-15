@@ -145,17 +145,23 @@ export const updateMyPage = async (userId, payload) => {
 
 // search URL 설정
 const API_search_URL = "http://192.168.0.93:3006/search";
-export const fetchsearche = async () => {
+export const fetchsearch = async (lat, lng) => {
   try {
-    // 서버에서 데이터 가져오기
-    const response = await axios.get(`${API_search_URL}`);
-    console.log(response.data); // 디버깅용 로그 출력
+    // GET 요청에 Query Parameters 추가
+    const response = await axios.get(`${API_search_URL}/stations`, {
+      params: {
+        destinationLat: lat, // 목적지 위도
+        destinationLng: lng, // 목적지 경도
+      },
+    });
+    console.log("주유소 데이터:", response.data); // 응답 데이터 출력
     return response.data; // 데이터 반환
   } catch (error) {
-    console.error("데이터 불러오기 에러:", error); // 에러 처리
-    throw error; // 에러 전파
+    console.error("데이터 불러오기 에러:", error); // 에러 출력
+    throw error; // 에러 전달
   }
 };
+
 
 //================================================================================
 

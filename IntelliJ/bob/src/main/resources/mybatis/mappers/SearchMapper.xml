@@ -2,19 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="fs.four.human.Search.dao.SearchDAO">
-      <select id="findStationsByDistance" resultType="fs.four.human.Search.vo.SearchVO">
-          SELECT
-              STATION_CODE, AS stationCode,
-              BRAND AS brand,
-              NAME AS name,
-              PRICE AS price,
-              DISTANCE AS distance,
-              LATITUDE AS latitude,
-              LONGITUDE AS longitude
-              FROM
-              GAS_STATIONS
-          WHERE
-          SQRT(POWER(LATITUDE - #{destinationLat}, 2) + POWER(LONGITUDE - #{destinationLng}, 2)) < 10
-          ORDER BY DISTANCE ASC, PRICE ASC
-      </select>
+    <select id="findStationsByDistance" resultType="fs.four.human.Search.vo.SearchVO">
+        SELECT
+            STATION_CODE,
+            BRAND,
+            NAME,
+            PRICE,
+            DISTANCE,
+            LATITUDE,
+            LONGITUDE
+            FROM
+            GAS_STATIONS
+        WHERE
+            SQRT(POWER(LATITUDE - #{destinationLat}, 2) + POWER(LONGITUDE - #{destinationLng}, 2)) &lt; 10
+        ORDER BY
+            DISTANCE ASC,
+            PRICE ASC
+    </select>
 </mapper>
