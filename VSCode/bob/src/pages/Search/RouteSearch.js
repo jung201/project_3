@@ -1,5 +1,6 @@
 import React from "react";
 import "../../static/scss/Search/RouteSearch.scss";
+import markerIcon from "../../static/images/icons/도착.png";
 
 /* global Tmapv2 */
 const RouteSearch = ({ mapRef, selectedDestination }) => {
@@ -65,7 +66,10 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
                 new Tmapv2.Marker({
                     position: new Tmapv2.LatLng(36.80732281, 127.1471658), // 출발지 좌표
                     map: mapRef.current,
-                    // icon: "../../static/images/icons/도착.png", // 출발지 마커 이미지
+                    icon: {
+                        url: markerIcon, // 마커 이미지 경로
+                        size: new Tmapv2.Size(32, 32), // 마커 크기 지정 (가로 32px, 세로 32px)
+                    },
                     title:"초기 위치(휴먼교육센터)"
                 });
 
@@ -73,7 +77,10 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
                 new Tmapv2.Marker({
                     position: new Tmapv2.LatLng(destination.lat, destination.lng), // 도착지 좌표
                     map: mapRef.current,
-                    // icon: "../../static/images/icons/도착.png", // 도착지 마커 이미지
+                    icon: {
+                        url: markerIcon, // 마커 이미지 경로
+                        size: new Tmapv2.Size(32, 32), // 마커 크기 지정 (가로 32px, 세로 32px)
+                    },
                     title: destination.name || "도착지",
                 });
 
@@ -108,7 +115,7 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
         if (selectedDestination) {
             searchRoute(selectedDestination);
         }
-    });
+    }, [selectedDestination]);;
 
     return null; // UI가 필요 없으므로 아무것도 렌더링하지 않음
 };
