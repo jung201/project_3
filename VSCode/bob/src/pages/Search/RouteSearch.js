@@ -1,6 +1,4 @@
 import React from "react";
-import mypageImg from "../../static/images/icons/signin.PNG";
-import navFiller from "../../static/images/icons/board.png";
 import "../../static/scss/Search/RouteSearch.scss";
 
 /* global Tmapv2 */
@@ -67,7 +65,7 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
                 new Tmapv2.Marker({
                     position: new Tmapv2.LatLng(36.80732281, 127.1471658), // 출발지 좌표
                     map: mapRef.current,
-                    icon: { mypageImg }, // 출발지 마커 이미지
+                    // icon: "../../static/images/icons/도착.png", // 출발지 마커 이미지
                     title:"초기 위치(휴먼교육센터)"
                 });
 
@@ -75,7 +73,8 @@ const RouteSearch = ({ mapRef, selectedDestination }) => {
                 new Tmapv2.Marker({
                     position: new Tmapv2.LatLng(destination.lat, destination.lng), // 도착지 좌표
                     map: mapRef.current,
-                    icon: { navFiller }, // 도착지 마커 이미지
+                    // icon: "../../static/images/icons/도착.png", // 도착지 마커 이미지
+                    title: destination.name || "도착지",
                 });
 
                 // 지도 줌 아웃 및 중심 변경
