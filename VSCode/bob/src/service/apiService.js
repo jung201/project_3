@@ -209,7 +209,7 @@ export const registerUser = async (signupData) => {
 
 //==============================================================================
 //아이디 찾기
-const API_FindId_URL = process.env.REACT_APP_API_FindPw_URL || "http://localhost:3006/api";
+const API_FindId_URL = process.env.REACT_APP_API_FindPw_URL || "http://192.168.0.93:3006/api";
 
 export const ForgotId = {
   findIdByEmail: async (email) => {
@@ -230,7 +230,7 @@ export const ForgotId = {
 
 //비밀번호 찾기
 
-const API_FindPw_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:3006/api";
+const API_FindPw_URL = process.env.REACT_APP_API_BASE_URL || "http://192.168.0.93:3006/api";
 
 export const ForgotPassword = {
   resetPassword: async (id, email) => {
