@@ -37,7 +37,9 @@ const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
             {closestStation && (
               <div
                 className="station-item"
-                onClick={() => onStationSelect(closestStation)}
+                onClick={() => {
+                  onStationSelect(closestStation); // 클릭된 주유소를 경유지로 설정
+                }}
               >
                 <div className="station-type">최단거리 주유소</div>
                 <div className="station-info">
@@ -51,6 +53,7 @@ const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
                 </div>
               </div>
             )}
+
             {/* 최저가 주유소 */}
             {cheapestStation && (
               <div

@@ -4,7 +4,6 @@ import markerIcon from "../../static/images/icons/도착.png";
 import { fetchsearch } from "../../service/apiService"; // API 연동 함수 가져오기
 
 /* global Tmapv2 */
-
 const getFilteredStations = (stations) => {
   if (stations.length === 0) return [];
 
@@ -38,9 +37,11 @@ const RouteSearch = ({
   selectedDestination,
   selectedStation,
   onStationsUpdate,
+  onStationClick, // 경유지 클릭 시 실행될 콜백 추가
 }) => {
-  const [markers, setMarkers] = useState([]); // 마커 관리
-  const [polylines, setPolylines] = useState([]); // 경로 관리
+  const [markers, setMarkers] = useState([]);
+  const [polylines, setPolylines] = useState([]);
+  const [infoPopup, setInfoPopup] = useState({ time: "", distance: "", name: ""}); // 오른쪽 하단 UI 상태 관리
 
   const clearMap = () => {
     // 기존 마커 제거
@@ -62,7 +63,6 @@ const RouteSearch = ({
         const filteredStations = getFilteredStations(stationData); // 최단거리, 최저단가 필터링
         onStationsUpdate(filteredStations); // 부모 컴포넌트(MainMapPage)로 데이터 전달
       } else {
-        console.log("추천할 주유소가 없습니다.");
         onStationsUpdate([]); // 빈 데이터 전달
       }
     } catch (error) {
@@ -124,43 +124,38 @@ const RouteSearch = ({
           }
         });
 
-        // 시작 마커
-        const startMarker = new Tmapv2.Marker({
-          position: new Tmapv2.LatLng(36.80732281, 127.1471658),
-          map: mapRef.current,
-          icon: {
-            url: markerIcon,
-            size: new Tmapv2.Size(32, 32),
-          },
-          title: "초기 위치(휴먼교육센터)",
-        });
-        setMarkers((prev) => [...prev, startMarker]);
-
-        // 경유지 마커
-        if (station) {
-          const waypointMarker = new Tmapv2.Marker({
-            position: new Tmapv2.LatLng(station.lat, station.lng),
+        // 마커 추가 함수
+        const addMarker = (lat, lng, title) => {
+          const marker = new Tmapv2.Marker({
+            position: new Tmapv2.LatLng(lat, lng),
             map: mapRef.current,
             icon: {
               url: markerIcon,
               size: new Tmapv2.Size(32, 32),
             },
-            title: station.name || "경유지",
+            title,
           });
-          setMarkers((prev) => [...prev, waypointMarker]);
-        }
+          setMarkers((prev) => [...prev, marker]);
+        };
 
-        // 도착 마커
-        const endMarker = new Tmapv2.Marker({
-          position: new Tmapv2.LatLng(destination.lat, destination.lng),
-          map: mapRef.current,
-          icon: {
-            url: markerIcon,
-            size: new Tmapv2.Size(32, 32),
-          },
-          title: destination.name || "도착지",
-        });
-        setMarkers((prev) => [...prev, endMarker]);
+        // 마커 추가
+        addMarker(36.80732281, 127.1471658, "출발지"); // 출발지 마커
+        if (station)
+          addMarker(station.lat, station.lng, station.name || "경유지"); // 경유지 마커
+        addMarker(
+          destination.lat,
+          destination.lng,
+          destination.name || "도착지"
+        ); // 도착지 마커
+
+        // 오른쪽 하단 UI 업데이트
+        const totalTime = Math.ceil(resultData[0].properties.totalTime / 60);
+        const totalDistance = (
+          resultData[0].properties.totalDistance / 1000
+        ).toFixed(2);
+
+        // React 상태로 오른쪽 하단 UI 업데이트
+        setInfoPopup({ time: totalTime, distance: totalDistance, name: destination.name || "도착지" });
 
         // 지도 중심 및 줌 조정
         mapRef.current.setZoom(12);
@@ -170,27 +165,15 @@ const RouteSearch = ({
             (destination.lng + 127.1471658) / 2
           )
         );
-        // 팝업 표시
-        new Tmapv2.InfoWindow({
-          position: new Tmapv2.LatLng(
-            destination.lat - 0.005,
-            destination.lng + 0.05
-          ),
-          content: `
-            <div class="info-popup">
-              <div class="popup-header">${destination.name || "도착지"}</div>
-              <div class="popup-info">소요 시간: ${Math.ceil(
-                resultData[0].properties.totalTime / 60
-              )}분</div>
-              <div class="popup-info distance">남은 거리: ${(
-                resultData[0].properties.totalDistance / 1000
-              ).toFixed(2)}km</div>
-              <button class="popup-button">목적지 저장</button>
-            </div>
-          `,
-          type: 2, // HTML 타입 팝업
-          map: mapRef.current,
-        });
+        // // 팝업 표시
+        // new Tmapv2.InfoWindow({
+        //   position: new Tmapv2.LatLng(
+        //     destination.lat - 0.005,
+        //     destination.lng + 0.05
+        //   ),
+        //   type: 2, // HTML 타입 팝업
+        //   map: mapRef.current,
+        // });
       })
       .catch((error) => console.error("경로 탐색 중 오류 발생:", error));
   };
@@ -208,7 +191,15 @@ const RouteSearch = ({
     }
   }, [selectedStation]);
 
-  return null;
+  return (
+    <div>
+      <div className="info-popup">
+        <div class="popup-header">{infoPopup.name}</div>
+        <div className="popup-info">소요 시간: {infoPopup.time}분</div>
+        <div className="popup-info">남은 거리: {infoPopup.distance}km</div>
+        <button class="popup-button">목적지 저장</button>
+      </div>
+    </div>
+  );
 };
-
 export default RouteSearch;
