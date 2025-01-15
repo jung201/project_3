@@ -11,5 +11,13 @@ public class SearchVO {
     private String stationCode;
     private String brand;
     private String name;
-    private double 
+    private double price;
+    private double distance;
+    private double latitude;
+    private double longitude;
+
+    public SearchVO(){
+
+    }
+
 }
