@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 
 /* global Tmapv2 */
-const TMap = ({ mapRef }) => {
+const TMap = ({ mapRef, selectedDestination }) => {
+
   useEffect(() => {
     // 사용자 위치 가져오기
     navigator.geolocation.getCurrentPosition(
