@@ -242,17 +242,19 @@ export const ForgotId = {
 };
 
 //========================================================================================//
-const API_PRICE_URL = "http://192.168.0.93:3006/today-price";
+//평균유가
 
-export const getTodayOilAverages = async () => {
-  try {
-    const response = await axios.get(`${API_PRICE_URL}/averages`);
-    return response.data;
-  } catch (error) {
-    console.error("평균 유가 데이터 가져오기 실패:", error);
-    throw error;
-  }
-};
+// const API_PRICE_URL = "http://192.168.0.93:3006/today-price";
+
+// export const getTodayOilAverages = async () => {
+//   try {
+//     const response = await axios.get(`${API_PRICE_URL}/averages`);
+//     return response.data;
+//   } catch (error) {
+//     console.error("평균 유가 데이터 가져오기 실패:", error);
+//     throw error;
+//   }
+// };
 
 
 //비밀번호 찾기
