@@ -14,25 +14,18 @@ const SaveDest = () => {
   //컴포넌트 마운트 시 목적지 리스트를 가져옴
   useEffect(() => {
     const loadDestinations = async () => {
-      if (!userId) {
-        console.error("로그인이 필요합니다.");
-        return;
-      }
-
       try {
-        // 백엔드에서 호출
         const data = await fetchRouteHistory(userId);
         console.log("가져온 목적지 데이터:", data);
-
-        // 리스트 저장
+    
         const newDestinations = data.map((item) => ({
-          id: item.destinationId, // 목적지 ID
-          date: item.urCreatedDate?.substring(0, 10) || "-", // 등록일
-          station: item.urStopoverName || "-", // 경유 주유소
-          destination: item.urDestName || "-", // 목적지
+          id: item.destinationId, // 반드시 id가 설정되었는지 확인
+          date: item.urCreatedDate?.substring(0, 10) || "-",
+          station: item.urStopoverName || "-",
+          destination: item.urDestName || "-",
         }));
-
-        setDestinations(newDestinations); // 상태 업데이트
+    
+        setDestinations(newDestinations);
       } catch (error) {
         console.error("목적지 데이터를 가져오는 중 오류 발생:", error);
       }
@@ -45,28 +38,19 @@ const SaveDest = () => {
 
   // 삭제 버튼 클릭 시 호출
   const handleDelete = async (indexInCurrentPage, destinationId) => {
-    try {
-      if (!destinationId) {
-        console.error("destinationId가 유효하지 않습니다:", destinationId);
-        return;
-      }
+    if (!destinationId || isNaN(destinationId)) { // 유효성 검증
+      console.error("destinationId가 유효하지 않습니다:", destinationId);
+      return;
+    }
 
-      const realIndex = (currentPage - 1) * itemsPerPage + indexInCurrentPage; // 실제 인덱스 계산
+    try {
+      const realIndex = (currentPage - 1) * itemsPerPage + indexInCurrentPage;
       const response = await deleteRouteHistory(userId, destinationId); // API 호출
       console.log("삭제 결과:", response);
 
-      // 삭제 성공 시 상태 업데이트
       const updatedList = [...destinations];
-      updatedList.splice(realIndex, 1);
-      setDestinations(updatedList);
-
-      // 페이지 재조정
-      if (
-        updatedList.length <= (currentPage - 1) * itemsPerPage &&
-        currentPage > 1
-      ) {
-        setCurrentPage(currentPage - 1);
-      }
+      updatedList.splice(realIndex, 1); // 삭제된 항목 제거
+      setDestinations(updatedList); // 상태 업데이트
     } catch (error) {
       console.error("삭제 중 오류 발생:", error);
     }
@@ -100,7 +84,7 @@ const SaveDest = () => {
               <td>{dest.destination}</td>
               <td>
                 <button
-                  onClick={() => handleDelete(idx, dest.id)} // 삭제 시 destinationId 전달
+                  onClick={() => handleDelete(idx, dest.id)} // dest.id가 destinationId로 전달됩니다.
                   style={{
                     backgroundColor: "#f8f9fa",
                     border: "solid 1px #ccc",

@@ -28,8 +28,9 @@ public class MyPageService {
         return myPageDAO.findRouteHistoryByUserId(userId);
     }
 
-    public int deleteRouteHistory(String uId, int destinationId) {
-        return myPageDAO.deleteRouteHistoryById(uId, destinationId);
+    public int deleteRouteHistory(int destinationId) {
+        return myPageDAO.deleteRouteHistory(destinationId);
     }
+
 
 }

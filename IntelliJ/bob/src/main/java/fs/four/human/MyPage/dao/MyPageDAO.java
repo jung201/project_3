@@ -20,6 +20,6 @@ public interface MyPageDAO {
     List<RouteHistoryVO> findRouteHistoryByUserId(String userId);
 
     // 목적지 삭제
-    int deleteRouteHistoryById(@Param("uId") String uId, @Param("destinationId") int destinationId);
+    int deleteRouteHistory(@Param("destinationId") int destinationId);
 
 }

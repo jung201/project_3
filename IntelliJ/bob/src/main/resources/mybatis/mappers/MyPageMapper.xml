@@ -31,6 +31,7 @@
     <!-- 사용자 목적지 기록 조회 -->
     <select id="findRouteHistoryByUserId" resultType="fs.four.human.Search.vo.RouteHistoryVO">
         SELECT
+            UR_ID AS destinationId,
             UR_STOPOVER_NAME AS urStopoverName,
             UR_DEST_NAME     AS urDestName,
             UR_DISTANCE      AS urDistance,
@@ -42,10 +43,9 @@
     </select>
 
     <!-- 사용자 목적지 삭제 -->
-    <delete id="deleteRouteHistoryById" parameterType="map">
+    <delete id="deleteRouteHistory" parameterType="int">
         DELETE FROM USER_ROUTE_HISTORY
-        WHERE UR_CREATED_ID = #{uId}
-        AND ID = #{destinationId}
+        WHERE UR_ID = #{destinationId}
     </delete>
 
 </mapper>

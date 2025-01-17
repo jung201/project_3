@@ -152,10 +152,6 @@ export const fetchRouteHistory = async (userId) => {
 
 // 목적지 삭제
 export const deleteRouteHistory = async (userId, destinationId) => {
-  if (!userId || !destinationId) {
-    throw new Error("userId 또는 destinationId가 유효하지 않습니다.");
-  }
-  
   try {
     const response = await axios.delete(
       `${API_myPage_URL}/${userId}/destinations/${destinationId}`

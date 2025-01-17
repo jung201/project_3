@@ -89,12 +89,15 @@ public class MyPageRestController {
     @DeleteMapping("/{uId}/destinations/{destinationId}")
     public String deleteDestination(
             @PathVariable("uId") String uId,
-            @PathVariable("destinationId") int destinationId) {
+            @PathVariable("destinationId") Integer destinationId) { // 데이터 타입 Integer로 수정
+        if (destinationId == null || destinationId <= 0) {
+            return "destinationId가 유효하지 않습니다.";
+        }
         try {
             System.out.println("받은 uId: " + uId);
             System.out.println("받은 destinationId: " + destinationId);
 
-            int result = myPageService.deleteRouteHistory(uId, destinationId);
+            int result = myPageService.deleteRouteHistory(destinationId);
             if (result > 0) {
                 System.out.println("삭제 성공: destinationId = " + destinationId);
                 return "삭제 성공";
@@ -107,4 +110,5 @@ public class MyPageRestController {
             return "삭제 중 오류 발생";
         }
     }
+
 }
