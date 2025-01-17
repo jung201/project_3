@@ -28,5 +28,24 @@
         WHERE u_ID = #{u_ID}
     </update>
 
+    <!-- 사용자 목적지 기록 조회 -->
+    <select id="findRouteHistoryByUserId" resultType="fs.four.human.Search.vo.RouteHistoryVO">
+        SELECT
+            UR_STOPOVER_NAME AS urStopoverName,
+            UR_DEST_NAME     AS urDestName,
+            UR_DISTANCE      AS urDistance,
+            UR_CREATED_DATE  AS urCreatedDate,
+            UR_CREATED_ID    AS urCreatedId
+        FROM USER_ROUTE_HISTORY
+        WHERE UR_CREATED_ID = #{userId}
+        ORDER BY UR_CREATED_DATE DESC
+    </select>
+
+    <!-- 사용자 목적지 삭제 -->
+    <delete id="deleteRouteHistoryById" parameterType="map">
+        DELETE FROM USER_ROUTE_HISTORY
+        WHERE UR_CREATED_ID = #{uId}
+        AND ID = #{destinationId}
+    </delete>
 
 </mapper>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchMyPage } from "../../service/apiService";
+import { fetchMyPage, fetchRouteHistory } from "../../service/apiService";
 import { formatDate } from "../../utils/dateUtils"; // 날짜 포맷 변환 함수 가져오기
 import { getCcLabel } from "../../utils/categoryUtils"; // 배기량 변환 함수 가져오기
 import "../../static/scss/MyPage/MyInfo.scss";
@@ -13,6 +13,10 @@ const MyInfo = ({ setView }) => {
     cc: "",
     joinDate: "",
   });
+
+  // 저장한 목적지 리스트
+  const [routeHistory, setRouteHistory] = useState([]);
+
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
@@ -36,6 +40,11 @@ const MyInfo = ({ setView }) => {
           cc: ccLabel,
           joinDate: formattedDate, // 날짜 필드 사용
         });
+
+        // 저장한 목적지 목록 가져오기
+        const routeData = await fetchRouteHistory();
+        console.log("가져온 목적지 기록:", routeData);
+        setRouteHistory(routeData);
       } catch (error) {
         console.error("사용자 정보를 가져오는 중 오류 발생:", error);
       }

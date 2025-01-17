@@ -1,26 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../static/scss/MyPage/SaveDest.scss";
+import { fetchRouteHistory } from "../../service/apiService";
+import { deleteRouteHistory } from "../../service/apiService";
 
 const SaveDest = () => {
-  // 예제 데이터
-  const allDestinations = [
-    { date: "2024/11/10", station: "만수르 주유소", destination: "현충사 입구" },
-    { date: "2024/11/12", station: "-", destination: "천안역" },
-    { date: "2024/11/13", station: "샤우디 주유소", destination: "휴먼교육센터" },
-    { date: "2024/11/14", station: "-", destination: "천안아산역" },
-    { date: "2024/11/15", station: "쌍용주유소", destination: "맥도날드 쌍용점" },
-    { date: "2024/11/16", station: "-", destination: "성환공단" },
-    { date: "2024/11/17", station: "서울 주유소", destination: "서울역" },
-  ];
-
-  const itemsPerPage = 3; // 한 페이지당 표시할 항목 수
+  //목적지 목록 state
+  const [destinations, setDestinations] = useState([]);
+  //페이지네이션 관련 state
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const itemsPerPage = 3; // 한 페이지당 표시할 항목 수
+  const userId = sessionStorage.getItem("userId");
 
-  const totalPages = Math.ceil(allDestinations.length / itemsPerPage);
+  //컴포넌트 마운트 시 목적지 리스트를 가져옴
+  useEffect(() => {
+    const loadDestinations = async () => {
+      if (!userId) {
+        console.error("로그인이 필요합니다.");
+        return;
+      }
 
-  // 현재 페이지 데이터 계산
+      try {
+        // 백엔드에서 호출
+        const data = await fetchRouteHistory(userId);
+        console.log("가져온 목적지 데이터:", data);
+
+        // 리스트 저장
+        const newDestinations = data.map((item) => ({
+          id: item.destinationId, // 목적지 ID
+          date: item.urCreatedDate?.substring(0, 10) || "-", // 등록일
+          station: item.urStopoverName || "-", // 경유 주유소
+          destination: item.urDestName || "-", // 목적지
+        }));
+
+        setDestinations(newDestinations); // 상태 업데이트
+      } catch (error) {
+        console.error("목적지 데이터를 가져오는 중 오류 발생:", error);
+      }
+    };
+
+    loadDestinations();
+  }, [userId]);
+
+  // ----------------------------------------------------------------------------
+
+  // 삭제 버튼 클릭 시 호출
+  const handleDelete = async (indexInCurrentPage, destinationId) => {
+    try {
+      if (!destinationId) {
+        console.error("destinationId가 유효하지 않습니다:", destinationId);
+        return;
+      }
+
+      const realIndex = (currentPage - 1) * itemsPerPage + indexInCurrentPage; // 실제 인덱스 계산
+      const response = await deleteRouteHistory(userId, destinationId); // API 호출
+      console.log("삭제 결과:", response);
+
+      // 삭제 성공 시 상태 업데이트
+      const updatedList = [...destinations];
+      updatedList.splice(realIndex, 1);
+      setDestinations(updatedList);
+
+      // 페이지 재조정
+      if (
+        updatedList.length <= (currentPage - 1) * itemsPerPage &&
+        currentPage > 1
+      ) {
+        setCurrentPage(currentPage - 1);
+      }
+    } catch (error) {
+      console.error("삭제 중 오류 발생:", error);
+    }
+  };
+
+  // 페이지 계산
+  const totalPages = Math.ceil(destinations.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentDestinations = allDestinations.slice(startIndex, startIndex + itemsPerPage);
+  const currentDestinations = destinations.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   return (
     <div className="saved-destination">
@@ -35,18 +93,18 @@ const SaveDest = () => {
           </tr>
         </thead>
         <tbody>
-          {currentDestinations.map((destination, index) => (
-            <tr key={index}>
-              <td name={`dest-date-${index}`}>{destination.date}</td>
-              <td name={`dest-station-${index}`}>{destination.station}</td>
-              <td name={`dest-destination-${index}`}>{destination.destination}</td>
+          {currentDestinations.map((dest, idx) => (
+            <tr key={dest.id}>
+              <td>{dest.date}</td>
+              <td>{dest.station}</td>
+              <td>{dest.destination}</td>
               <td>
                 <button
+                  onClick={() => handleDelete(idx, dest.id)} // 삭제 시 destinationId 전달
                   style={{
                     backgroundColor: "#f8f9fa",
                     border: "solid 1px #ccc",
                   }}
-                  name={`delete-destination-${index}`}
                 >
                   삭제
                 </button>

@@ -66,7 +66,7 @@ export const fetchLogin = async (userId, password) => {
     const response = await axios.post(
       API_login_URL,
       { u_ID: userId, u_PWD: password },
-      { withCredentials: true }  // ← 여기 중요
+      { withCredentials: true }
     );
     console.log(response.data); // 디버깅용 로그 출력
     return response.data; // 데이터 반환
@@ -142,6 +142,33 @@ export const updateMyPage = async (userId, payload) => {
   }
 };
 
+// 목적지 조회
+export const fetchRouteHistory = async (userId) => {
+  const response = await axios.get(`${API_myPage_URL}/${userId}/destinations`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+// 목적지 삭제
+export const deleteRouteHistory = async (userId, destinationId) => {
+  if (!userId || !destinationId) {
+    throw new Error("userId 또는 destinationId가 유효하지 않습니다.");
+  }
+  
+  try {
+    const response = await axios.delete(
+      `${API_myPage_URL}/${userId}/destinations/${destinationId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "목적지 삭제 중 오류 발생:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
 
 //================================================================================
 
@@ -163,7 +190,6 @@ export const fetchsearch = async (lat, lng) => {
     throw error; // 에러 전달
   }
 };
-
 
 //================================================================================
 
@@ -191,8 +217,8 @@ export const checkIdDuplicate = async (id) => {
     const response = await axios.get(`${API_SIGNUP_URL}/signup/check-id/${id}`);
     return response.data; // true or false 반환
   } catch (error) {
-    console.error('아이디 중복 체크 오류:', error);
-    throw new Error('아이디 중복 체크 중 문제가 발생했습니다.');
+    console.error("아이디 중복 체크 오류:", error);
+    throw new Error("아이디 중복 체크 중 문제가 발생했습니다.");
   }
 };
 
@@ -201,68 +227,79 @@ export const registerUser = async (formData) => {
     const phone = `${formData.phone1}-${formData.phone2}-${formData.phone3}`;
 
     const formDataToSend = new FormData();
-    formDataToSend.append('uId', formData.id);
-    formDataToSend.append('uPwd', formData.pw);
-    formDataToSend.append('uEmail', formData.email);
-    formDataToSend.append('uNickname', formData.nickname);
-    formDataToSend.append('uCc', formData.type);
-    formDataToSend.append('uPhone', phone);
+    formDataToSend.append("uId", formData.id);
+    formDataToSend.append("uPwd", formData.pw);
+    formDataToSend.append("uEmail", formData.email);
+    formDataToSend.append("uNickname", formData.nickname);
+    formDataToSend.append("uCc", formData.type);
+    formDataToSend.append("uPhone", phone);
     if (formData.photo) {
-      formDataToSend.append('uPhoto', formData.photo);
+      formDataToSend.append("uPhoto", formData.photo);
     }
 
-    const response = await axios.post(`${API_SIGNUP_URL}/signup/register`, formDataToSend, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axios.post(
+      `${API_SIGNUP_URL}/signup/register`,
+      formDataToSend,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {
-    console.error('회원가입 처리 오류:', error);
-    throw new Error('회원가입 처리 중 문제가 발생했습니다.');
+    console.error("회원가입 처리 오류:", error);
+    throw new Error("회원가입 처리 중 문제가 발생했습니다.");
   }
 };
 //==============================================================================
 //아이디 찾기
-const API_FindId_URL = process.env.REACT_APP_API_FindPw_URL || "http://192.168.0.93:3006/api";
+const API_FindId_URL =
+  process.env.REACT_APP_API_FindPw_URL || "http://192.168.0.93:3006/api";
 
 export const ForgotId = {
   findIdByEmail: async (email) => {
     try {
-      const response = await axios.get(`${API_FindId_URL}/findid/findIdByEmail`, {
-        params: { email },
-      });
+      const response = await axios.get(
+        `${API_FindId_URL}/findid/findIdByEmail`,
+        {
+          params: { email },
+        }
+      );
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        throw new Error('등록된 이메일이 없습니다.');
+        throw new Error("등록된 이메일이 없습니다.");
       }
-      throw new Error('아이디 찾기 요청 중 오류가 발생했습니다.');
+      throw new Error("아이디 찾기 요청 중 오류가 발생했습니다.");
     }
   },
 };
 
-
 //비밀번호 찾기
 
-const API_FindPw_URL = process.env.REACT_APP_API_BASE_URL || "http://192.168.0.93:3006/api";
+const API_FindPw_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://192.168.0.93:3006/api";
 
 export const ForgotPassword = {
   resetPassword: async (id, email) => {
     try {
-      const response = await axios.post(`${API_FindPw_URL}/findpw/resetPassword`, null, {
-        params: { u_id: id, email },
-      });
+      const response = await axios.post(
+        `${API_FindPw_URL}/findpw/resetPassword`,
+        null,
+        {
+          params: { u_id: id, email },
+        }
+      );
       return response.data;
     } catch (error) {
       throw new Error(
         error.response && error.response.data
           ? error.response.data
-          : '비밀번호 초기화 요청 중 오류가 발생했습니다.'
+          : "비밀번호 초기화 요청 중 오류가 발생했습니다."
       );
     }
   },
 };
 //==============================================================================
-
