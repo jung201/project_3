@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Info.dao.GasStationDetailsDAO">
+    <delete id="clearGasStationDetailsTable">
+        DELETE FROM gas_station_details
+    </delete>
+
+    <select id="selectAllGasStationIds" resultType="string">
+        SELECT station_code FROM gas_stations
+    </select>
+
+    <insert id="insertGasStationDetails">
+        INSERT INTO gas_station_details (
+        station_code, brand, name, address, road_address, tel, lpg_yn, maint_yn, car_wash_yn, cvs_yn, oil_price, trade_dt, trade_tm
+        ) VALUES (
+        #{stationCode, jdbcType=VARCHAR},
+        #{brand, jdbcType=VARCHAR},
+        #{name, jdbcType=VARCHAR},
+        #{address, jdbcType=VARCHAR},
+        #{roadAddress, jdbcType=VARCHAR},
+        #{tel, jdbcType=VARCHAR},
+        #{lpgYn, jdbcType=CHAR},
+        #{maintYn, jdbcType=CHAR},
+        #{carWashYn, jdbcType=CHAR},
+        #{cvsYn, jdbcType=CHAR},
+        #{oilPrice, jdbcType=INTEGER},
+        #{tradeDt, jdbcType=VARCHAR},
+        #{tradeTm, jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+</mapper>
