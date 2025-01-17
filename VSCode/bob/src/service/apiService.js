@@ -264,16 +264,3 @@ export const ForgotPassword = {
 };
 //==============================================================================
 
-// // 백엔드에서 데이터 불러오기
-// useEffect(() => {
-//   const loadBoard = async () => {
-//     try {
-//       const data = await fetchBoard();
-//       setPosts(data); // 게시글 데이터 설정
-//     } catch (error) {
-//       console.error("게시글 불러오기 실패:", error);
-//     }
-//   };
-
-//   loadBoard(); // 데이터 불러오기 실행
-// }, []); // 컴포넌트 마운트 시 1회 실행
