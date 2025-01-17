@@ -88,7 +88,11 @@ const Riding = () => {
     const sectionTop = sectionRefs.current[index].offsetTop + offset;
     window.scrollTo({ top: sectionTop, behavior: 'smooth' });
   };
-
+ // 백엔드에서 데이터 불러오기
+  // 백엔드에서 데이터 불러오기
+   // 백엔드에서 데이터 불러오기
+    // 백엔드에서 데이터 불러오기
+    
   // 백엔드에서 데이터 불러오기
 // 백엔드에서 데이터 불러오기
 useEffect(() => {
