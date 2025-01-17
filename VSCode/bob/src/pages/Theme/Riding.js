@@ -87,7 +87,7 @@ const Riding = () => {
     const offset = -80;
     const sectionTop = sectionRefs.current[index].offsetTop + offset;
     window.scrollTo({ top: sectionTop, behavior: 'smooth' });
-  };
+  };//sss
 
   // 백엔드에서 데이터 불러오기
 // 백엔드에서 데이터 불러오기
