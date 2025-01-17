@@ -108,9 +108,6 @@ useEffect(() => {
             TR_NUMPRODUCE1: curr.tr_NUMPRODUCE1,
             TR_NUMPRODUCE2: curr.tr_NUMPRODUCE2,
             IMAGE: curr.image,
-            LATITUDE: curr.latitude,
-            LONGITUDE: curr.longitude
-
           });
         } else {
           acc.push({
@@ -121,8 +118,6 @@ useEffect(() => {
               TR_NUMPRODUCE1: curr.tr_NUMPRODUCE1,
               TR_NUMPRODUCE2: curr.tr_NUMPRODUCE2,
               IMAGE: curr.image,
-              LATITUDE: curr.latitude,
-              LONGITUDE: curr.longitude
             }]
           });
         }
@@ -147,21 +142,21 @@ useEffect(() => {
         <div className="photo-box-wrapper">
           <div className="photo-box" onClick={() => scrollToSection(0)}>
             <img
-              src="/images/Riding/Coastline.png"
+              src="http://192.168.0.93:3006/images/Riding/Coastline.png"
               alt="어우러짐의 미학"
               className="photo-box-image"
             />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(1)}>
             <img
-              src="/images/Riding/AutumnLeaves.png"
+              src="http://192.168.0.93:3006/images/Riding/AutumnLeaves.png"
               alt="노을이 가장 아름다운"
               className="photo-box-image"
             />
           </div>
           <div className="photo-box" onClick={() => scrollToSection(2)}>
             <img
-              src="/images/Riding/NightView.png"
+              src="http://192.168.0.93:3006/images/Riding/NightView.png"
               alt="야간"
               className="photo-box-image"
             />
@@ -178,7 +173,7 @@ useEffect(() => {
                 <div key={place.TR_PLACE_ID} className="riding-frame">
                   <div className="riding-content">
                     <img
-                      src={`/images/Riding/${place.IMAGE || 'default.png'}`}
+                      src={`http://192.168.0.93:3006/images/Riding/${place.IMAGE || 'default.png'}`}
                       alt={place.TR_PLACE_NAME}
                       className="riding-image"
                     />
