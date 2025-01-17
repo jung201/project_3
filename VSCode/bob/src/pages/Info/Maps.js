@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import red from "../../static/images/icons/red.png";
 import yellow from "../../static/images/icons/yellow.png";
 import green from "../../static/images/icons/green.png";
-import soil from "../../static/images/stationLogo/soil.PNG";
 import store from "../../static/images/icons/store.PNG";
 import repair from "../../static/images/icons/repair.PNG";
 import good from '../../static/images/icons/good.PNG';
 import review from "../../static/images/icons/review.PNG";
 import "../../static/scss/Info/Popup.scss";
 import { FaStar } from "react-icons/fa"; // 별점 아이콘
+import { getBrandLogo } from './BrandLogoMap';
 
-const Maps = () => {
+const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
     const [stations, setStations] = useState([]);
     const [selectedStation, setSelectedStation] = useState(null); // 세부정보 데이터
     const [isDetailPopupVisible, setDetailPopupVisible] = useState(false); // 세부정보 팝업
@@ -18,6 +18,7 @@ const Maps = () => {
     const [rating, setRating] = useState({ restroom: 0, access: 0, price: 0 }); // 평점 등록 값
     const [activeInfoWindow, setActiveInfoWindow] = useState(null); // 현재 열려 있는 InfoWindow
     const [currentPosition, setCurrentPosition] = useState(null); // 현재 위치
+ 
 
     useEffect(() => {
         const loadKakaoMap = () => {
@@ -33,12 +34,18 @@ const Maps = () => {
                             const data = await response.json();
                             setStations(data);
 
+                            // 부모 컴포넌트로 데이터를 전달
+                            if (onStationsUpdate) {
+                                console.log("스테이션정보 : ", data);
+                                onStationsUpdate(data);
+                            }
                             const mapContainer = document.getElementById("map");
                             const mapOptions = {
                                 center: new window.kakao.maps.LatLng(36.81157, 127.14639),
                                 level: 6,
                             };
                             const map = new window.kakao.maps.Map(mapContainer, mapOptions);
+                            const markerMap = new Map(); // 마커 매핑 객체
 
                             const globalInfoWindow = new window.kakao.maps.InfoWindow();
 
@@ -89,7 +96,8 @@ const Maps = () => {
                                     map,
                                     image: markerImage,
                                 });
-                            
+                                markerMap.set(station.NAME, marker);
+
                                 window.kakao.maps.event.addListener(marker, "click", () => {
                                     if (activeInfoWindow) {
                                         activeInfoWindow.close();
@@ -98,10 +106,16 @@ const Maps = () => {
                                     globalInfoWindow.setContent(`
                                         <div class="info-popup">
                                             <button id="closePopup" class="close-btn">✖</button>
-                                            <strong>${station.NAME}</strong><br/>
-                                            브랜드: ${station.BRAND}<br/>
-                                            거리: ${station.DISTANCE}m<br/>
-                                            가격: ${station.PRICE}원<br/>
+                                            <div style="display: flex; align-items: center;">
+                                                <img 
+                                                    src="${getBrandLogo(station.BRAND)}" 
+                                                    alt="${station.BRAND} 로고" 
+                                                    style="width: 40px; height: auto; margin-right: 10px;"
+                                                />
+                                                <strong>${station.NAME}</strong>
+                                            </div>
+                                            - 거리: ${station.DISTANCE}m<br/>
+                                            - 가격: ${station.PRICE}원<br/>
                                             <span>전국 평균 대비: ${Math.round(station.PRICE_DIFF)}원</span><br/>
                                             <button id="detailView" class="info-btn">세부정보보기</button>
                                         </div>
@@ -162,28 +176,32 @@ const Maps = () => {
                                         }
                                         
                                     }, 0);
+
                                 });
                             });
-                            
+                            if (onMarkerMapUpdate) onMarkerMapUpdate(markerMap);
+
                         } catch (error) {
                             console.error("Error fetching stations:", error);
                         }
                     };
 
                     fetchStations();
-                });
+                },[onStationsUpdate, onMarkerMapUpdate]);
             };
 
             document.head.appendChild(script);
         };
 
         loadKakaoMap();
-    }, []);
+    }, [onStationsUpdate]);
 
     const handleStarClick = (category, value) => {
         setRating((prev) => ({ ...prev, [category]: value }));
     };
 
+
+    
     const fetchAverageRatings = async (stationCode) => {
         try {
             const response = await fetch(`/api/gas-stations/${stationCode}/average-ratings`);
@@ -199,7 +217,6 @@ const Maps = () => {
         }
     };
     
-
     const submitRating = async () => {
         try {
             const payload = {
@@ -253,7 +270,11 @@ const Maps = () => {
                         ✖
                     </button>
                     <h3>
-                        <img src={soil} alt="logo" /> {selectedStation.name}
+                    <img 
+                        src={getBrandLogo(selectedStation.brand)} 
+                        alt={`${selectedStation.brand} 로고`} 
+                        style={{ width: "50px", marginRight: "10px" }} 
+                    /> {selectedStation.name}
                         <span style={{ cursor: "pointer" }}>☆</span>
                     </h3>
                     <p>

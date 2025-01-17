@@ -9,6 +9,8 @@ import Sbtn from "../../static/images/icons/searchBTN.png";
 const InfoPage = () => {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [activePopup, setActivePopup] = useState(null); // 모바일 팝업 상태 관리
+    const [stations, setStations] = useState([]); // 주유소 데이터 관리
+    const [markerMap, setMarkerMap] = useState(new Map());
 
     useEffect(() => {
         const handleResize = () => {
@@ -20,6 +22,10 @@ const InfoPage = () => {
 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        console.log("Updated stations in InfoPage:", stations); // 디버깅용
+    }, [stations]);
 
     const closePopup = () => setActivePopup(null); // 팝업 닫기
 
@@ -36,15 +42,18 @@ const InfoPage = () => {
                     </button>
                 </div>
             ) : (
-                // 웹 화면: 사이드바 렌더링
+                // 웹 화면: 추천과 검색 컴포넌트 렌더링
                 <div className="sidebar">
-                    <Recommend />
-                    <Search />
+                    <Recommend stations={stations} markerMap={markerMap}  /> {/* Recommend에 stations 전달 */}
+                    <Search stations={stations} markerMap={markerMap} /> {/* Search에 stations 전달 */}
                 </div>
             )}
 
             <div className="main-content">
-                <Maps />
+                <Maps
+                    onStationsUpdate={setStations}
+                    onMarkerMapUpdate={setMarkerMap}
+                />
             </div>
 
             {/* 모바일 팝업 */}
@@ -52,7 +61,7 @@ const InfoPage = () => {
                 <div className="popup mobile-popup">
                     <div className="popup-content">
                         <button className="close-btn" onClick={closePopup}>✖</button>
-                        <Recommend />
+                        <Recommend stations={stations} markerMap={markerMap} closePopup={closePopup} />
                     </div>
                 </div>
             )}
@@ -60,7 +69,7 @@ const InfoPage = () => {
                 <div className="popup mobile-popup">
                     <div className="popup-content">
                         <button className="close-btn" onClick={closePopup}>✖</button>
-                        <Search />
+                        <Search stations={stations} markerMap={markerMap} closePopup={closePopup} />
                     </div>
                 </div>
             )}

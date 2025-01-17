@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fs.four.human.Info.dao.GasStationDAO">
+
+    <!-- 주유소 데이터 삽입 -->
+    <insert id="insertGasStation">
+        INSERT INTO gas_stations (station_code, brand, name, price, distance, x_coordinate, y_coordinate, latitude, longitude)
+        VALUES (#{stationCode}, #{brand}, #{name}, #{price}, #{distance}, #{xCoordinate}, #{yCoordinate}, #{latitude}, #{longitude})
+    </insert>
+
+    <!-- 모든 주유소 데이터 조회 -->
+    <select id="selectAllGasStations" resultType="fs.four.human.Info.vo.GasStationVO">
+        SELECT * FROM gas_stations
+    </select>
+
+    <!-- 모든 주유소 코드 조회 -->
+    <select id="selectAllGasStationIds" resultType="string">
+        SELECT station_code FROM gas_stations
+    </select>
+
+    <!-- 특정 주유소 코드 존재 여부 확인 -->
+    <select id="existsByStationCode" resultType="int">
+        SELECT COUNT(1) FROM gas_stations WHERE station_code = #{stationCode}
+    </select>
+
+    <!-- 전국 평균 유가 조회 -->
+    <select id="getNationalAveragePrice" resultType="double">
+        SELECT IO_PRICE FROM INFO_OIL_PRICE WHERE IO_SIDONM = '전국'
+    </select>
+
+    <!-- 주유소 데이터 및 세부 정보 조회 -->
+    <select id="selectGasStationsWithDetails" resultType="map">
+        SELECT g.STATION_CODE, g.BRAND, g.NAME, g.PRICE, g.DISTANCE, g.LATITUDE, g.LONGITUDE
+        FROM GAS_STATIONS g
+    </select>
+
+    <!-- 특정 주유소의 세부 정보 조회 -->
+    <select id="selectGasStationDetails" parameterType="string" resultType="fs.four.human.Info.vo.GasInfoVO">
+        SELECT
+        station_code AS stationCode,
+        brand,
+        name,
+        tel,
+        address,
+        oil_price AS oilPrice,
+        trade_dt AS updateTime,
+        maint_yn AS maintYn,
+        cvs_yn AS cvsYn,
+        car_wash_yn AS carWashYn
+        FROM gas_station_details
+        WHERE station_code = #{stationCode}
+    </select>
+
+    <!-- 평점 등록 쿼리 -->
+    <insert id="insertRating" parameterType="fs.four.human.Info.vo.RatingVO">
+        INSERT INTO REVIEW (STATION_CODE, RESTROOMRATING, ACCESSRATING, PRICERATING)
+        VALUES (#{stationCode}, #{restroomRating}, #{accessRating}, #{priceRating})
+    </insert>
+
+    <!-- 추가: 평균 평점 계산 -->
+    <select id="getAverageRatings" parameterType="string" resultType="map">
+        SELECT
+        COALESCE(AVG(RESTROOMRATING), 0) AS restroomAvg,
+        COALESCE(AVG(ACCESSRATING), 0) AS accessAvg,
+        COALESCE(AVG(PRICERATING), 0) AS priceAvg
+        FROM REVIEW
+        WHERE STATION_CODE = #{stationCode}
+    </select>
+</mapper>

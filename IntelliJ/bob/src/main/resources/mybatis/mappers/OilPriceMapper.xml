@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Batch.dao.OilPriceDAO">
+    <delete id="deleteOilPrice">
+        DELETE FROM INFO_OIL_PRICE
+    </delete>
+
+    <delete id="deleteLowestStations">
+        DELETE FROM LOWEST_STATION
+    </delete>
+
+    <delete id="deleteOilPriceHistory">
+        DELETE FROM INFO_OIL_PRICE_HISTORY
+    </delete>
+
+    <insert id="insertOilPrice">
+        INSERT INTO INFO_OIL_PRICE (IO_SIDOCD, IO_SIDONM, IO_PRICE, IO_DIFF, IO_DATE, IO_UPDATE_DATE)
+        VALUES (#{sidoCode}, #{sidoName}, #{price}, #{diff}, #{date}, #{updateDate})
+    </insert>
+
+    <insert id="insertLowestStation">
+        INSERT INTO LOWEST_STATION (LS_ID, LS_NAME, LS_ADDRESS, LS_POLL_DIV, LS_PRICE, LS_UPDATE_DATE, LS_SIDOCD)
+        VALUES (#{id}, #{name}, #{address}, #{pollDiv}, #{price}, #{updateDate}, #{sidoCode})
+    </insert>
+
+    <insert id="insertOilPriceHistory">
+        INSERT INTO INFO_OIL_PRICE_HISTORY (IOP_REGION_ID, IOP_REGION_NAME, IOP_PRICE, IOP_DATE, IOP_UPDATE_DATE)
+        VALUES (#{regionId}, #{regionName}, #{price}, #{date}, #{updateDate})
+    </insert>
+
+
+</mapper>
