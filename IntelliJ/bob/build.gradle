@@ -63,7 +63,14 @@ dependencies {
 
 	//비밀번호 암호화
 	implementation 'org.springframework.security:spring-security-crypto'
+
+	//좌표
+	implementation 'org.locationtech.proj4j:proj4j:1.1.5'
+	//json
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 }
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()
