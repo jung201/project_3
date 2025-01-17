@@ -242,8 +242,6 @@ export const ForgotId = {
 };
 
 //========================================================================================//
-import axios from "axios";
-
 const API_PRICE_URL = "http://192.168.0.93:3006/today-price";
 
 export const getTodayOilAverages = async () => {
