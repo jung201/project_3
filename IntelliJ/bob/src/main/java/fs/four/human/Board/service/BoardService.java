@@ -11,7 +11,7 @@ import java.util.List;
 public class BoardService {
 
     @Autowired
-    private BoardDAO boardDAO;
+    private BoardDAO boardDAO; // zz
 
     // 1. 전체 게시물 조회
     public List<BoardVO> getAllBoard() {
