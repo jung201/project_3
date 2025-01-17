@@ -14,8 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // 모든 경로에 CORS 허용
-                        .allowedOrigins("http://192.168.0.93:3000") // 테스트 서버 주소
-//                        .allowedOrigins("http://192.168.0.93:3000") // React 서버 주소
+                        .allowedOrigins("http://192.168.0.39:3000")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH") // 허용할 HTTP 메서드
                         .allowedHeaders("*") // 모든 요청 헤더 허용
                         .allowCredentials(true); // 쿠키 및 인증 허용

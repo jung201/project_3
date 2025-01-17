@@ -49,8 +49,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok' // Lombok 애너테이션 처리기
 	developmentOnly 'org.springframework.boot:spring-boot-devtools' // 빠른 재시작 및 LiveReload 지원
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor' // 설정 프로세서
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	
+
 	// 테스트 관련 의존성
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot 테스트 지원
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4' // MyBatis 테스트용 스타터
@@ -68,9 +67,8 @@ dependencies {
 	implementation 'org.locationtech.proj4j:proj4j:1.1.5'
 	//json
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
 }
-
-
 
 tasks.named('test') {
 	useJUnitPlatform()

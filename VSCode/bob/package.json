@@ -2,7 +2,7 @@
   "name": "bob",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://apis.openapi.sk.com",
+  "proxy": "http://192.168.0.39:3006",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
@@ -31,7 +31,7 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --host 192.168.0.93",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

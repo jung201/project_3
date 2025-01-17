@@ -582,6 +582,7 @@
       height: 150px;
 
       li {
+        padding: 5px !important;
         font-size: 12pt !important;
       }
 
@@ -599,13 +600,10 @@
       .filter-group {
         height: 50px;
 
-        input {
-          width: 130px;
-          font-size: 12px;
-        }
-
+        input,
         select {
-          width: 70px;
+          margin: 0px;
+          padding: 0px;
           font-size: 12px;
         }
 
@@ -639,11 +637,11 @@
     .freeBoard-table {
       width: 100%;
       top: 0px;
+      font-size: 16px;
 
-      tr,
       th,
       td {
-        font-size: 12px;
+        font-size: 16px;
       }
 
       th:nth-child(1),
@@ -653,7 +651,7 @@
 
       th:nth-child(2),
       td:nth-child(2) {
-        width: 8%;
+        width: 10%;
         /* 구분 열 크기 */
       }
 
@@ -671,18 +669,18 @@
 
       th:nth-child(5),
       td:nth-child(5) {
-        width: 11.5%;
+        width: 10%;
       }
 
       th:nth-child(6),
       td:nth-child(6) {
-        width: 11.5%;
+        width: 9%;
         /* 조회수 열 크기 */
       }
 
       th:nth-child(7),
       td:nth-child(7) {
-        width: 14%;
+        width: 6.5%;
         /* 날짜 열 크기 */
       }
     }
