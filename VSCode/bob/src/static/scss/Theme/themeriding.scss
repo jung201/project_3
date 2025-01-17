@@ -229,9 +229,9 @@
     color: #007bff;                   /* 제목 글자 색상을 파란색으로 설정 */
   }
   
-  @media (max-width: 450px) {
+  @media (max-width: 360px) {
     
-    @media (max-width: 450px) {
+    @media (max-width: 360px) {
         h2.category-title{
           font-size: 20px !important;;
           text-align: center;
@@ -321,4 +321,5 @@
     .riding-header{
       padding:0;
     }
+    
   }
