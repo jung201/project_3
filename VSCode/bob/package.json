@@ -2,7 +2,7 @@
   "name": "bob",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://apis.openapi.sk.com/",
+  "proxy": "https://apis.openapi.sk.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
