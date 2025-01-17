@@ -81,7 +81,7 @@ const categories = [
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
   const sectionRefs = useRef([]); // 섹션 참조 관리
-
+// ddd
   // 특정 카테고리로 스크롤하는 함수
   const scrollToSection = (index) => {
     const offset = -80;
