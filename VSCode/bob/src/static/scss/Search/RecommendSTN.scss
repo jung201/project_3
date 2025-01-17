@@ -1,7 +1,12 @@
+@import '../global.scss';
+@import '../variables';
+@import '../mixins';
+
+
 .recommend-popup {
     position: absolute;
     top: 30%;
-    right: 39%;
+    left: 15%;
     width: 250px;
     background: white;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
