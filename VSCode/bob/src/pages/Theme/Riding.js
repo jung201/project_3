@@ -77,7 +77,6 @@ const categories = [
 ];
 
 
-
 const Riding = () => {
   const [posts, setPosts] = useState([]); // posts 상태를 관리
   const sectionRefs = useRef([]); // 섹션 참조 관리
@@ -92,8 +91,9 @@ const Riding = () => {
   // 백엔드에서 데이터 불러오기
    // 백엔드에서 데이터 불러오기
     // 백엔드에서 데이터 불러오기
-    
-  // 백엔드에서 데이터 불러오기
+     // 백엔드에서 데이터 불러오기
+     
+   // 백엔드에서 데이터 불러오기
 // 백엔드에서 데이터 불러오기
 useEffect(() => {
   const loadTheme = async () => {
