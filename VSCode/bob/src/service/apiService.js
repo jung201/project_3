@@ -62,10 +62,12 @@ export const updateBoard = async (postId, updatedPost) => {
 const API_login_URL = "http://192.168.0.93:3006/Login";
 export const fetchLogin = async (userId, password) => {
   try {
-    const response = await axios.post(API_login_URL, {
-      u_ID: userId,
-      u_PWD: password,
-    });
+    // **withCredentials: true**로 세션 쿠키를 주고받도록 설정
+    const response = await axios.post(
+      API_login_URL,
+      { u_ID: userId, u_PWD: password },
+      { withCredentials: true }  // ← 여기 중요
+    );
     console.log(response.data); // 디버깅용 로그 출력
     return response.data; // 데이터 반환
   } catch (error) {

@@ -69,6 +69,7 @@ const RouteSearch = ({
       const response = await fetch("http://192.168.0.93:3006/search/history", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(body),
       });
 
