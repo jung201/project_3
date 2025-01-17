@@ -190,3 +190,56 @@ label{
     // box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.452);
 
 }
+.index {
+    width: 100%; /* 테이블 전체 너비 */
+    border-collapse: collapse; /* 테두리 겹침 제거 */
+    margin-top: 10px; /* 테이블 위 간격 */
+    background-color: #fff; /* 배경색 */
+
+    thead {
+        position: sticky; /* 헤더 고정 */
+        top: 0;
+        z-index: 1;
+        background-color: #f8f8f8; /* 헤더 배경색 */
+        border-bottom: 2px solid #ddd; /* 헤더 아래 테두리 */
+    }
+
+    th, td {
+        padding: 10px; /* 셀 안쪽 여백 */
+        text-align: left; /* 텍스트 정렬 */
+        border-bottom: 1px solid #f0f0f0; /* 셀 간 구분선 */
+        font-size: 14px; /* 폰트 크기 */
+    }
+
+    th {
+        text-align: center; /* 헤더 텍스트 정렬 */
+    }
+
+    tbody {
+        display: block; /* 스크롤 가능한 영역 */
+        max-height: 300px; /* 최대 높이 */
+        overflow-y: auto; /* 세로 스크롤 추가 */
+    }
+
+    thead tr, tbody tr {
+        display: table; /* 테이블 레이아웃 유지 */
+        width: 100%; /* 테이블 너비 */
+        table-layout: fixed; /* 열 크기 고정 */
+    }
+
+    tbody tr:hover {
+        background-color: #f5f5f5; /* 마우스 오버 시 배경색 변경 */
+    }
+
+    th:first-child, td:first-child {
+        width: 60%; /* 첫 번째 열 너비 (브랜드) */
+    }
+
+    th:nth-child(2), td:nth-child(2) {
+        width: 25%; /* 두 번째 열 너비 (주유소명) */
+    }
+
+    th:last-child, td:last-child {
+        width: 20%; /* 세 번째 열 너비 (가격) */
+    }
+}
