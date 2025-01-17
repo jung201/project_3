@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getTodayOilAverages } from "../../service/apiService";
+
 
 const TodayPrice = () => {
   const [oilAverages, setOilAverages] = useState([]);
