@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 공통 board URL 설정
-const API_board_URL = "http://192.168.0.93:3006/board";
+const API_board_URL = "http://192.168.0.39:3006/board";
 
 export const fetchBoard = async () => {
   try {
@@ -45,7 +45,7 @@ export const deleteBoard = async (postId, currentUserId) => {
 export const updateBoard = async (postId, updatedPost) => {
   try {
     const response = await axios.put(
-      `http://192.168.0.93:3006/board/${postId}`,
+      `http://192.168.0.39:3006/board/${postId}`,
       updatedPost
     );
     console.log("게시글 수정 성공:", response.data);
@@ -59,7 +59,7 @@ export const updateBoard = async (postId, updatedPost) => {
 //================================================================================
 
 // login URL 설정
-const API_login_URL = "http://192.168.0.93:3006/Login";
+const API_login_URL = "http://192.168.0.39:3006/Login";
 export const fetchLogin = async (userId, password) => {
   try {
     const response = await axios.post(API_login_URL, {
@@ -94,7 +94,7 @@ export const checkLoginStatus = () => {
 //================================================================================
 
 // info URL 설정
-const API_info_URL = "http://192.168.0.93:3006/info";
+const API_info_URL = "http://192.168.0.39:3006/info";
 export const fetchInfo = async () => {
   try {
     // 서버에서 데이터 가져오기
@@ -110,7 +110,7 @@ export const fetchInfo = async () => {
 //================================================================================
 
 // myPage URL 설정
-const API_myPage_URL = "http://192.168.0.93:3006/myPage";
+const API_myPage_URL = "http://192.168.0.39:3006/myPage";
 export const fetchMyPage = async (userId) => {
   try {
     // 서버에서 데이터 가져오기
@@ -144,7 +144,7 @@ export const updateMyPage = async (userId, payload) => {
 //================================================================================
 
 // search URL 설정
-const API_search_URL = "http://192.168.0.93:3006/search";
+const API_search_URL = "http://192.168.0.39:3006/search";
 export const fetchsearch = async (lat, lng) => {
   try {
     // GET 요청에 Query Parameters 추가
@@ -166,7 +166,7 @@ export const fetchsearch = async (lat, lng) => {
 //================================================================================
 
 // theme URL 설정
-const API_theme_URL = "http://192.168.0.93:3006/riding/api";
+const API_theme_URL = "http://192.168.0.39:3006/riding/api";
 export const fetchTheme = async () => {
   try {
     // 서버에서 데이터 가져오기
@@ -181,7 +181,7 @@ export const fetchTheme = async () => {
 
 //==============================================================================
 // signup URL 설정
-const API_SIGNUP_URL = "http://192.168.0.93:3006";
+const API_SIGNUP_URL = "http://192.168.0.39:3006";
 
 // 회원가입 함수
 export const checkIdDuplicate = async (id) => {
@@ -259,7 +259,7 @@ export const ForgotId = {
 
 //비밀번호 찾기
 
-const API_FindPw_URL = process.env.REACT_APP_API_BASE_URL || "http://192.168.0.93:3006/api";
+const API_FindPw_URL = process.env.REACT_APP_API_BASE_URL || "http://192.168.0.39:3006/api";
 
 export const ForgotPassword = {
   resetPassword: async (id, email) => {
