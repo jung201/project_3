@@ -1,0 +1,70 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '3.3.6'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'fs.four.human'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// 애플리케이션 실행 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 및 Hibernate 사용
+	implementation 'org.springframework.boot:spring-boot-starter-web' // 웹 애플리케이션 및 REST API 개발
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4' // MyBatis 스타터
+
+	// JSTL(JSP Standard Tag Library) API 및 구현체
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // JSP 파일을 처리하기 위한 Apache Tomcat Jasper 엔진 의존성
+
+	// web socket 사용을 위한 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	// Oracle 데이터베이스 연결을 위한 JDBC 드라이버
+	implementation 'com.oracle.database.jdbc:ojdbc8:19.8.0.0'
+
+	// 내장 Tomcat 서버 제공 (런타임 환경)
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+	// 개발 편의성 의존성
+	compileOnly 'org.projectlombok:lombok' // Lombok: 보일러플레이트 코드 제거
+	annotationProcessor 'org.projectlombok:lombok' // Lombok 애너테이션 처리기
+	developmentOnly 'org.springframework.boot:spring-boot-devtools' // 빠른 재시작 및 LiveReload 지원
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor' // 설정 프로세서
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	// 테스트 관련 의존성
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Spring Boot 테스트 지원
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4' // MyBatis 테스트용 스타터
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit 플랫폼 런처
+	implementation('org.projectlombok:lombok')
+	annotationProcessor('org.projectlombok:lombok')
+
+	//이메일 전송 관련 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	//비밀번호 암호화
+	implementation 'org.springframework.security:spring-security-crypto'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

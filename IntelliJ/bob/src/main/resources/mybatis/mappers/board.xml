@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fs.four.human.Board.dao.BoardDAO">
+
+    <!-- 1. 전체 게시판 조회 -->
+    <select id="getAllBoard" resultType="fs.four.human.Board.vo.BoardVO">
+        SELECT
+            B_ID as bId,
+            B_CATEGORY as bCategory,
+            B_CC as bCc,
+            B_TITLE as bTitle,
+            B_CONTENT as bContent,
+            B_CREATED_ID as bCreatedId,
+            U_NICKNAME as bWriter,
+            B_CREATED_DATE as bCreatedDate,
+            B_UPDATED_ID as bUpdatedId,
+            B_UPDATED_DATE as bUpdatedDate,
+            B_VIEWS as bViews
+        FROM BOARD B
+        JOIN BOB_USER U ON B_CREATED_ID = U_ID
+        ORDER BY B_ID DESC
+    </select>
+
+    <!-- 2. 검색 기능 -->
+    <select id="searchPosts" resultType="fs.four.human.Board.vo.BoardVO">
+        SELECT
+            B_ID as bId,
+            B_CATEGORY as bCategory,
+            B_CC as bCc,
+            B_TITLE as bTitle,
+            B_CONTENT as bContent,
+            B_CREATED_ID as bCreatedId,
+            U_NICKNAME as bWriter,
+            B_CREATED_DATE as bCreatedDate,
+            B_UPDATED_ID as bUpdatedId,
+            B_UPDATED_DATE as bUpdatedDate,
+            B_VIEWS as bViews
+        FROM BOARD b
+        LEFT JOIN BOB_USER u ON B_CREATED_ID = U_ID
+        WHERE
+        <choose>
+            <when test="column == 'bId'">
+                B_ID = #{keyword} <!-- 정확한 숫자 검색 -->
+            </when>
+            <when test="column == 'bCategory'">
+                (B_CATEGORY = #{keyword} OR B_CATEGORY IN (
+                SELECT CASE
+                WHEN #{keyword} = '정비' THEN 'R'
+                WHEN #{keyword} = '꿀팁' THEN 'T'
+                WHEN #{keyword} = '코스' THEN 'C'
+                WHEN #{keyword} = '자유' THEN 'F'
+                END FROM DUAL
+                ))
+            </when>
+            <when test="column == 'bCc'">
+                (B_CC = #{keyword} OR B_CC IN (
+                SELECT CASE
+                WHEN #{keyword} = '스쿠터' THEN 'S'
+                WHEN #{keyword} = '소형' THEN 'SM'
+                WHEN #{keyword} = '중형' THEN 'M'
+                WHEN #{keyword} = '리터' THEN 'L'
+                END FROM DUAL
+                ))
+            </when>
+            <when test="column == 'bTitle'">
+                B_TITLE LIKE '%' || #{keyword} || '%'
+            </when>
+            <when test="column == 'bWriter'">
+                u.U_NICKNAME LIKE '%' || #{keyword} || '%'
+            </when>
+        </choose>
+        ORDER BY B_CREATED_DATE DESC
+    </select>
+
+    <!-- 3. 게시물 등록  -->
+    <insert id="createBoard" parameterType="fs.four.human.Board.vo.BoardVO">
+        INSERT INTO BOARD (
+            B_ID,
+            B_CATEGORY ,
+            B_CC ,
+            B_TITLE,
+            B_CONTENT,
+            B_CREATED_ID,
+            B_CREATED_DATE,
+            B_VIEWS
+            )
+        VALUES (
+            BOARD_SEQ.NEXTVAL,
+            #{bCategory},
+            #{bCc},
+            #{bTitle},
+            #{bContent},
+            #{bCreatedId},
+            SYSDATE,
+            #{bViews})
+    </insert>
+
+    <!--4. 게시글 삭제-->
+    <delete id="deletePost" parameterType="int">
+        DELETE FROM BOARD WHERE B_ID = #{postId}
+    </delete>
+
+    <!-- 5. 게시글 수정 -->
+    <update id="updatePost" parameterType="fs.four.human.Board.vo.BoardVO">
+        UPDATE BOARD
+        SET
+            B_TITLE = #{bTitle},
+            B_CONTENT = #{bContent},
+            B_CATEGORY = #{bCategory},
+            B_CC = #{bCc},
+            B_UPDATED_ID = #{bCreatedId},
+            B_UPDATED_DATE = SYSDATE
+        WHERE B_ID = #{bId}
+    </update>
+
+    <!-- 6. 조회수 증가 -->
+    <update id="increaseViewCount">
+        UPDATE BOARD
+        SET B_VIEWS = B_VIEWS + 1
+        WHERE B_ID = #{id}
+    </update>
+
+
+</mapper>

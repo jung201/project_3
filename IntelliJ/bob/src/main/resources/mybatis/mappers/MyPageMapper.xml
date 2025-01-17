@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.MyPage.dao.MyPageDAO">
+
+    <!--사용자 정보-->
+    <select id="getUserInfo" parameterType="String" resultType="fs.four.human.MyPage.vo.MyPageVO">
+        SELECT
+        u_ID,
+        u_NICKNAME,
+        u_CC ,
+        u_CREATED_DATE
+        FROM BOB_USER
+        WHERE U_ID = #{u_ID}
+    </select>
+
+    <!--사용자 정보 수정-->
+    <update id="updateUserInfo" parameterType="fs.four.human.MyPage.vo.MyPageVO">
+        UPDATE BOB_USER
+        SET
+            u_NICKNAME = #{u_NICKNAME},
+            u_CC = #{u_CC},
+            u_PWD = #{u_PWD},
+            u_EMAIL = #{u_EMAIL},
+            u_PHONE = #{u_PHONE},
+            u_PHOTO_PATH = #{u_PHOTO_PATH, jdbcType=VARCHAR},
+            u_UPDATE_DATE = SYSDATE
+        WHERE u_ID = #{u_ID}
+    </update>
+
+
+</mapper>

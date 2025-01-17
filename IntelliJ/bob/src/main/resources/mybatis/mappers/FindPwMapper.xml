@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Login.DAO.FindPwDAO">
+    <select id="findEmailById" parameterType="String" resultType="String">
+        SELECT U_EMAIL FROM BOB_USER WHERE U_ID = #{u_id}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE BOB_USER SET U_PWD = #{u_password} WHERE U_ID = #{u_id}
+    </update>
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Login.DAO.UserDAO">
+
+    <select id="login" parameterType="map" resultType="fs.four.human.Login.VO.UserVO">
+        SELECT u_ID, u_PWD, u_NICKNAME
+        FROM  BOB_USER
+        WHERE u_ID = #{u_ID} AND u_PWD = #{u_PWD}
+    </select>
+</mapper>

@@ -1,0 +1,67 @@
+.set-destination-btn {
+    margin-left: 10px;
+    height: 30px !important;
+    background-color: rgb(7,34,52) !important;
+    color: white !important;
+    border: none;
+    width: 70px !important;
+    padding: 0 !important;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.set-destination-btn:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+.search-results {
+    width: 300px !important;
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    width: 100%;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}
+
+.search-result-item:hover {
+    background-color: #f0f0f0;
+}
+
+.findPathBTN {
+    width: 97%;
+    height: 30px;
+    padding: 0px;
+    background-color: rgb(7,34,52);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.findPathBTN:hover {
+    background-color: #0056b3;
+}
+
+.searchInput {
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 12px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    width: 70%;
+    height:20px;
+}

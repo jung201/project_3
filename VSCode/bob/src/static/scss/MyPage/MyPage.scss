@@ -1,0 +1,90 @@
+.my-page {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: 700px;
+
+  .left-section {
+    flex: 15%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    padding: 20px;
+    height: auto;
+  }
+
+  .main-content {
+    flex: 85%;
+    display: flex;
+    gap: 20px;
+
+    &.full-width {
+      flex: 100%;
+    }
+
+    .middle-section {
+      flex: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .middle-top-section,
+      .middle-bottom-section {
+        height: 50%;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: white;
+        padding: 20px;
+      }
+    }
+
+    .right-section {
+      flex: 50%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: white;
+      padding: 20px;
+    }
+  }
+}
+
+.my-posts {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  padding: 20px;
+
+}
+
+
+/* 450px 이하 미디어 쿼리 */
+@media (max-width: 450px) {
+  .my-page {
+    flex-direction: column;
+    padding: 10px;
+    .left-section {
+      order: -1; /* 항상 상단에 위치 */
+      flex: none; /* 고정된 높이와 너비 */
+      margin-bottom: 20px;
+    }
+
+    .main-content {
+      flex-direction: column; /* 섹션을 수직으로 정렬 */
+      gap: 10px;
+
+      .middle-section {
+        flex: none;
+        .middle-top-section,
+        .middle-bottom-section {
+          margin-bottom: 10px;
+        }
+      }
+
+      .right-section {
+        flex: none;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,183 @@
+@import 'global.scss';
+@import 'variables';
+@import 'mixins';
+
+.header-container {
+    padding: 20px 0;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    z-index: 9999;
+
+    .header-size {
+        display: flex;
+        justify-content: space-between; // 양 끝 정렬렬
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .nav-menu {
+        flex: 1; // 33% 크기
+
+        ul {
+            display: flex;
+            justify-content: flex-start; // 왼쪽 정렬
+            gap: 12px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li a {
+                text-decoration: none;
+                color: rgb(7, 34, 52);
+                font-size: 14px;
+
+                &:hover {
+                    color: #007BFF;
+                }
+            }
+        }
+    }
+
+    .logo {
+        flex: 1; // 33% 크기
+        display: flex;
+        justify-content: center; // 중앙 정렬
+        font-size: 24px;
+        font-weight: bold;
+        color: rgb(7, 34, 52);
+        text-transform: uppercase;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+
+    .auth-buttons {
+        flex: 1; // 33% 크기
+        display: flex;
+        justify-content: flex-end; // 오른쪽 정렬
+        align-items: center;
+        gap: 10px;
+
+        .login-button,
+        .signup-button {
+            background-color: white;
+            width: 50px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        // 로그아웃, 마이페이지 버튼
+        .button-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .logout-button,
+        .mypage-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .logout-button img,
+        .mypage-button img {
+            transition: transform 0.2s ease;
+            /* 호버 효과 추가 */
+        }
+
+        .logout-button:hover img,
+        .mypage-button:hover img {
+            transform: scale(1.1);
+            /* 호버 시 이미지 확대 */
+        }
+    }
+
+
+    // 하단 아이콘 메뉴 (기본 숨김)
+    .mobile-menu {
+        display: none; // 기본 상태에서 숨김
+    }
+
+
+
+
+    // 미디어쿼리 - 450px 이하
+    @media (max-width: 450px) {
+        .header-size {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .logo {
+                margin-bottom: 10px;
+
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    img {
+                        height: 40px; // 로고 크기 조정
+                    }
+                }
+            }
+        }
+
+        .nav-menu {
+            display: none; // 기존 메뉴 숨김
+        }
+
+        .auth-buttons {
+            display: none; // 기존 버튼 숨김
+        }
+
+        // 하단 아이콘 메뉴 활성화
+        .mobile-menu {
+            background-color: rgb(7, 34, 52) !important;
+            flex-direction: column;
+            display: flex; // 모바일 화면에서 보이게 설정
+            position: fixed; // 스크롤해도 항상 하단에 고정
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            z-index: 9999; // 다른 요소 위에 표시되도록 설정
+
+            ul {
+                @include flex-center(space-around, center);
+                list-style: none;
+                margin: 0;
+                padding: 10px 0;
+
+                li {
+                    a {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+
+                        img {
+                            height: 40px; // 아이콘 크기
+                        }
+
+                        span {
+                            font-size: 12px;
+                            color: #333;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

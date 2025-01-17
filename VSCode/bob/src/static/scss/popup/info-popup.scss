@@ -1,0 +1,269 @@
+@import '../global.scss';
+@import '../variables';
+@import '../mixins';
+
+/* 팝업 애니메이션 추가 */
+@keyframes popupFadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* 팝업 배경 */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+/* 팝업 컨테이너 */
+.popup {
+    width: 450px;
+    border: 1px solid #000;
+    border-radius: 15px;
+    background-color: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 16px;
+    overflow-y: auto;
+
+    /* 애니메이션 적용 */
+    animation: popupFadeIn 0.3s ease-out; // 부드러운 등장 효과
+}
+
+/* 팝업 헤더 */
+.popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    .logo {
+        width: 110px;
+        height: auto;
+        margin-right: 8px;
+    }
+
+    .title {
+        font-size: 25px;
+        font-weight: bold;
+        color: #333;
+
+    }
+
+    .favorite-btn {
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-left: auto;
+        background-color: transparent;
+        transition: all 0.3s ease;
+        outline: none;
+        color: black; // 기본 색상
+
+        &.active {
+            // ⭐ 상태가 true일 때만 색상 적용
+            color: gold;
+        }
+    }
+
+    .close-btn {
+        font-size: 30px;
+        font-weight: bold;
+        color: red;
+        cursor: pointer;
+        background-color: transparent;
+        margin: 12px 0px 0px 10px;
+    }
+}
+
+/* 섹션 스타일 */
+.section {
+    padding: 5px;
+
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        border-bottom: 2px solid $primary-color;
+        padding-left: 10px;
+        padding-bottom: 10px;
+        margin: 15px 0px;
+    }
+
+    p {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .btn {
+        padding: 6px 20px;
+        border: 1px solid #000;
+        border-radius: 5px;
+        background-color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+        margin-right: 4px;
+
+        &:hover {
+            background-color: #ddd;
+        }
+    }
+
+    .score {
+        position: fixed;
+        top: 51.5%;
+        left: 48%;
+        transform: translate(-50%, -50%);
+    }
+
+    .stars-section {
+        display: flex;
+        justify-content: space-around;
+        padding-left: 10px;
+    }
+}
+
+/* 유가 정보 */
+.oil-price {
+    width: 97%;
+    justify-content: space-between;
+    text-align: center;
+    padding: 5px;
+    color: #333;
+}
+
+.oil-price-1,
+.oil-price-2 {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid #000;
+    padding: 5px;
+    background: #f1f1f1;
+}
+
+.oil-price-2 {
+    border-top: none;
+    background-color: transparent;
+
+    span {
+        margin-left: 25px;
+    }
+}
+
+/* 부가 정보 버튼 */
+.extra-info {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+
+    .btn {
+        margin: 10px 20px;
+        padding: 14px;
+        border: 2px solid $primary-color;
+        border-radius: 5px;
+        background-color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $primary-color;
+            color: white;
+            font-weight: bold;
+        }
+    }
+}
+
+/* 로그인 팝업 애니메이션 */
+.login-popup {
+    position: absolute;
+    left: 450px;
+    width: 300px;
+    background: rgb(234, 254, 255);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 20px;
+    z-index: 1000;
+    // animation: popupFadeIn 0.1s ease-in-out;
+}
+
+/* 로그인 팝업 버튼 스타일 */
+.login-popup .btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background: #4de3ee;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-popup .btn:hover {
+    background: #209fa8;
+    color: white;
+    transform: scale(1.05);
+}
+
+.rating-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.rating-popup {
+    background: rgb(234, 254, 255);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    .title {
+        font-size: 22px;
+        font-weight: bold;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .clean, .bility, .price {
+        display: flex;
+        justify-content: end
+    }
+
+    .clean .num {
+        display: flex;
+        position: absolute;
+        right: 530px;
+        letter-spacing: 4px;
+    }
+
+    .btn {
+        @include mainButton-style;
+        background: rgb(234, 254, 255);
+        width: 120px;
+        margin-top: 40px;
+    }    
+}

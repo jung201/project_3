@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Theme.dao.ThemeDAO">
+    <!-- 전체 테마 불러오기 -->
+    <select id="getAllThemes" resultType="fs.four.human.Theme.vo.ThemeVO">
+        SELECT TR_PLACE_ID, TR_PLACE_NAME, TR_NUMPRODUCE1, TR_NUMPRODUCE2, IMAGE, CATEGORY, LATITUDE, LONGITUDE
+        FROM THEME_RIDING
+    </select>
+</mapper>

@@ -1,0 +1,254 @@
+/* 세부 팝업 스타일 */
+.detail-popup {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .icon{
+        width: 15px;
+        height: auto;
+    }
+    p{
+        margin-top: 15px !important;
+        font-size: 13pt !important;
+    }
+
+    h3 {
+        margin-bottom: 10px;
+    }
+    img{
+        height:25px;
+        width: auto
+    }
+    .price-table{
+        tr td {
+            border: 1px solid lightgray;
+        }
+        th{
+            background-color:rgb(32, 32, 88);
+            color:white;
+            font-weight: 100;
+            border: 1px solid lightgray;
+        }
+        border-collapse: collapse;
+        border: 1px solid lightgray;
+        width: 100%;
+        font-size: 11pt;
+        text-align: center;
+    }
+    .action-buttons{
+        display:flex;
+        justify-content: space-between;
+    }
+    .additional{
+        font-weight: bold;
+        font-size: 11pt;
+        margin-right:5px;
+        text-align: center;
+        border-radius: 5px;
+        width: 100px;
+    }
+    
+
+    .additional-info{
+        display: flex;
+        justify-content: left;
+    }
+    button{
+        background-color:rgb(32, 32, 88);
+        color: white;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        font-size: 10pt;
+        width: 90px;
+        height: 50px;
+        margin-bottom: 10px;
+        cursor: pointer;
+
+    }
+    button:hover{
+        background-color:rgb(86, 86, 151);
+    }
+
+    .rating-section{
+        margin-top: 10px;
+        width:100%;
+        // text-align: right;
+        td{
+            padding: 1px;
+        }
+    }
+    p {
+        font-size: 14px;
+        margin: 5px 0;
+        line-height: 1.5;
+    }
+    
+    button.close-btn {
+        position: absolute;
+        top: 0px;
+        right: -20px;
+        background: none;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    
+}
+
+/* 1차 팝업 내부 스타일 (InfoWindow) */
+
+.info-popup {
+    width: 250px; /* 기존보다 더 넓게 설정 */
+    padding: 15px; /* 내부 여백을 늘려 가독성 향상 */
+    font-size: 14px; /* 텍스트 크기 약간 키움 */
+    background-color: #fff; /* 배경색 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* 그림자 */
+    position: relative;
+
+    .math.blue {
+        color: green;
+        font-weight: bold;
+    }
+    
+    .math.red {
+        color: red;
+        font-weight: bold;
+    }
+
+    span{
+        font-weight: bold;
+        font-size:11pt;
+        line-height: 18pt;
+    }
+    strong{
+        font-size:13pt;
+        line-height: 30pt;
+    }
+    img{
+        height:20px !important;
+        width: auto;
+    }
+    button {
+        background-color: rgb(32, 32, 88);
+        color:white;
+        width: 100%;
+        height: 30px;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 10px;
+        padding: 3px 5px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    button.close-btn {
+        color:black;
+        position: absolute;
+        text-align: right;
+        top: -2px !important;
+        right: 5px !important;
+        background: none;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+    }
+}
+// 평점등록 팝업   
+.rating-popup {
+    position: absolute;
+    width: 210px !important;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid darkgray;
+    border-radius: 8px;
+    width: 300px;
+    padding: 15px 20px;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+td{
+    font-size: 11pt;
+    padding: 4px;
+}
+.commit{
+    margin: 10px 0;
+    width: 100%;
+    padding: 3px;
+    height: auto;
+    color: white;
+    background-color:rgb(32, 32, 88);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.rating-popup h3 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.rating-popup button.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.rating-popup form p {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+.star{
+    cursor: pointer;
+}
+
+@media (max-width:450px){
+    .detail-popup {
+        position: absolute;
+        top: 4%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        background: white;
+        border: 1px solid black;
+        border-radius: 8px;
+        padding: 15px;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        
+        td{
+            font-size: 11pt !important;
+            padding: 4px;
+        }
+    }
+
+    
+.rating-popup{
+    table{
+        width: 100%;
+        margin-bottom: 15px;
+            td{
+                font-size:11pt !important;            
+            }
+        
+    }
+    
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+    
+}

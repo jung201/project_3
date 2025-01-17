@@ -1,0 +1,709 @@
+@import '../global.scss';
+@import '../variables';
+@import '../mixins';
+
+.board {
+  padding: 0px 40px 80px 40px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+
+  /* 배경 이미지 설정 */
+  .board-title {
+    width: 100%;
+    height: 200px;
+    background-image: url('../../images/board1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    opacity: 0.8;
+  }
+
+  .board-title-font {
+    position: absolute;
+    top: 21%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    line-height: 300px;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+  }
+
+  .search-register {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 30px 0px;
+    background-color: #f6f3f3;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .navbar ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+
+      li::after {
+        content: "|";
+        font-weight: bold;
+      }
+
+      li a {
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: transform 0.3s ease, color 0.3s ease;
+
+        &:hover {
+          color: #0056b3;
+          transform: translateY(-5px);
+
+        }
+      }
+    }
+
+    .filter-group {
+      height: 35px;
+      display: flex;
+      gap: 7px;
+
+      input,
+      select {
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      button {
+        width: 120px;
+        padding: 0px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+
+  // NEW 태그 스타일
+  .new-tag {
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+    animation: smooth-blink 1s infinite;
+  }
+
+  // 테이블 스타일
+  .freeBoard-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      padding: 20px 10px;
+      font-size: 16px;
+    }
+
+    th {
+      border-bottom: 2px solid black;
+    }
+
+    tbody tr:hover,
+    th:hover {
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+
+    /* 열 너비 고정 */
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 4%;
+      /* NO 열 크기 */
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 6%;
+      /* 구분 열 크기 */
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 5%;
+      /* CC 열 크기 */
+    }
+
+    th:nth-child(4),
+    td:nth-child(4),
+    td:nth-child(5) {
+      text-align: left;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 35%;
+      /* 제목 열 크기 */
+    }
+
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 10%;
+      /* 작성자 열 크기 */
+    }
+
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 5%;
+      /* 조회수 열 크기 */
+    }
+
+    th:nth-child(7),
+    td:nth-child(7) {
+      width: 6%;
+      /* 날짜 열 크기 */
+    }
+  }
+
+  /* HOT 태그 스타일 */
+  .hot-tag {
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: #ff9800;
+    /* 주황색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 12px;
+    display: inline-block;
+    animation: smooth-blink 1s infinite;
+  }
+
+  /* 깜빡거리는 애니메이션 효과 */
+  @keyframes smooth-blink {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* 작성자 프로필 이미지 스타일 */
+  .user-profile {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: 10px;
+  }
+
+  // 카테고리 이미지
+  .profile-img {
+    width: 25px;
+    height: 25px;
+  }
+
+  // 검색 이미지
+  .groupFilter-img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 카테고리 스타일 */
+  .category {
+    font-weight: bold;
+  }
+
+  /* 구분별 색상 */
+  .category.R {
+    color: #007bff;
+    /* 정비 - 파란색 */
+  }
+
+  .category.T {
+    color: #28a745;
+    /* 꿀팁 - 초록색 */
+  }
+
+  .category.C {
+    color: #ffc107;
+    /* 코스 - 노란색 */
+  }
+
+  .category.F {
+    color: #dc3545;
+    /* 자유이야기 - 빨간색 */
+  }
+
+  // 페이지 네이션 
+  .pagination {
+    display: flex;
+    justify-content: center;
+    /* 가운데 정렬 */
+    align-items: center;
+    /* 세로 중앙 정렬 */
+    padding: 20px 0;
+    /* 위아래 여백 추가 */
+    list-style: none;
+  }
+
+  .pagination li {
+    margin: 0 5px;
+    /* 좌우 여백 추가 */
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    /* 테두리 추가 */
+    border-radius: 5px;
+    /* 둥근 모서리 */
+    cursor: pointer;
+    /* 커서 변경 */
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .pagination li.active {
+    background-color: #007bff;
+    /* 활성 페이지 색상 */
+    color: white;
+    border: 1px solid #007bff;
+  }
+
+  .pagination li:hover {
+    background-color: #323ee7;
+    /* 호버 효과 */
+  }
+
+
+  // 등록 팝업
+  .register-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9); // 초기 크기 축소
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 800px;
+    height: 600px;
+    z-index: 1000;
+
+    // 애니메이션 효과
+    opacity: 0;
+    transition: all 0.2s ease-out;
+
+    &.open {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    &.close {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    // 닫기 버튼 스타일
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 15px;
+      width: 35px;
+      height: 35px;
+      font-size: 20px;
+      color: white;
+      background-color: red;
+      border: none;
+      border-radius: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darkred;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .form-group {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+
+        label {
+          width: 80px;
+        }
+
+        input,
+        select {
+          flex: 1;
+          padding: 8px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+      }
+
+      // 내용 박스 스타일
+      textarea {
+        height: 350px;
+        resize: none;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+
+  // 보기 팝업
+  .view-popup,
+  .edit-popup {
+    position: fixed;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 800px;
+    height: 620px;
+    z-index: 1000;
+
+    // 애니메이션 효과
+    opacity: 0;
+    transition: all 0.2s ease-out;
+
+    &.open {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    &.close {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .title-bo {
+      // @include flex-center;
+      width: 100%;
+      border: 1px solid black;
+      margin-bottom: 10px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 35px;
+      height: 35px;
+      font-size: 20px;
+      color: white;
+      background-color: red;
+      border: none;
+      border-radius: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darkred;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 15px;
+
+        p {
+          margin: 0px;
+          font-size: 16px;
+        }
+
+        .left,
+        .right {
+          display: flex;
+          justify-content: space-between;
+          gap: 40px;
+
+          p {
+            font-size: 18px;
+            margin-top: 5px;
+          }
+        }
+
+        select,
+        input {
+          width: 100%;
+          height: 30px;
+          border-radius: 5px;
+          outline: none;
+          border: 1px solid #ddd;
+          padding-left: 10px;
+          margin: 0;
+
+          &:focus {
+            outline: none;
+            border-color: #bbb;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+          }
+
+          &:hover {
+            border-color: #ccc;
+          }
+        }
+
+      }
+
+      textarea {
+        height: 350px;
+        resize: none;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+        font-size: 16px;
+
+        &:focus {
+          outline: none;
+          border-color: #bbb;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+        }
+
+        &:hover {
+          border-color: #ccc;
+        }
+      }
+
+      .view-btn,
+      .edit-btn {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+        bottom: 15px;
+
+        button {
+          width: 80px;
+          padding: 10px;
+          background-color: #007bff;
+          color: #fff;
+          font-size: 16px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #e64646;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+@media screen and (max-width: 360px) {
+  .board {
+    height: 100%;
+    padding: 20px;
+
+    /* 배경 이미지 설정 */
+    .board-title {
+      height: 100px;
+    }
+
+    .search-register {
+      flex-direction: column;
+      height: 150px;
+
+      li {
+        font-size: 12pt !important;
+      }
+
+      .navbar ul {
+
+        li::after {
+          display: none;
+        }
+
+        li a {
+          font-size: 14px;
+        }
+      }
+
+      .filter-group {
+        height: 50px;
+
+        input {
+          width: 130px;
+          font-size: 12px;
+        }
+
+        select {
+          width: 70px;
+          font-size: 12px;
+        }
+
+        button {
+          width: 50px;
+          position: relative;
+          bottom: 4px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    /* 작성자 프로필 이미지 스타일 */
+    .user-profile {
+      @include flex-center;
+      gap: 0px;
+      margin-left: 0px;
+    }
+
+    // 카테고리 이미지
+    .profile-img {
+      display: none;
+    }
+
+    // 검색 이미지
+    .groupFilter-img {
+      display: none;
+    }
+
+    // 테이블
+    .freeBoard-table {
+      width: 100%;
+      top: 0px;
+
+      tr,
+      th,
+      td {
+        font-size: 12px;
+      }
+
+      th:nth-child(1),
+      td:nth-child(1) {
+        display: none;
+      }
+
+      th:nth-child(2),
+      td:nth-child(2) {
+        width: 8%;
+        /* 구분 열 크기 */
+      }
+
+      th:nth-child(3),
+      td:nth-child(3) {
+        width: 14%;
+        display: none;
+      }
+
+      th:nth-child(4),
+      td:nth-child(4) {
+        width: 18%;
+        /* 작성자 열 크기 */
+      }
+
+      th:nth-child(5),
+      td:nth-child(5) {
+        width: 11.5%;
+      }
+
+      th:nth-child(6),
+      td:nth-child(6) {
+        width: 11.5%;
+        /* 조회수 열 크기 */
+      }
+
+      th:nth-child(7),
+      td:nth-child(7) {
+        width: 14%;
+        /* 날짜 열 크기 */
+      }
+    }
+
+    // 등록 팝업
+    .register-popup {
+      width: 300px;
+      height: 200px;
+
+      // 닫기 버튼 스타일
+      .close-btn {
+        top: 10px;
+      }
+    }
+
+    // 보기 팝업
+    .view-popup {
+      width: 300px;
+      height: 500px;
+
+    }
+  }
+
+}

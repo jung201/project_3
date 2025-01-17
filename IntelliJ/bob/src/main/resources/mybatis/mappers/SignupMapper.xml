@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fs.four.human.Login.DAO.SignupDAO">
+
+    <!-- 아이디 중복 체크 -->
+    <select id="checkIdDuplicate" resultType="int" parameterType="string">
+        SELECT COUNT(*)
+        FROM BOB_USER
+        WHERE U_ID = #{uId}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="insertUser" parameterType="fs.four.human.Login.VO.SignupVO">
+        INSERT INTO BOB_USER (
+        U_ID, U_PWD, U_EMAIL, U_NICKNAME, U_CC, U_PHOTO_NAME, U_PHOTO_PATH, U_PHONE, U_CREATED_DATE
+        ) VALUES (
+        #{uId}, #{uPwd}, #{uEmail}, #{uNickname}, #{uCc}, #{uPhotoName}, #{uPhotoPath}, #{uPhone}, SYSDATE
+        )
+    </insert>
+</mapper>

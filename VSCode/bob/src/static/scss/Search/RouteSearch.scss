@@ -1,0 +1,85 @@
+@import '../global.scss';
+@import '../variables';
+@import '../mixins';
+
+// 이동경로, 시간 팝업
+.info-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  width: 350px;
+  position: relative;
+  bottom: 50px;
+  left: 20px;
+
+  .popup-header {
+    font-size: 27px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .popup-info {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .popup-button {
+    height: 35px;
+    margin-top: 10px;
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+
+@media screen and (max-width: 360px) {
+
+  // 이동경로, 시간 팝업
+  .info-popup {
+    width: 180px;
+    bottom: 130px;
+    left: 70px;
+
+    .popup-header {
+      font-size: 18px;
+    }
+
+    .popup-info {
+      font-size: 16px;
+    }
+
+    .popup-button {
+      width: 150px;
+      height: 30px;
+      font-size: 14px;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+}
