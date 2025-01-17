@@ -1,0 +1,23 @@
+<mapper namespace="fs.four.human.Main.DAO.TodayPriceDAO">
+
+    <!-- 충남 평균과 전국 평균을 계산 -->
+    <select id="getTodayOilAverages" resultMap="TodayOilAveragesMap">
+        SELECT
+        '전국 평균' AS region,
+        ROUND(AVG(IO_PRICE), 2) AS averagePrice,
+        MIN(IO_PRICE) AS minPrice,
+        MAX(IO_PRICE) AS maxPrice
+        FROM INFO_OIL_PRICE
+        WHERE IO_DATE = (SELECT MAX(IO_DATE) FROM INFO_OIL_PRICE)
+        UNION
+        SELECT
+        '충남 평균' AS region,
+        ROUND(AVG(IO_PRICE), 2) AS averagePrice,
+        MIN(IO_PRICE) AS minPrice,
+        MAX(IO_PRICE) AS maxPrice
+        FROM INFO_OIL_PRICE
+        WHERE IO_DATE = (SELECT MAX(IO_DATE) FROM INFO_OIL_PRICE)
+        AND IO_SIDONM = '충남'
+    </select>
+
+</mapper>

@@ -244,11 +244,11 @@ export const ForgotId = {
 //========================================================================================//
 import axios from "axios";
 
-const API_BASE_URL = "http://192.168.0.93:3006/today-price";
+const API_PRICE_URL = "http://192.168.0.93:3006/today-price";
 
 export const getTodayOilAverages = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/averages`);
+    const response = await axios.get(`${API_PRICE_URL}/averages`);
     return response.data;
   } catch (error) {
     console.error("평균 유가 데이터 가져오기 실패:", error);
