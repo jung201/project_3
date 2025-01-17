@@ -17,7 +17,7 @@ public class UserVO {
     private String u_PHOTO_PATH;
     private String u_CREATED_DATE;
     private String u_UPDATE_DATE;
-
+    
     public UserVO(){
 
     }
