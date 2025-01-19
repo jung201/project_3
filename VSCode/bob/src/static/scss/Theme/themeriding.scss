@@ -10,7 +10,7 @@
     
 }
 .riding-header {
-    padding:20px;
+    padding:0 20px;
     display: flex; /* 제목과 위치를 가로 정렬 */
     justify-content: center; /* 제목과 위치를 시작점에 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
@@ -120,7 +120,8 @@
 
 /* 설명 및 버튼 컨테이너 */
 .riding-description-container {
-    padding: 20px;
+    padding: 10px 20px;
+    margin:0;
     display: flex; /* 플렉스 컨테이너 */
     align-items: center; /* 수직 정렬 */
     justify-content: space-between; /* 설명과 버튼 사이 공간 분배 */
@@ -229,15 +230,22 @@
     color: #007bff;                   /* 제목 글자 색상을 파란색으로 설정 */
   }
   
-  @media (max-width: 360px) {
+  @media (max-width: 450px) {
     
-    @media (max-width: 360px) {
+    @media (max-width: 450px) {
         h2.category-title{
           font-size: 20px !important;;
           text-align: center;
         }
+        .riding-container{
+          margin: 0 18px 18px 18px;
+        }
         .riding-title{
-          
+          background-image: url('../../images/Riding/bgT-mobile.png') !important; /* 모바일용 이미지 경로 */
+          background-size: contain; /* 배경 이미지를 컨테이너 안에 맞춤 */
+          background-repeat: no-repeat; /* 반복 제거 */
+          background-position: center; /* 배경 이미지를 중앙 정렬 */
+          margin:0;
         }
         .photo-box-container {
           display: flex;
@@ -264,6 +272,17 @@
       
         .photo-box-title {
           font-size: 0.9rem;
+        }
+        .photo-box:nth-child(1) .photo-box-image {
+          content: url("../../images/Riding/Coastline-mobile.png");
+        }
+      
+        .photo-box:nth-child(2) .photo-box-image {
+          content: url("../../images/Riding/AutumnLeaves-mobile.png");
+        }
+      
+        .photo-box:nth-child(3) .photo-box-image {
+          content: url("../../images/Riding/NightView-mobile.png");
         }
       }
   
@@ -297,7 +316,7 @@
   
     /* 위치 스타일 */
     .riding-location {
-      font-size: 1rem;              /* 위치 정보 글자 크기 축소 */
+      font-size: 10pt;              /* 위치 정보 글자 크기 축소 */
       color: #555;                  /* 위치 텍스트 색상 변경 */
     }
   
@@ -310,6 +329,7 @@
     .riding-description {
       font-size: 0.9rem;            /* 설명 글자 크기 축소 */
       width: 100%;                  /* 설명 너비 100% */
+      margin: 0;
     }
   
     .set-dest-btn {
@@ -319,7 +339,6 @@
       font-size: 14px;              /* 버튼 텍스트 크기 조정 */
     }
     .riding-header{
-      padding:0;
+      margin:0;
     }
-    
   }
