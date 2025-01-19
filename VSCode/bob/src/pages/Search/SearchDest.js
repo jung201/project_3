@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { getAllCameras } from "../../service/apiService"; // 카메라 데이터 API
 import 도착Icon from "../../static/images/icons/도착.png";
 
 /* global Tmapv2 */
@@ -8,13 +9,34 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
   const markerRefs = useRef([]); // 마커 관리용 Ref
   const appKey = "ykiQ5w0ftD9OWcnVnthjn3a7wr6HsgNW8rkLYp8t"; // TMap API Key
 
+  // 기존 마커 초기화
   const clearMarkers = () => {
-    // 기존 마커 초기화
     markerRefs.current.forEach((marker) => marker.setMap(null));
     markerRefs.current = [];
   };
 
-  // 장소 검색 함수
+  // DB에서 저장된 카메라 데이터를 불러와 지도에 마커 추가
+  const loadSavedCameras = async () => {
+    try {
+      const cameras = await getAllCameras();
+      if (mapRef.current) {
+        cameras.forEach((camera) => {
+          const marker = new Tmapv2.Marker({
+            position: new Tmapv2.LatLng(camera.camLatitude, camera.camLongitude),
+            map: mapRef.current,
+            title: `등록된 카메라: ${camera.camId}`,
+            icon: 도착Icon,
+            iconSize: new Tmapv2.Size(32, 32), // 마커 크기 조정
+          });
+          markerRefs.current.push(marker); // 마커 저장
+        });
+      }
+    } catch (error) {
+      console.error("DB 카메라 데이터 불러오기 실패:", error);
+    }
+  };
+
+  // 장소 검색
   const handleSearch = async () => {
     try {
       const response = await fetch(
@@ -23,7 +45,7 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
       );
 
       if (!response.ok) {
-        console.error("Failed to fetch data from TMap API:", response.status);
+        console.error("TMap API 요청 실패:", response.status);
         return;
       }
 
@@ -36,81 +58,67 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
         pois.forEach((poi) => addMarkerToMap(poi)); // 새로운 마커 추가
       }
     } catch (error) {
-      console.error("Error fetching POIs:", error);
+      console.error("장소 검색 오류:", error);
     }
   };
 
-  // 지도에 마커추가
+  // 지도에 마커 추가
   const addMarkerToMap = (poi) => {
     const { noorLat, noorLon, name } = poi;
 
-    console.log("Original POI:", poi); // 원본 좌표 확인
-    console.log("Name:", name, "Lat:", noorLat, "Lon:", noorLon); // 좌표 값 확인
-
-    // 좌표 변환
-    const point = new Tmapv2.Point(Number(noorLon), Number(noorLat));
-    const convertedPoint = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(point);
-    console.log("Converted Point:", convertedPoint); // 변환된 좌표 확인
-
-    // TMap 객체 확인
     if (!mapRef.current) {
-      console.error("TMap is not initialized.");
+      console.error("TMap 객체 초기화되지 않음");
       return;
     }
 
+    const point = new Tmapv2.Point(Number(noorLon), Number(noorLat));
+    const convertedPoint = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(point);
+
     try {
-      // 마커 생성
       const marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(convertedPoint._lat, convertedPoint._lng),
         map: mapRef.current,
         title: name || "Unknown Location",
       });
       markerRefs.current.push(marker); // 마커 배열에 추가
-      console.log("Marker added:", marker); // 마커 추가 확인
     } catch (error) {
-      console.error("Error adding marker:", error);
+      console.error("마커 추가 오류:", error);
     }
   };
 
   // 목적지 선택
   const handleDestinationSelect = (location) => {
-    console.log("mapRef.current before setCenter:", mapRef.current); // 현재 mapRef 상태 확인
-    console.log("Selected Location:", location); // 이동하려는 좌표 확인
-
     if (!mapRef.current) {
-      console.error("mapRef is not initialized.");
+      console.error("TMap 객체 초기화되지 않음");
       return;
     }
 
-    // 지도 중심 이동 및 줌 조정
     mapRef.current.setCenter(new Tmapv2.LatLng(location.lat, location.lng));
-    mapRef.current.setZoom(18); // 줌 레벨을 변경하여 지도 상태를 강제로 업데이트
+    mapRef.current.setZoom(18); // 줌 레벨 조정
 
-    // 장소 선택 시 지도 중심 이동 및 마커 추가
     const marker = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(location.lat, location.lng),
       map: mapRef.current,
       title: location.name,
       icon: 도착Icon,
-      iconSize: new Tmapv2.Size(42, 42), // 원하는 크기로 조정
+      iconSize: new Tmapv2.Size(42, 42), // 마커 크기 조정
     });
-    markerRefs.current.push(marker); // 마커 배열에 추가
+    markerRefs.current.push(marker);
 
-    // 이름과 좌표를 콘솔에 출력
-    console.log(`Selected Location: ${location.name}`);
-
-    markerRefs.current.push(marker); // 마커 추가
-
-    onDestinationSelect(location); // 선택된 목적지 상태 업데이트
+    onDestinationSelect(location); // 선택된 위치 전달
     onClose(); // 팝업 닫기
   };
 
-  // Enter 키 감지 함수
+  // Enter 키 감지
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSearch(); // Enter 키 입력 시 검색 실행
+      handleSearch();
     }
   };
+
+  useEffect(() => {
+    loadSavedCameras(); // 초기화 시 저장된 카메라 데이터 불러오기
+  }, []);
 
   return (
     <div className="search-dest">
@@ -123,7 +131,7 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
           type="text"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
-          onKeyPress={handleKeyPress} // Enter 키 감지
+          onKeyPress={handleKeyPress}
           placeholder="장소를 검색하세요"
         />
         <button className="searchBtn" onClick={handleSearch}>

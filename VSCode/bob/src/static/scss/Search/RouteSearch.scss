@@ -3,7 +3,10 @@
 @import '../mixins';
 
 // 이동경로, 시간 팝업
-.info-popup {
+.info-popup-search {
+  width: 250px;
+  height: auto;
+  font-weight: bold;
   display: none ; /* 기본적으로 숨김 처리 */
   flex-direction: column;
   align-items: center;
@@ -16,20 +19,19 @@
   font-size: 14px;
   line-height: 1.6;
   text-align: center;
-  width: 350px;
   position: absolute;
-  bottom: 50px; /* 위치 지정 */
-  left: 20px; /* 위치 지정 */
+  left: 15%;
+  bottom: 360px;
 
   .popup-header {
-    font-size: 27px;
+    font-size: 20px;
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
   }
 
   .popup-info {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 8px;
   }
@@ -38,7 +40,7 @@
     height: 35px;
     margin-top: 10px;
     padding: 6px 12px;
-    background-color: #007bff;
+    background-color: #003369;
     color: #fff;
     font-size: 15px;
     font-weight: bold;
@@ -53,19 +55,20 @@
   }
 }
 
-.info-popup.visible {
+.info-popup-search.visible {
   display: block; /* 보이도록 설정 */
 }
 
-@media screen and (max-width: 360px) {
+@media(max-width: 450px) {
 
   // 이동경로, 시간 팝업
-  .info-popup {
+  .info-popup-search {
     display: none; /* 기본적으로 숨김 처리 */
     position: absolute;
-    width: 180px;
-    bottom: 130px;
-    left: 70px;
+    width: 250px;
+    bottom: 400px ;
+    left: 50px;
+    
 
     .popup-header {
       font-size: 18px;

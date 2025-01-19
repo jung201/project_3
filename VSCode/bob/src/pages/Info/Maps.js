@@ -127,15 +127,15 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                                                 />
                                                 <strong>${station.NAME}</strong>
                                             </div>
-                                            <span style="font-weight:200">- 거리: ${distanceInKm} km</span>
-                                            <span style="color:blue; font-weight:bold">- 가격: ${station.PRICE}원</span>
+                                            <span style="font-weight:200;">　　- 거리: ${distanceInKm} km</span><br/>
+                                            <span style="color:blue; font-weight:bold">　　- 가격: ${station.PRICE}원</span><br/>
                                             <span style="color: ${
                                                 station.PRICE_DIFF > 30
                                                     ? "red"
                                                     : station.PRICE_DIFF >= -30
                                                     ? "orange"
                                                     : "green"
-                                            };">전국 평균 대비: ${priceDiff}원</span>
+                                            };">　　- 전국 평균 대비: ${priceDiff}원</span>
                                             <button id="detailView" class="info-btn">세부정보보기</button>
                                         </div>
                                     `);

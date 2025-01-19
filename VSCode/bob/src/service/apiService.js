@@ -321,4 +321,31 @@ export const ForgotPassword = {
     }
   },
 };
+
 //==============================================================================
+
+// 후방카메라
+const API_CAMERA_URL = "http://192.168.0.93:3006/api/camera";
+
+export const saveCamera = async (lat, lng) => {
+  try {
+    const response = await axios.post(`${API_CAMERA_URL}/save`, {
+      camLatitude: lat,
+      camLongitude: lng,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Camera 저장 에러:", error);
+    throw error;
+  }
+};
+
+export const getAllCameras = async () => {
+  try {
+    const response = await axios.get(`${API_CAMERA_URL}/list`);
+    return response.data;
+  } catch (error) {
+    console.error("Camera 목록 불러오기 에러:", error);
+    throw error;
+  }
+};
