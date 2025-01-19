@@ -56,11 +56,24 @@ public class SearchRestController {
 
     //후방
     @PostMapping("/save")
-    public ResponseEntity<String> saveCamera(@RequestBody CamVO camVO) {
-        System.out.println("---zzzzz----");
+    public ResponseEntity<String> saveCamera(@RequestBody CamVO camVO, HttpSession session) {
+        // 세션에서 로그인한 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("loggedUserId");
+        if (userId == null) {
+            return ResponseEntity.badRequest().body("로그인이 필요합니다."); // 로그인이 되어 있지 않을 경우
+        }
+
+        // createdId 설정
+        camVO.setCreatedId(userId);
+
+        System.out.println("카메라 저장 요청: " + camVO);
+
+        // 서비스 호출
         searchService.saveCamera(camVO);
+
         return ResponseEntity.ok("Camera saved successfully.");
     }
+
 
     @GetMapping("/list")
     public ResponseEntity<List<CamVO>> getAllCameras() {

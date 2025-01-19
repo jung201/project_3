@@ -51,8 +51,8 @@
 
     <!--후방-->
     <insert id="insertCamera" parameterType="CamVO">
-        INSERT INTO CAM (CAM_LATITUDE, CAM_LONGITUDE, B_CREATED_DATE)
-        VALUES (#{camLatitude}, #{camLongitude}, SYSDATE)
+        INSERT INTO CAM (CAM_LATITUDE, CAM_LONGITUDE, B_CREATED_ID, B_CREATED_DATE)
+        VALUES (#{camLatitude}, #{camLongitude}, #{createdId}, SYSDATE)
     </insert>
 
     <select id="getAllCameras" resultType="CamVO">

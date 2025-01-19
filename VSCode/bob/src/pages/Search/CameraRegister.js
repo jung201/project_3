@@ -66,12 +66,22 @@ const CameraRegister = ({ onClose }) => {
           saveBtn.onclick = async () => {
             const finalPosition = markerRef.current.getPosition();
             try {
+              console.log(
+                "저장 요청 중: 위도 =",
+                finalPosition._lat,
+                ", 경도 =",
+                finalPosition._lng
+              );
               await saveCamera(finalPosition._lat, finalPosition._lng);
               alert(
                 `후방카메라가 등록되었습니다: \n위도: ${finalPosition._lat}, 경도: ${finalPosition._lng}`
               );
               onClose();
             } catch (error) {
+              console.error(
+                "카메라 저장 오류:",
+                error.response ? error.response.data : error.message
+              );
               alert("카메라 저장 중 문제가 발생했습니다.");
             }
           };

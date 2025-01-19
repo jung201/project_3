@@ -324,28 +324,48 @@ export const ForgotPassword = {
 
 //==============================================================================
 
-// 후방카메라
-const API_CAMERA_URL = "http://192.168.0.93:3006/api/camera";
+const API_CAMERA_URL = "http://192.168.0.93:3006/search";
 
+// 후방카메라 저장 요청
 export const saveCamera = async (lat, lng) => {
   try {
-    const response = await axios.post(`${API_CAMERA_URL}/save`, {
-      camLatitude: lat,
-      camLongitude: lng,
-    });
+    console.log("저장 요청 보내기: 위도 =", lat, ", 경도 =", lng);
+    const response = await axios.post(
+      `${API_CAMERA_URL}/save`,
+      {
+        camLatitude: lat,
+        camLongitude: lng,
+      },
+      {
+        withCredentials: true, // 세션 쿠키 포함
+      }
+    );
+    console.log("저장 성공, 응답 데이터:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Camera 저장 에러:", error);
+    console.error(
+      "Camera 저장 중 에러 발생:",
+      error.response ? error.response.data : error.message
+    );
     throw error;
   }
 };
 
+// 저장된 모든 카메라 가져오기
 export const getAllCameras = async () => {
   try {
-    const response = await axios.get(`${API_CAMERA_URL}/list`);
+    console.log("카메라 목록 요청 중...");
+    const response = await axios.get(`${API_CAMERA_URL}/list`, {
+      withCredentials: true, // 세션 쿠키 포함
+    });
+    console.log("카메라 목록 불러오기 성공, 응답 데이터:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Camera 목록 불러오기 에러:", error);
+    console.error(
+      "Camera 목록 불러오기 에러:",
+      error.response ? error.response.data : error.message
+    );
     throw error;
   }
 };
+
