@@ -107,33 +107,48 @@ const CameraRegister = ({ onClose }) => {
       }
     };
 
+    //====================================================================
+
     // 저장된 카메라 DB 불러오기
     const loadSavedCameras = async (map) => {
       try {
         const cameras = await getAllCameras(); // DB에서 카메라 데이터를 가져옴
+        console.log("API에서 반환된 카메라 데이터:", cameras); // API 응답 확인
+
         if (cameras && cameras.length > 0) {
           cameras.forEach((camera) => {
+            // 좌표 데이터 유효성 검사
             if (camera.camLatitude && camera.camLongitude) {
-              console.log("Adding marker for camera:", camera);
 
-              // 마커 추가
-              new Tmapv2.Marker({
-                position: new Tmapv2.LatLng(
-                  parseFloat(camera.camLatitude), // 문자열을 숫자로 변환
-                  parseFloat(camera.camLongitude)
-                ),
-                map: map,
-                title: `등록된 카메라: ${camera.camId}`,
-              });
+              const latitude = parseFloat(camera.camLatitude); // 문자열을 숫자로 변환
+              const longitude = parseFloat(camera.camLongitude);
+    
+              if (!isNaN(latitude) && !isNaN(longitude)) {
+                console.log("Adding marker for camera:", camera);
+    
+                // 마커 추가
+                new Tmapv2.Marker({
+                  position: new Tmapv2.LatLng(latitude, longitude),
+                  map: map,
+                  title: `등록된 카메라: ${camera.camId}`,
+                });
+
+              } else {
+                console.warn("유효하지 않은 좌표 데이터:", camera);
+              }
             } else {
-              console.warn("유효하지 않은 카메라 데이터:", camera);
+              console.warn("카메라 데이터 누락:", camera);
             }
           });
+        } else {
+          console.warn("DB에서 카메라 데이터가 비어있습니다.");
         }
       } catch (error) {
         console.error("Camera 데이터 로드 실패:", error);
       }
     };
+    
+    //====================================================================
 
     // 기본 좌표 설정
     const defaultPosition = { lat: 36.80732281, lng: 127.1471658 };
