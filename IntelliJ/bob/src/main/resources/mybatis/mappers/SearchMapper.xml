@@ -56,7 +56,10 @@
     </insert>
 
     <select id="getAllCameras" resultType="CamVO">
-        SELECT CAM_ID, CAM_LATITUDE, CAM_LONGITUDE
+        SELECT
+        CAM_ID AS camId,
+        CAM_LATITUDE AS camLatitude,
+        CAM_LONGITUDE AS camLongitude
         FROM CAM
     </select>
 

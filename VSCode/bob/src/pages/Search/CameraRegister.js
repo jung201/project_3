@@ -72,7 +72,19 @@ const CameraRegister = ({ onClose }) => {
                 ", 경도 =",
                 finalPosition._lng
               );
+              // 카메라 데이터 저장
               await saveCamera(finalPosition._lat, finalPosition._lng);
+
+              // 새 마커를 지도에 추가
+              new Tmapv2.Marker({
+                position: new Tmapv2.LatLng(
+                  finalPosition._lat,
+                  finalPosition._lng
+                ),
+                map: mapRef.current,
+                title: "등록된 카메라",
+              });
+
               alert(
                 `후방카메라가 등록되었습니다: \n위도: ${finalPosition._lat}, 경도: ${finalPosition._lng}`
               );
@@ -95,46 +107,39 @@ const CameraRegister = ({ onClose }) => {
       }
     };
 
+    // 저장된 카메라 DB 불러오기
     const loadSavedCameras = async (map) => {
       try {
-        const cameras = await getAllCameras();
-        cameras.forEach((cam) => {
-          new Tmapv2.Marker({
-            position: new Tmapv2.LatLng(cam.camLatitude, cam.camLongitude),
-            map: map,
+        const cameras = await getAllCameras(); // DB에서 카메라 데이터를 가져옴
+        if (cameras && cameras.length > 0) {
+          cameras.forEach((camera) => {
+            if (camera.camLatitude && camera.camLongitude) {
+              console.log("Adding marker for camera:", camera);
+
+              // 마커 추가
+              new Tmapv2.Marker({
+                position: new Tmapv2.LatLng(
+                  parseFloat(camera.camLatitude), // 문자열을 숫자로 변환
+                  parseFloat(camera.camLongitude)
+                ),
+                map: map,
+                title: `등록된 카메라: ${camera.camId}`,
+              });
+            } else {
+              console.warn("유효하지 않은 카메라 데이터:", camera);
+            }
           });
-        });
+        }
       } catch (error) {
         console.error("Camera 데이터 로드 실패:", error);
       }
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const currentPosition = {
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude,
-          };
-          setMarkerPosition(currentPosition);
-          const map = initializeMap(currentPosition);
-          loadSavedCameras(map);
-        },
-        (err) => {
-          console.error("현재 위치를 가져오는데 실패했습니다:", err);
-          const defaultPosition = { lat: 37.5665, lng: 126.978 };
-          setMarkerPosition(defaultPosition);
-          const map = initializeMap(defaultPosition);
-          loadSavedCameras(map);
-        }
-      );
-    } else {
-      console.error("Geolocation API를 지원하지 않는 브라우저입니다.");
-      const defaultPosition = { lat: 37.5665, lng: 126.978 };
-      setMarkerPosition(defaultPosition);
-      const map = initializeMap(defaultPosition);
-      loadSavedCameras(map);
-    }
+    // 기본 좌표 설정
+    const defaultPosition = { lat: 36.80732281, lng: 127.1471658 };
+    setMarkerPosition(defaultPosition);
+    const map = initializeMap(defaultPosition); // 지도 초기화
+    loadSavedCameras(map); // 저장된 카메라 불러오기
 
     return () => {
       if (mapRef.current) {

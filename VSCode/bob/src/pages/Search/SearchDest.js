@@ -15,27 +15,6 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
     markerRefs.current = [];
   };
 
-  // DB에서 저장된 카메라 데이터를 불러와 지도에 마커 추가
-  const loadSavedCameras = async () => {
-    try {
-      const cameras = await getAllCameras();
-      if (mapRef.current) {
-        cameras.forEach((camera) => {
-          const marker = new Tmapv2.Marker({
-            position: new Tmapv2.LatLng(camera.camLatitude, camera.camLongitude),
-            map: mapRef.current,
-            title: `등록된 카메라: ${camera.camId}`,
-            icon: 도착Icon,
-            iconSize: new Tmapv2.Size(32, 32), // 마커 크기 조정
-          });
-          markerRefs.current.push(marker); // 마커 저장
-        });
-      }
-    } catch (error) {
-      console.error("DB 카메라 데이터 불러오기 실패:", error);
-    }
-  };
-
   // 장소 검색
   const handleSearch = async () => {
     try {
@@ -117,7 +96,6 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
   };
 
   useEffect(() => {
-    loadSavedCameras(); // 초기화 시 저장된 카메라 데이터 불러오기
   }, []);
 
   return (

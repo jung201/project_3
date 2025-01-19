@@ -35,24 +35,11 @@ const TMap = ({ mapRef }) => {
       }
     };
 
-    // 현재 위치 가져오기
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        initializeMap(latitude, longitude); // 현재 위치를 기반으로 지도 초기화
-      },
-      (error) => {
-        console.error("Error getting user location:", error);
+    // 기본 좌표로 지도 초기화
+    const defaultLat = 36.80732281; // 기본 위도
+    const defaultLng = 127.1471658; // 기본 경도
+    initializeMap(defaultLat, defaultLng);
 
-        // 기본 위치로 지도 초기화
-        const defaultLat = 36.80732281;
-        const defaultLng = 127.1471658;
-        console.log(
-          `Using default location: Latitude ${defaultLat}, Longitude ${defaultLng}`
-        );
-        initializeMap(defaultLat, defaultLng);
-      }
-    );
   }, [mapRef]);
 
   return (
