@@ -7,7 +7,7 @@ import fs.four.human.Search.vo.RouteHistoryVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+        import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
@@ -70,26 +70,31 @@ public class MyPageRestController {
 
     // 저장한 목적지
     @GetMapping("/{uId}/destinations")
-    public List<RouteHistoryVO> getUserDestinations(@PathVariable("uId") String uId) {
-        try {
-            // DB에서 저장된 목적지 기록 가져오기
-            List<RouteHistoryVO> routeHistory = myPageService.findRouteHistoryByUserId(uId);
-            if (routeHistory == null || routeHistory.isEmpty()) {
-                return Collections.emptyList(); // 빈 리스트 반환
-            }
-            System.out.println("가져온 목적지 데이터: " + routeHistory);
-            return routeHistory;
-        } catch (Exception e) {
-            // 데이터 조회 중 오류 발생 시 빈 리스트 반환
-            System.out.println("목적지 데이터를 가져오는 중 오류 발생: " + e.getMessage());
-            return Collections.emptyList();
+    public List<RouteHistoryVO> getUserDestinations(@PathVariable("uId") String uId, HttpSession session) {
+        String loggedId = (String) session.getAttribute("loggedUserId");
+
+        // 로그 추가
+        System.out.println("세션 loggedId: " + loggedId);
+        System.out.println("요청 uId: " + uId);
+
+        if (uId == null || loggedId == null || !loggedId.equals(uId)) {
+            throw new RuntimeException("본인 정보만 볼 수 있습니다.");
         }
+
+        List<RouteHistoryVO> routeHistory = myPageService.findRouteHistoryByUserId(uId);
+        System.out.println("목적지 기록 데이터: " + routeHistory);
+        return routeHistory;
     }
+
+
 
     @DeleteMapping("/{uId}/destinations/{destinationId}")
     public String deleteDestination(
             @PathVariable("uId") String uId,
-            @PathVariable("destinationId") Integer destinationId) { // 데이터 타입 Integer로 수정
+            @PathVariable("destinationId") Integer destinationId) {
+        System.out.println("받은 uId: " + uId);
+        System.out.println("받은 destinationId: " + destinationId);
+
         if (destinationId == null || destinationId <= 0) {
             return "destinationId가 유효하지 않습니다.";
         }

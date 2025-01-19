@@ -46,7 +46,9 @@ const Search = ({ stations, markerMap, closePopup }) => { // markerMap을 props�
             marker.getMap().setCenter(markerPosition);
             
             window.kakao.maps.event.trigger(marker, 'click'); // 마커 클릭 이벤트 트리거
-            closePopup();
+            if (window.matchMedia("(max-width: 450px)").matches) {
+                closePopup();
+            }
         } else {
             console.warn("Marker not found for station:", stationName);
         }
@@ -54,7 +56,7 @@ const Search = ({ stations, markerMap, closePopup }) => { // markerMap을 props�
 
     return (
         <div className="search">
-            <h3 style={{ textAlign: "left" }}>리스트로 보기</h3>
+            <h3 style={{ textAlign: "left" }}> [ 근처 5km 반경 주유소들이에요! ] </h3>
             <div className="sort-options">
                 <FontAwesomeIcon icon={faBars} style={{ marginRight: '30px' }} />
                 <button
@@ -74,7 +76,7 @@ const Search = ({ stations, markerMap, closePopup }) => { // markerMap을 props�
             <table className="index">
                 <thead>
                     <tr>
-                        <td>주유소명</td>
+                        <td style={{textAlign:'center'}}>주유소명</td>
                         <td>금액</td>
                         <td>거리</td>
                     </tr>

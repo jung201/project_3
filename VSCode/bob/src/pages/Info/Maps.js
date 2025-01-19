@@ -102,9 +102,22 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                                     if (activeInfoWindow) {
                                         activeInfoWindow.close();
                                     }
-                            
+
+                                    const borderColor =
+                                        station.PRICE_DIFF > 30
+                                            ? "red"
+                                            : station.PRICE_DIFF >= -30
+                                            ? "orange"
+                                            : "green";
+
+                                    const priceDiff = station.PRICE_DIFF > 0 
+                                        ? `+${Math.round(station.PRICE_DIFF)}` 
+                                        : `${Math.round(station.PRICE_DIFF)}`; // 양수일 경우 '+' 추가
+
+                                    const distanceInKm = (station.DISTANCE / 1000).toFixed(2); // 거리 변환 (소수점 둘째 자리까지)
+                                        
                                     globalInfoWindow.setContent(`
-                                        <div class="info-popup">
+                                        <div class="info-popup" style="border: 2px solid ${borderColor};">
                                             <button id="closePopup" class="close-btn">✖</button>
                                             <div style="display: flex; align-items: center;">
                                                 <img 
@@ -114,9 +127,15 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                                                 />
                                                 <strong>${station.NAME}</strong>
                                             </div>
-                                            - 거리: ${station.DISTANCE}m<br/>
-                                            - 가격: ${station.PRICE}원<br/>
-                                            <span>전국 평균 대비: ${Math.round(station.PRICE_DIFF)}원</span><br/>
+                                            <span style="font-weight:200">- 거리: ${distanceInKm} km</span>
+                                            <span style="color:blue; font-weight:bold">- 가격: ${station.PRICE}원</span>
+                                            <span style="color: ${
+                                                station.PRICE_DIFF > 30
+                                                    ? "red"
+                                                    : station.PRICE_DIFF >= -30
+                                                    ? "orange"
+                                                    : "green"
+                                            };">전국 평균 대비: ${priceDiff}원</span>
                                             <button id="detailView" class="info-btn">세부정보보기</button>
                                         </div>
                                     `);
@@ -258,13 +277,14 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
     };
     return (
         <div style={{ position: "relative" }}>
-            <div id="map" style={{ width: "100%", height: "900px" }}></div>
+            <div id="map"></div>
 
             {/* 세부정보 팝업 */}
             {isDetailPopupVisible && selectedStation && (
                 <div className="detail-popup">
                     <button
                         className="close-btn"
+                        style={{color:'black'}}
                         onClick={() => setDetailPopupVisible(false)}
                     >
                         ✖
@@ -273,9 +293,9 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                     <img 
                         src={getBrandLogo(selectedStation.brand)} 
                         alt={`${selectedStation.brand} 로고`} 
-                        style={{ width: "50px", marginRight: "10px" }} 
+                        style={{ width: "50px", height:'auto', marginRight: "10px" }} 
                     /> {selectedStation.name}
-                        <span style={{ cursor: "pointer" }}>☆</span>
+                        <span style={{ cursor: "pointer" }}>　☆</span>
                     </h3>
                     <p>
                         <strong>[기본정보]</strong>
@@ -289,20 +309,20 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                     <table className="price-table">
                         <thead>
                             <tr>
-                                <th>가격</th>
+                                <th style={{fontWeight:'bold', color:'rgb(214, 0, 0)'}}>가격</th>
                                 <th>업데이트 날짜</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{selectedStation.oilPrice}원</td>
+                                <td style={{fontWeight:'bold', color:'rgb(214, 0, 0)'}}>{selectedStation.oilPrice}원</td>
                                 <td>{selectedStation.updateTime}</td>
                             </tr>
                         </tbody>
                     </table>
                     <p>
                         <strong>[평점]</strong>　
-                        {renderStars(Math.round(parseFloat(selectedStation.averageRatings?.restroomAvg || "0.0")))} 평균 {selectedStation.averageRatings?.restroomAvg || "0.0"}점
+                        {renderStars(Math.round(parseFloat(selectedStation.averageRatings?.restroomAvg || "0.0")))} <span style={{color:'blue', fontWeight:'bold'}}>평균 {selectedStation.averageRatings?.restroomAvg || "0.0"}점</span>
                     </p>
                     <table className="rating-section">
                         <tr>
@@ -331,7 +351,7 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                     <div className="action-buttons">
                         <button>경유지로 설정</button>
                         <button>목적지로 설정</button>
-                        <button onClick={() => setRatingPopupVisible(true)}>평점 등록</button>
+                        <button style={{backgroundColor:"rgb(32,32,88)",color:'white'}} onClick={() => setRatingPopupVisible(true)}>평점<br></br> 등록</button>
                     </div>
                 </div>
             )}
@@ -353,7 +373,7 @@ const Maps = ({ onStationsUpdate, onMarkerMapUpdate }) => {
                         />
                         평점 등록
                     </h3>
-                    <p>{selectedStation.NAME}의 평가를 입력해주세요.</p>
+                    <p style={{textAlign:'center'}}>{selectedStation.name} 어떠셨어요?</p>
                     <table>
                         <tbody>
                             <tr>

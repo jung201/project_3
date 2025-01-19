@@ -1,60 +1,67 @@
 import React, { useEffect, useState } from "react";
 import "../../static/scss/MyPage/SaveDest.scss";
-import { fetchRouteHistory } from "../../service/apiService";
+import { fetchRouteHistory, checkLoginStatus } from "../../service/apiService";
 import { deleteRouteHistory } from "../../service/apiService";
 
 const SaveDest = () => {
-  //목적지 목록 state
-  const [destinations, setDestinations] = useState([]);
-  //페이지네이션 관련 state
+  const [destinations, setDestinations] = useState([]); //목적지 목록 state
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const itemsPerPage = 3; // 한 페이지당 표시할 항목 수
-  const userId = sessionStorage.getItem("userId");
 
-  //컴포넌트 마운트 시 목적지 리스트를 가져옴
   useEffect(() => {
     const loadDestinations = async () => {
+      const userId = sessionStorage.getItem("userId");
+      console.log("Retrieved userId from sessionStorage:", userId);
+      if (!userId) {
+        console.error("userId가 undefined입니다. 로그인 정보를 확인하세요.");
+      }
+
       try {
-        const data = await fetchRouteHistory(userId);
-        console.log("가져온 목적지 데이터:", data);
-    
-        const newDestinations = data.map((item) => ({
-          id: item.destinationId, // 반드시 id가 설정되었는지 확인
-          date: item.urCreatedDate?.substring(0, 10) || "-",
+        const data = await fetchRouteHistory(userId); // userId를 전달하여 API 호출
+        console.log("fetchRouteHistory 호출:", { userId, data });
+
+        setDestinations(data.map((item) => ({
+          destinationId: item.destinationId,
+          date: item.urCreatedDate?.substring(0, 10),
           station: item.urStopoverName || "-",
-          destination: item.urDestName || "-",
-        }));
-    
-        setDestinations(newDestinations);
+          destination: item.urDestName || "목적지 없음",
+        })));
+
       } catch (error) {
-        console.error("목적지 데이터를 가져오는 중 오류 발생:", error);
+        console.error("목적지 데이터를 불러오는 중 오류 발생:", error);
       }
     };
 
     loadDestinations();
-  }, [userId]);
+  }, []);
 
-  // ----------------------------------------------------------------------------
 
-  // 삭제 버튼 클릭 시 호출
+
   const handleDelete = async (indexInCurrentPage, destinationId) => {
-    if (!destinationId || isNaN(destinationId)) { // 유효성 검증
-      console.error("destinationId가 유효하지 않습니다:", destinationId);
+    const userId = sessionStorage.getItem("userId");
+    console.log("삭제 요청 - userId:", userId, "destinationId:", destinationId);
+
+    if (!destinationId || !userId) {
+      console.error("유효하지 않은 userId 또는 destinationId:", userId, destinationId);
       return;
     }
-
-    try {
-      const realIndex = (currentPage - 1) * itemsPerPage + indexInCurrentPage;
-      const response = await deleteRouteHistory(userId, destinationId); // API 호출
-      console.log("삭제 결과:", response);
-
-      const updatedList = [...destinations];
-      updatedList.splice(realIndex, 1); // 삭제된 항목 제거
-      setDestinations(updatedList); // 상태 업데이트
-    } catch (error) {
-      console.error("삭제 중 오류 발생:", error);
+  
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      try {
+        const response = await deleteRouteHistory(userId, destinationId);
+        console.log("삭제 성공:", response);
+        
+        // 삭제 후 리스트 업데이트
+        const realIndex = (currentPage - 1) * itemsPerPage + indexInCurrentPage;
+        const updatedList = [...destinations];
+        updatedList.splice(realIndex, 1);
+        setDestinations(updatedList);
+      } catch (error) {
+        console.error("삭제 중 오류 발생:", error);
+      }
     }
   };
+  
 
   // 페이지 계산
   const totalPages = Math.ceil(destinations.length / itemsPerPage);
@@ -78,17 +85,18 @@ const SaveDest = () => {
         </thead>
         <tbody>
           {currentDestinations.map((dest, idx) => (
-            <tr key={dest.id}>
+            <tr key={idx}>
               <td>{dest.date}</td>
               <td>{dest.station}</td>
               <td>{dest.destination}</td>
               <td>
                 <button
-                  onClick={() => handleDelete(idx, dest.id)} // dest.id가 destinationId로 전달됩니다.
-                  style={{
-                    backgroundColor: "#f8f9fa",
-                    border: "solid 1px #ccc",
-                  }}
+                  onClick={() =>
+                    handleDelete(
+                      idx,
+                      destinations[startIndex + idx]?.destinationId // 삭제할 ID 전달
+                    )
+                  }
                 >
                   삭제
                 </button>

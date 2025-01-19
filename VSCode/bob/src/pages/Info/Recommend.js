@@ -37,7 +37,9 @@ const Recommend = ({ stations, markerMap, closePopup }) => { // markerMap 추가
             marker.getMap().setCenter(markerPosition);
 
             window.kakao.maps.event.trigger(marker, 'click'); // 마커 클릭 이벤트 트리거
-            closePopup(); // 팝업 닫기 호출
+            if (window.matchMedia("(max-width: 450px)").matches) {
+                closePopup();
+            }
         } else {
             console.warn("Marker not found for station:", stationName);
         }
@@ -45,14 +47,14 @@ const Recommend = ({ stations, markerMap, closePopup }) => { // markerMap 추가
 
     return (
         <div className="recommendation">
-            <h3>주변 주유소 추천</h3>
+            <h3> [ 이 주유소, 어떠신가요? ] </h3>
 
             {/* 가장 저렴한 주유소 */}
             {cheapestStation && (
                 <div className="station">
                     <div className="station-container">
                         <div className="station-header">
-                            <div className="sort-indicator price">가격순</div>
+                            <div className="sort-indicator price">저렴해요</div>
                             <span className="station-brand">
                                 <img 
                                     src={getBrandLogo(cheapestStation.brand)} 
@@ -68,13 +70,18 @@ const Recommend = ({ stations, markerMap, closePopup }) => { // markerMap 추가
                                 {cheapestStation?.name || "정보 없음"}
                             </span>
                         </div>
-                        <br />
                         <div className="station-body-container">
                             <div className="station-body">
-                                <span className="station-price">- 가격: {cheapestStation?.price || "N/A"}원</span>
-                            </div>
-                            <div className="station-body">
-                                <span className="station-distance">- 거리: {cheapestStation?.distance || "N/A"}km</span>
+                            <table className="rTable">
+                                <tr>
+                                    <th style={{color: 'rgb(214, 0, 0)'}}>오늘의 가격</th>
+                                    <th>주유소까지</th>
+                                </tr>
+                                <tr>
+                                    <td><span className="station-price" style={{color: 'rgb(214, 0, 0)'}}>{cheapestStation?.price || "N/A"}원</span></td>
+                                    <td><span className="station-distance">{cheapestStation?.distance || "N/A"}km</span></td>
+                                </tr>
+                            </table>
                             </div>
                         </div>
                     </div>
@@ -85,8 +92,8 @@ const Recommend = ({ stations, markerMap, closePopup }) => { // markerMap 추가
             {nearestStation && (
                 <div className="station">
                     <div className="station-container">
-                        <div className="station-header">
-                            <div className="sort-indicator distance">거리순</div>
+                        <div className="station-header" >
+                            <div className="sort-indicator distance">가까워요</div>
                             <span className="station-brand">
                                 <img 
                                     src={getBrandLogo(nearestStation.brand)} 
@@ -102,13 +109,19 @@ const Recommend = ({ stations, markerMap, closePopup }) => { // markerMap 추가
                                 {nearestStation.name}
                             </span>
                         </div>
-                        <br />
                         <div className="station-body-container">
                             <div className="station-body">
-                                <span className="station-price">- 가격: {nearestStation.price}원</span>
-                            </div>
-                            <div className="station-body">
-                                <span className="station-distance">- 거리: {nearestStation.distance}km</span>
+                                <table className="rTable">
+                                <tr>
+                                    <th>오늘의 가격</th>
+                                    <th style={{color: 'rgb(214, 0, 0)'}}>주유소까지</th>
+                                </tr>
+                                <tr>
+                                    <td><span className="station-price">{nearestStation.price}원</span></td>
+                                    <td><span className="station-distance" style={{color: 'rgb(214, 0, 0)'}}>{nearestStation.distance}km</span></td>
+                                </tr>
+                                
+                                </table>
                             </div>
                         </div>
                     </div>

@@ -40,6 +40,9 @@ const RouteSearch = ({
   selectedDestination,
   selectedStation,
   onStationsUpdate,
+  showRecommendPopup,
+
+  
 }) => {
   const [markers, setMarkers] = useState([]);
   const [polylines, setPolylines] = useState([]);
@@ -371,7 +374,7 @@ const RouteSearch = ({
 
   return (
     <div>
-      <div className="info-popup">
+        <div className={`info-popup ${selectedDestination ? "visible" : ""}`}>
         <div class="popup-header">{infoPopup.name}</div>
         <div className="popup-info">소요 시간: {infoPopup.time}분</div>
         <div className="popup-info">남은 거리: {infoPopup.distance}km</div>

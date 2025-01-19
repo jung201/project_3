@@ -34,6 +34,7 @@ public class UserController {
         // 2) 세션에 userId (또는 PK, 닉네임 등 원하는 값)를 저장
         HttpSession session = request.getSession(); // 세션이 없으면 새로 생성
         session.setAttribute("loggedUserId", loggedInUser.getU_ID());
+        System.out.println("세션에 저장된 loggedUserId: " + session.getAttribute("loggedUserId"));
 
         // 필요하다면 닉네임, 권한 등도 추가로 저장 가능
         // session.setAttribute("loggedNickname", loggedInUser.getU_NICKNAME());

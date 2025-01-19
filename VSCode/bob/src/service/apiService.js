@@ -62,31 +62,34 @@ export const updateBoard = async (postId, updatedPost) => {
 const API_login_URL = "http://192.168.0.93:3006/Login";
 export const fetchLogin = async (userId, password) => {
   try {
-    // **withCredentials: true**로 세션 쿠키를 주고받도록 설정
     const response = await axios.post(
-      API_login_URL,
+      `${API_login_URL}`,
       { u_ID: userId, u_PWD: password },
       { withCredentials: true }
     );
-    console.log(response.data); // 디버깅용 로그 출력
-    return response.data; // 데이터 반환
+
+    sessionStorage.setItem("userId", response.data.u_ID); // 로그인 성공 시 userId 저장
+    return response.data;
   } catch (error) {
-    console.error("로그인 요청 중 오류:", error); // 에러 처리
-    throw error; // 에러 전달
+    console.error("로그인 요청 중 오류:", error);
+    throw error;
   }
 };
+
 
 //================================================================================
 
 // 로그인 상태 확인 함수
 export const checkLoginStatus = () => {
   const storedUserId = sessionStorage.getItem("userId");
+  console.log("checkLoginStatus - storedUserId:", storedUserId); // 디버깅용
   if (storedUserId) {
     return {
       isLoggedIn: true,
       userId: storedUserId,
     };
   }
+  console.warn("checkLoginStatus - userId가 존재하지 않습니다."); // 경고 로그
   return {
     isLoggedIn: false,
     userId: null,
@@ -144,13 +147,24 @@ export const updateMyPage = async (userId, payload) => {
 
 // 목적지 조회
 export const fetchRouteHistory = async (userId) => {
-  const response = await axios.get(`${API_myPage_URL}/${userId}/destinations`, {
-    withCredentials: true,
-  });
-  return response.data;
+  if (!userId) {
+    console.error("userId가 유효하지 않습니다:", userId);
+    throw new Error("userId가 유효하지 않습니다.");
+  }
+
+  try {
+    const response = await axios.get(`${API_myPage_URL}/${userId}/destinations`, {
+      withCredentials: true, // 세션 정보 포함
+    });
+    return response.data;
+  } catch (error) {
+    console.error("fetchRouteHistory - API 호출 중 오류 발생:", error);
+    throw error;
+  }
 };
 
-// 목적지 삭제
+
+// 목적지 삭제 API
 export const deleteRouteHistory = async (userId, destinationId) => {
   try {
     const response = await axios.delete(
@@ -158,10 +172,7 @@ export const deleteRouteHistory = async (userId, destinationId) => {
     );
     return response.data;
   } catch (error) {
-    console.error(
-      "목적지 삭제 중 오류 발생:",
-      error.response?.data || error.message
-    );
+    console.error("deleteRouteHistory - API 호출 오류:", error);
     throw error;
   }
 };

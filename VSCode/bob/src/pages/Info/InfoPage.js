@@ -35,10 +35,10 @@ const InfoPage = () => {
                 // 모바일 화면: 버튼 렌더링
                 <div className="mobile-buttons">
                     <button onClick={() => setActivePopup('recommend')}>
-                        <img src={Rbtn} alt="추천" />
+                        <img src={Rbtn} alt="추천" style={{width:'30px',height:'30px'}} />
                     </button>
                     <button onClick={() => setActivePopup('search')}>
-                        <img src={Sbtn} alt="찾기" />
+                        <img src={Sbtn} alt="찾기" style={{width:'30px',height:'30px'}} />
                     </button>
                 </div>
             ) : (
@@ -58,7 +58,7 @@ const InfoPage = () => {
 
             {/* 모바일 팝업 */}
             {isSmallScreen && activePopup === 'recommend' && (
-                <div className="popup mobile-popup">
+                <div className="popup mobile-popup" style={{height:'330px', borderRadius:'10px'}}>
                     <div className="popup-content">
                         <button className="close-btn" onClick={closePopup}>✖</button>
                         <Recommend stations={stations} markerMap={markerMap} closePopup={closePopup} />
@@ -66,7 +66,7 @@ const InfoPage = () => {
                 </div>
             )}
             {isSmallScreen && activePopup === 'search' && (
-                <div className="popup mobile-popup">
+                <div className="popup mobile-popup" style={{height:'450px', borderRadius:'10px'}}>
                     <div className="popup-content">
                         <button className="close-btn" onClick={closePopup}>✖</button>
                         <Search stations={stations} markerMap={markerMap} closePopup={closePopup} />

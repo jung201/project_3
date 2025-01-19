@@ -48,6 +48,7 @@ const MainMapPage = () => {
           setStations(filteredStations); // 필터링된 주유소 업데이트
           setShowRecommendPopup(true); // 팝업 표시
         }}
+        showRecommendPopup={showRecommendPopup}
       />
 
       {/* SearchDest 팝업 */}
