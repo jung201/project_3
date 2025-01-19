@@ -56,6 +56,18 @@ export const updateBoard = async (postId, updatedPost) => {
   }
 };
 
+// 특정 사용자 게시글 조회
+// 특정 사용자의 게시글 가져오기
+export const fetchUserPosts = async (userId) => {
+  try {
+    const response = await axios.get(`${API_board_URL}/user/${userId}`);
+    return response.data; // 서버에서 받은 게시글 데이터 반환
+  } catch (error) {
+    console.error("사용자 게시글 불러오기 실패:", error);
+    throw error; // 에러 전파
+  }
+};
+
 //================================================================================
 
 // login URL 설정

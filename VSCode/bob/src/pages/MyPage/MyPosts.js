@@ -1,27 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchUserPosts } from "../../service/apiService";
+import { getCategoryLabel } from "../../utils/categoryUtils"; 
 import "../../static/scss/MyPage/MyPosts.scss";
 
 const MyPosts = () => {
-  const allPosts = [
-    { date: "2024/11/10", category: "QnA", title: "안녕하세요 여러분", views: 133 },
-    { date: "2024/11/11", category: "Tips", title: "반갑습니다", views: 22 },
-    { date: "2024/11/12", category: "Tips", title: "도움이 필요합니다", views: 50 },
-    { date: "2024/11/13", category: "QnA", title: "새로운 질문이 있습니다", views: 77 },
-    { date: "2024/11/14", category: "QnA", title: "리액트 질문입니다", views: 120 },
-    { date: "2024/11/15", category: "Tips", title: "좋은 팁 공유합니다", views: 89 },
-    { date: "2024/11/16", category: "QnA", title: "백엔드 관련 문의", views: 64 },
-    { date: "2024/11/17", category: "Tips", title: "CSS 트릭 모음", views: 40 },
-    { date: "2024/11/18", category: "QnA", title: "Redux 사용법", views: 155 },
-    { date: "2024/11/19", category: "Tips", title: "좋은 도구 추천", views: 70 },
-    { date: "2024/11/20", category: "QnA", title: "프로젝트에 관한 질문", views: 95 },
-  ];
+  const [posts, setPosts] = useState([]); // 게시글 상태
+  const userId = sessionStorage.getItem("userId"); // 로그인한 사용자 ID 가져오기
+
+  useEffect(() => {
+    const loadUserPosts = async () => {
+      try {
+        const userPosts = await fetchUserPosts(userId); // API 호출
+        setPosts(userPosts); // 상태에 데이터 저장
+      } catch (error) {
+        console.error("사용자 게시글 불러오기 실패:", error); // 에러 처리
+      }
+    };
+
+    if (userId) {
+      loadUserPosts(); // ID가 있을 때만 데이터 불러오기
+    } else {
+      console.warn("로그인 정보가 없습니다.");
+    }
+  }, [userId]);
 
   const itemsPerPage = 10; // 페이지당 표시할 항목 수
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(allPosts.length / itemsPerPage);
+  const totalPages = Math.ceil(posts.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentPosts = allPosts.slice(startIndex, startIndex + itemsPerPage);
+  const currentPosts = posts.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="my-posts">
@@ -43,15 +51,15 @@ const MyPosts = () => {
         <tbody>
           {currentPosts.map((post, index) => (
             <tr key={index}>
-              <td>{post.date}</td>
-              <td>{post.category}</td>
-              <td>{post.title}</td>
-              <td>{post.views}</td>
+              <td>{post.bcreatedDate ? new Date(post.bcreatedDate).toLocaleDateString("ko-KR") : "날짜 없음"}</td>
+              <td>{getCategoryLabel(post.bcategory) || "없음"}</td>
+              <td>{post.btitle || "제목 없음"}</td>
+              <td>{post.bviews || 0}</td>
               <td>
-                <button name={`edit-post-${index}`}>수정</button>
+                <button onClick={() => alert("수정 기능은 아직 구현되지 않았습니다!")}>수정</button>
               </td>
               <td>
-                <button name={`delete-post-${index}`}>삭제</button>
+                <button onClick={() => alert("삭제 기능은 아직 구현되지 않았습니다!")}>삭제</button>
               </td>
             </tr>
           ))}

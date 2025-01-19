@@ -43,4 +43,8 @@ public class BoardService {
         boardDAO.increaseViewCount(id); // MyBatis 호출
     }
 
+    // 7. 특정 사용자 게시글 조회
+    public List<BoardVO> getUserPosts(String userId) {
+        return boardDAO.getUserPosts(userId);
+    }
 }

@@ -120,5 +120,24 @@
         WHERE B_ID = #{id}
     </update>
 
+    <!-- 특정 사용자 게시글 조회 -->
+    <select id="getUserPosts" parameterType="String" resultType="fs.four.human.Board.vo.BoardVO">
+        SELECT
+        B_ID as bId,
+        B_CATEGORY as bCategory,
+        B_CC as bCc,
+        B_TITLE as bTitle,
+        B_CONTENT as bContent,
+        B_CREATED_ID as bCreatedId,
+        B_CREATED_DATE as bCreatedDate,
+        B_UPDATED_ID as bUpdatedId,
+        B_UPDATED_DATE as bUpdatedDate,
+        B_VIEWS as bViews
+        FROM board
+        WHERE B_CREATED_ID = #{userId}
+        ORDER BY B_CREATED_DATE DESC
+    </select>
+
+
 
 </mapper>

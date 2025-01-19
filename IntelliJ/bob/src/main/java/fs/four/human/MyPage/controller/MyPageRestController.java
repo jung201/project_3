@@ -7,9 +7,8 @@ import fs.four.human.Search.vo.RouteHistoryVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-        import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -73,6 +72,7 @@ public class MyPageRestController {
     public List<RouteHistoryVO> getUserDestinations(@PathVariable("uId") String uId, HttpSession session) {
         String loggedId = (String) session.getAttribute("loggedUserId");
 
+
         // 로그 추가
         System.out.println("세션 loggedId: " + loggedId);
         System.out.println("요청 uId: " + uId);
@@ -85,6 +85,8 @@ public class MyPageRestController {
         System.out.println("목적지 기록 데이터: " + routeHistory);
         return routeHistory;
     }
+
+
 
     @DeleteMapping("/{uId}/destinations/{destinationId}")
     public String deleteDestination(

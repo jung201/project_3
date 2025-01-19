@@ -107,4 +107,16 @@ public class BoardRestController {
         }
     }
 
+    // 7. 특정 사용자 게시글 조회
+    @GetMapping("/user/{userId}")
+    public List<BoardVO> getUserPosts(@PathVariable("userId") String userId) {
+        try {
+            System.out.println("사용자 게시글 조회 요청: " + userId);
+            return boardService.getUserPosts(userId);
+        } catch (Exception e) {
+            System.err.println("사용자 게시글 조회 중 오류: " + e.getMessage());
+            throw new RuntimeException("사용자 게시글 조회 중 오류가 발생했습니다.");
+        }
+    }
+
 }

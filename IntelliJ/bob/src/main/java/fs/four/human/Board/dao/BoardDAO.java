@@ -25,4 +25,7 @@ public interface BoardDAO {
 
     // 6. 조회수 증가
     void increaseViewCount(int id); // 조회수 증가
+
+    // 7. 특정 사용자 게시글 조회
+    List<BoardVO> getUserPosts(String userId);
 }
