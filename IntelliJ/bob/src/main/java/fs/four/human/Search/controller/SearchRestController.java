@@ -2,10 +2,12 @@ package fs.four.human.Search.controller;
 
 
 import fs.four.human.Search.service.SearchService;
+import fs.four.human.Search.vo.CamVO;
 import fs.four.human.Search.vo.RouteHistoryVO;
 import fs.four.human.Search.vo.SearchVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -50,6 +52,20 @@ public class SearchRestController {
 
         int result = searchService.saveRouteHistory(routeHistoryVO);
         return (result > 0) ? "OK" : "FAIL";
+    }
+
+    //후방
+    @PostMapping("/save")
+    public ResponseEntity<String> saveCamera(@RequestBody CamVO camVO) {
+        System.out.println("---zzzzz----");
+        searchService.saveCamera(camVO);
+        return ResponseEntity.ok("Camera saved successfully.");
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<CamVO>> getAllCameras() {
+        System.out.println("---hhhhhh----");
+        return ResponseEntity.ok(searchService.getAllCameras());
     }
 
 }

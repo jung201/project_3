@@ -49,7 +49,7 @@
         ORDER BY UR_CREATED_DATE DESC
     </select>
 
-<!--    후방-->
+    <!--후방-->
     <insert id="insertCamera" parameterType="CamVO">
         INSERT INTO CAM (CAM_LATITUDE, CAM_LONGITUDE, B_CREATED_DATE)
         VALUES (#{camLatitude}, #{camLongitude}, SYSDATE)

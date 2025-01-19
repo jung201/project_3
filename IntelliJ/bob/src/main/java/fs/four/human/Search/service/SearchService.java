@@ -1,6 +1,7 @@
 package fs.four.human.Search.service;
 
 import fs.four.human.Search.dao.SearchDAO;
+import fs.four.human.Search.vo.CamVO;
 import fs.four.human.Search.vo.RouteHistoryVO;
 import fs.four.human.Search.vo.SearchVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,15 @@ public class SearchService {
     }
     public List<RouteHistoryVO> findHistoryByUserId(String userId) {
         return searchDAO.findHistoryByUserId(userId);
+    }
+
+    //후방
+    public void saveCamera(CamVO camVO) {
+        searchDAO.insertCamera(camVO);
+    }
+
+    public List<CamVO> getAllCameras() {
+        return searchDAO.getAllCameras();
     }
 
 }
