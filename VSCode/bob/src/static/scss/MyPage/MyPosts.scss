@@ -79,90 +79,11 @@
       }
     }
   }
-}
-
-
-@media (max-width: 450px) {
-
-  .my-posts {
-    margin-bottom: 80px !important;
-  }
-
-  .post-table {
-    display: none;
-  }
-
-  .post-header {
-    font-size: 11pt !important;
-  }
-
-  .post-menus {
-    display: flex;
-    justify-content: space-between;
-
-    .post-details {
-      margin: 0;
-      font-size: 10pt !important;
-      padding-top: 10px;
-    }
-  }
-
-  .pagination {
-    margin: 10px 0px !important;
-  }
-
-  .post-cards {
-    display: flex !important;
-    flex-direction: column;
-    gap: 10px;
-
-    .post-card {
-      display: flex;
-      flex-direction: column;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      background-color: #fff;
-
-      .post-header {
-        font-size: 10pt;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-
-      .post-details {
-        font-size: 9pt;
-        color: gray;
-        margin-bottom: 10px;
-        text-align: right;
-      }
-
-      .post-actions {
-        display: flex;
-        justify-content: flex-end;
-        /* 버튼을 우측 정렬 */
-        gap: 10px;
-
-        button {
-          padding: 5px 10px;
-          font-size: 9pt;
-          background-color: #f8f9fa;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #e9ecef;
-          }
-        }
-      }
-    }
-  }
 
   // 보기 팝업
   .edit-popup {
     position: fixed;
-    top: 54%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     background: #fff;
@@ -171,7 +92,8 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 800px;
     height: 620px;
-    z-index: 1000;
+    z-index: 1000; /* 팝업이 다른 요소 위에 표시되도록 설정 */
+    display: block; /* 기본적으로 보이도록 설정 */
 
     // 애니메이션 효과
     opacity: 0;
@@ -313,6 +235,85 @@
 
           &:hover {
             background-color: #e64646;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 450px) {
+
+  .my-posts {
+    margin-bottom: 80px !important;
+  }
+
+  .post-table {
+    display: none;
+  }
+
+  .post-header {
+    font-size: 11pt !important;
+  }
+
+  .post-menus {
+    display: flex;
+    justify-content: space-between;
+
+    .post-details {
+      margin: 0;
+      font-size: 10pt !important;
+      padding-top: 10px;
+    }
+  }
+
+  .pagination {
+    margin: 10px 0px !important;
+  }
+
+  .post-cards {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+
+    .post-card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+
+      .post-header {
+        font-size: 10pt;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .post-details {
+        font-size: 9pt;
+        color: gray;
+        margin-bottom: 10px;
+        text-align: right;
+      }
+
+      .post-actions {
+        display: flex;
+        justify-content: flex-end;
+        /* 버튼을 우측 정렬 */
+        gap: 10px;
+
+        button {
+          padding: 5px 10px;
+          font-size: 9pt;
+          background-color: #f8f9fa;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #e9ecef;
           }
         }
       }

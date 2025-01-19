@@ -46,6 +46,7 @@ const MyPosts = () => {
 
   // 팝업 열기 및 수정 게시글 설정
   const handleEdit = (post) => {
+    console.log("수정 버튼 클릭됨", post); // 디버깅 로그
     setEditingPost(post); // 수정할 게시글 정보 설정
     setShowPopup(true); // 팝업 열기
   };
@@ -136,7 +137,7 @@ const MyPosts = () => {
 
       {/* 수정 팝업 */}
       {showPopup && editingPost && (
-        <div className="edit-popup">
+        <div className={`edit-popup ${showPopup ? "visible" : "hidden"}`}>
           <h2>게시글 수정</h2>
           <form>
             <button type="button" className="close-btn" onClick={closePopup}>
