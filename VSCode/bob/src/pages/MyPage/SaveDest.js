@@ -23,12 +23,17 @@ const SaveDest = () => {
         console.log("fetchRouteHistory 호출 결과:", data);
 
         // 데이터 매핑
-        const formattedData = data.map((item) => ({
-          destinationId: item.destinationId || null, // destinationId 기본값 설정
-          date: item.urCreatedDate?.substring(0, 10) || "N/A",
-          station: item.urStopoverName || "-",
-          destination: item.urDestName || "목적지 없음",
-        }));
+        const formattedData = data.map((item) => {
+          if (!item.destinationId) {
+            console.warn("destinationId가 누락된 데이터 항목:", item);
+          }
+          return {
+            destinationId: item.destinationId || null, // destinationId 기본값 설정
+            date: item.urCreatedDate?.substring(0, 10) || "N/A",
+            station: item.urStopoverName || "-",
+            destination: item.urDestName || "목적지 없음",
+          };
+        });
         console.log("Formatted Data:", formattedData);
 
         setDestinations(formattedData);
@@ -96,14 +101,7 @@ const SaveDest = () => {
               <td>{dest.station}</td>
               <td>{dest.destination}</td>
               <td>
-                <button
-                  onClick={() =>
-                    handleDelete(
-                      idx,
-                      destinations[startIndex + idx]?.destinationId || null // 기본값 처리
-                    )
-                  }
-                >
+                <button onClick={() => handleDelete(idx, dest.destinationId)}>
                   삭제
                 </button>
               </td>

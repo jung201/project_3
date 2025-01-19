@@ -86,8 +86,6 @@ public class MyPageRestController {
         return routeHistory;
     }
 
-
-
     @DeleteMapping("/{uId}/destinations/{destinationId}")
     public String deleteDestination(
             @PathVariable("uId") String uId,
