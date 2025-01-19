@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../static/scss/MyPage/SaveDest.scss";
-import { fetchRouteHistory, checkLoginStatus } from "../../service/apiService";
+import { fetchRouteHistory } from "../../service/apiService";
 import { deleteRouteHistory } from "../../service/apiService";
 
 const SaveDest = () => {
@@ -12,21 +12,26 @@ const SaveDest = () => {
     const loadDestinations = async () => {
       const userId = sessionStorage.getItem("userId");
       console.log("Retrieved userId from sessionStorage:", userId);
+
       if (!userId) {
         console.error("userId가 undefined입니다. 로그인 정보를 확인하세요.");
+        return;
       }
 
       try {
-        const data = await fetchRouteHistory(userId); // userId를 전달하여 API 호출
-        console.log("fetchRouteHistory 호출:", { userId, data });
+        const data = await fetchRouteHistory(userId); // API 호출
+        console.log("fetchRouteHistory 호출 결과:", data);
 
-        setDestinations(data.map((item) => ({
-          destinationId: item.destinationId,
-          date: item.urCreatedDate?.substring(0, 10),
+        // 데이터 매핑
+        const formattedData = data.map((item) => ({
+          destinationId: item.destinationId || null, // destinationId 기본값 설정
+          date: item.urCreatedDate?.substring(0, 10) || "N/A",
           station: item.urStopoverName || "-",
           destination: item.urDestName || "목적지 없음",
-        })));
+        }));
+        console.log("Formatted Data:", formattedData);
 
+        setDestinations(formattedData);
       } catch (error) {
         console.error("목적지 데이터를 불러오는 중 오류 발생:", error);
       }
@@ -35,22 +40,24 @@ const SaveDest = () => {
     loadDestinations();
   }, []);
 
-
-
   const handleDelete = async (indexInCurrentPage, destinationId) => {
     const userId = sessionStorage.getItem("userId");
     console.log("삭제 요청 - userId:", userId, "destinationId:", destinationId);
 
-    if (!destinationId || !userId) {
-      console.error("유효하지 않은 userId 또는 destinationId:", userId, destinationId);
+    if (!userId || !destinationId) {
+      console.error(
+        "유효하지 않은 userId 또는 destinationId:",
+        userId,
+        destinationId
+      );
       return;
     }
-  
+
     if (window.confirm("정말 삭제하시겠습니까?")) {
       try {
         const response = await deleteRouteHistory(userId, destinationId);
         console.log("삭제 성공:", response);
-        
+
         // 삭제 후 리스트 업데이트
         const realIndex = (currentPage - 1) * itemsPerPage + indexInCurrentPage;
         const updatedList = [...destinations];
@@ -61,7 +68,6 @@ const SaveDest = () => {
       }
     }
   };
-  
 
   // 페이지 계산
   const totalPages = Math.ceil(destinations.length / itemsPerPage);
@@ -94,7 +100,7 @@ const SaveDest = () => {
                   onClick={() =>
                     handleDelete(
                       idx,
-                      destinations[startIndex + idx]?.destinationId // 삭제할 ID 전달
+                      destinations[startIndex + idx]?.destinationId || null // 기본값 처리
                     )
                   }
                 >
