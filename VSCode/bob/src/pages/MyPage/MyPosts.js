@@ -49,6 +49,8 @@ const MyPosts = () => {
     console.log("수정 버튼 클릭됨", post); // 디버깅 로그
     setEditingPost(post); // 수정할 게시글 정보 설정
     setShowPopup(true); // 팝업 열기
+    console.log("showPopup 상태:", showPopup);
+    console.log("editingPost 상태:", editingPost);
   };
 
   // 팝업 닫기
@@ -86,6 +88,14 @@ const MyPosts = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("showPopup 상태 변경:", showPopup);
+  }, [showPopup]);
+  
+  useEffect(() => {
+    console.log("editingPost 상태 변경:", editingPost);
+  }, [editingPost]);
+
   //===========================================================================
 
   // 페이지네이션
@@ -109,7 +119,6 @@ const MyPosts = () => {
             <th>게시판 구분</th>
             <th>게시글 제목</th>
             <th>조회수</th>
-            <th>수정</th>
             <th>삭제</th>
           </tr>
         </thead>
@@ -125,60 +134,12 @@ const MyPosts = () => {
               <td>{post.btitle || "제목 없음"}</td>
               <td>{post.bviews || 0}</td>
               <td>
-                <button onClick={() => handleEdit(post)}>수정</button>
-              </td>
-              <td>
                 <button onClick={() => handleDelete(post.bid)}>삭제</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {/* 수정 팝업 */}
-      {showPopup && editingPost && (
-        <div className={`edit-popup ${showPopup ? "visible" : "hidden"}`}>
-          <h2>게시글 수정</h2>
-          <form>
-            <button type="button" className="close-btn" onClick={closePopup}>
-              X
-            </button>
-            <div className="form-group">
-              <label>카테고리</label>
-              <select
-                name="bcategory"
-                value={editingPost.bcategory}
-                onChange={handleEditChange}
-              >
-                <option value="R">정비</option>
-                <option value="T">꿀팁</option>
-                <option value="C">코스</option>
-                <option value="F">자유</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label>제목</label>
-              <input
-                type="text"
-                name="btitle"
-                value={editingPost.btitle}
-                onChange={handleEditChange}
-              />
-            </div>
-            <div className="form-group">
-              <label>내용</label>
-              <textarea
-                name="bcontent"
-                value={editingPost.bcontent}
-                onChange={handleEditChange}
-              ></textarea>
-            </div>
-            <button type="button" onClick={handleEditSave}>
-              저장
-            </button>
-          </form>
-        </div>
-      )}
 
       {/* 카드 형식 - 모바일에서만 표시 */}
       <div className="post-cards">
