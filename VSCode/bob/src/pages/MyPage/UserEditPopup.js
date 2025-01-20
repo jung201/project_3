@@ -19,7 +19,7 @@ const UserEditPopup = ({ setShowEditPopup, userId }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = await fetchMyPage(userId);
+        const userData = await fetchMyPage(userId); // API 호출로 사용자 데이터 가져오기
         setFormData({
           nickname: userData.nickname,
           type: getCcLabel(userData.type), // DB 코드 값을 라벨로 변환 (S → 스쿠터)
@@ -107,6 +107,7 @@ const UserEditPopup = ({ setShowEditPopup, userId }) => {
               style={{ width: "100%" }}
             >
               {/* 한글 라벨로 보여줌 */}
+              <option value="선택">타입을 선택헤주세요</option>
               <option value="스쿠터">스쿠터</option>
               <option value="소형">소형</option>
               <option value="중형">중형</option>
