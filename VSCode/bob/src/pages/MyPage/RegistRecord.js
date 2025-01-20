@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../static/scss/MyPage/RegistRecord.scss";
 
-const RegistRecord = ({ setShowRegistModal, addRecord }) => {
-  const [uuCoastDate, setUuCoastDate] = useState("");
-  const [uuStation, setUuStation] = useState("");
-  const [uuCoast, setUuCoast] = useState("");
+const RegistRecord = ({ setShowRegistModal, addRecord, editRecord  }) => {
+  // editRecord가 있으면 기본값으로 설정
+  const [uuCoastDate, setUuCoastDate] = useState(editRecord?.uuCoastDate || "");
+  const [uuStation, setUuStation] = useState(editRecord?.uuStation || "");
+  const [uuCoast, setUuCoast] = useState(editRecord?.uuCoast || "");
+
 
   const handleSubmit = (e) => {
     e.preventDefault(); // 기본 동작 방지
@@ -18,6 +20,7 @@ const RegistRecord = ({ setShowRegistModal, addRecord }) => {
       uuCoastDate,
       uuStation,
       uuCoast: parseInt(uuCoast, 10),
+      uuId: editRecord?.uuId || null, // 수정 시 ID 포함
     });
 
     // 입력 필드 초기화
@@ -27,7 +30,6 @@ const RegistRecord = ({ setShowRegistModal, addRecord }) => {
 
     // 모달 닫기
     setShowRegistModal(false);
-
   };
 
   return (
@@ -36,7 +38,9 @@ const RegistRecord = ({ setShowRegistModal, addRecord }) => {
         <button className="close-btn" onClick={() => setShowRegistModal(false)}>
           &times;
         </button>
-        <h2 style={{ textAlign: "center" }}>주유기록 등록/수정</h2>
+        <h2 style={{ textAlign: "center" }}>
+          {editRecord  ? "주유기록 수정" : "주유기록 등록"}
+        </h2>
         <form onSubmit={handleSubmit}>
           <label>
             날짜　

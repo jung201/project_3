@@ -33,12 +33,15 @@ const Records = () => {
   const [showRegistModal, setShowRegistModal] = useState(false); // RegistRecord 모달 상태
   const [allData, setAllData] = useState([]); // 초기 데이터
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  const [editRecord, setEditRecord] = useState(null); // 수정할 데이터
 
   const userId = sessionStorage.getItem("userId"); // 로그인한 사용자 ID 가져오기
   const itemsPerPage = 8; // 페이지 당 항목 수
   const totalPages = Math.ceil(allData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = allData.slice(startIndex, startIndex + itemsPerPage);
+
+  //=============================================================================
 
   // API 호출로 주유 기록 불러오기
   useEffect(() => {
@@ -53,6 +56,8 @@ const Records = () => {
     loadFuelRecords();
   }, [userId]);
 
+  //=============================================================================
+
   // 새로운 주유 기록 추가
   const addRecord = async (record) => {
     if (!record.uuCoastDate || !record.uuStation || !record.uuCoast) {
@@ -64,15 +69,28 @@ const Records = () => {
         ...record,
         uuCreatedId: userId,
       });
-      setAllData([...allData, newRecord]);
-      alert("등록이 완료되었습니다.");
+      const updatedData = record.uuId
+        ? allData.map((item) =>
+            item.uuId === record.uuId ? { ...item, ...record } : item
+          )
+        : [...allData, newRecord];
+      setAllData(updatedData);
+      alert(record.uuId ? "수정이 완료되었습니다." : "등록이 완료되었습니다.");
+      
       // 페이지 새로고침
       window.location.reload();
     } catch (error) {
-      console.error("주유 기록 저장 실패:", error);
-      alert("등록 중 오류가 발생했습니다.");
+      console.error("기록 저장 실패:", error);
+      alert("저장 중 오류가 발생했습니다.");
     }
   };
+
+  const handleEdit = (record) => {
+    setEditRecord(record); // 수정할 데이터 설정
+    setShowRegistModal(true); // 모달 열기
+  };
+
+  //=============================================================================
 
   // 주유 기록 삭제
   const handleDelete = async (recordId) => {
@@ -101,6 +119,8 @@ const Records = () => {
       console.warn("유효하지 않은 date 값:", record);
     }
   });
+
+  //========================================================================
 
   // 차트 데이터
   const chartData = {
@@ -134,13 +154,8 @@ const Records = () => {
       },
     ],
   };
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: { beginAtZero: true },
-    },
-  };
+
+  //========================================================================
 
   return (
     <div className="fuel-records">
@@ -178,7 +193,7 @@ const Records = () => {
               <td>{record.uuStation || "N/A"}</td>
               <td>{record.uuCoast ? `${record.uuCoast}원` : "0원"}</td>
               <td>
-                <button onClick={() => setShowRegistModal(true)}>수정</button>
+                <button onClick={() => handleEdit(true)}>수정</button>
               </td>
               <td>
                 <button onClick={() => handleDelete(record.uuId)}>삭제</button>
@@ -220,6 +235,7 @@ const Records = () => {
         <RegistRecord
           setShowRegistModal={setShowRegistModal}
           addRecord={addRecord}
+          initialData={editRecord} // 수정할 데이터 전달
         />
       )}
     </div>
