@@ -56,7 +56,7 @@ const Board = () => {
 
   // 페이지 네이션
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
-  const itemsPerPage = 20; // 한 페이지당 아이템 수
+  const itemsPerPage = 10; // 한 페이지당 아이템 수
 
   // 현재 페이지에 표시될 데이터 계산
   const offset = currentPage * itemsPerPage; // 페이지 시작 위치 계산
