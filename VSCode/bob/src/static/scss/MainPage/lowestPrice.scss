@@ -57,26 +57,24 @@
 }
 
 @media screen and (max-width: 450px) {
-    .lowest-price-container {
+.lowest-price-container {
+    .container {
+        padding: 15px;
 
-        .container {
-            padding: 20px;
-    
-            .title {
-            }
-    
-            .oil-station-table {
-                height: 500px;
-                display: flex;
-                justify-content: center;
-                gap: 50px;
-                padding: 10px;
-
-                table {
-                    border-collapse: collapse;
-                    font-size: 35px;
-                }
-            }
+        .title {
+        font-size: 20px; /* 제목 크기 축소 */
+        padding: 5px;
         }
+
+        .oil-station-table {
+        flex-direction: column; /* 테이블 세로 배치 */
+        gap: 20px; /* 테이블 간격 줄임 */
+
+        table {
+            font-size: 14px; /* 글자 크기 축소 */
+            max-width: 100%; /* 테이블 너비 100% */
+        }
+        }
+    }
     }
 }

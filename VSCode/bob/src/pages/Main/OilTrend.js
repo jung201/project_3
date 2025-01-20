@@ -84,7 +84,7 @@ const OilTrend = () => {
       <div className="right">
         <h2>유가 추이</h2>
         {/* 그래프 */}
-        <div style={{ width: "400px", height: "200px" }}>
+        <div className="graph" style={{ width: "400px", height: "200px" }}>
           <Line data={data} options={options} />
         </div>
       </div>

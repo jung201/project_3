@@ -73,6 +73,7 @@
 }
 
 @media (max-width:450px){
+
     .search-overlay {        
         position: absolute;
         padding: 0 15px 15px 15px !important;
@@ -99,5 +100,11 @@
     }
     .close-btn{
         padding:5px;
+    }
+    .floating-icons{
+        bottom: 120px !important;
+    }
+    .icon-btn{
+        padding:0;
     }
 }

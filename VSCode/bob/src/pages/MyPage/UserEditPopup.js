@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { updateMyPage } from "../../service/apiService"; // 공통 서비스 함수 불러오기
+import React, { useEffect, useState } from "react";
+import { updateMyPage, fetchMyPage } from "../../service/apiService"; // API 서비스 함수
+import { getCcCode, getCcLabel } from "../../utils/categoryUtils"; // 유틸리티 함수 불러오기
+
 import "../../static/scss/MyPage/UserEditPopup.scss";
 
-const UserEditPopup = ({ setShowEditPopup, userId}) => {
+const UserEditPopup = ({ setShowEditPopup, userId }) => {
   console.log("전달된 userId:", userId);
   // 폼 데이터를 관리하기 위한 상태 정의
   const [formData, setFormData] = useState({
@@ -15,13 +17,47 @@ const UserEditPopup = ({ setShowEditPopup, userId}) => {
     bikeImage: null,
   });
 
+  // 사용자 데이터 초기화
+  useEffect(() => {
+    // 초기 데이터를 받아와 폼 데이터 세팅
+    const fetchUserData = async () => {
+      try {
+        const userData = await fetchMyPage(userId); // API 호출로 사용자 데이터 가져오기
+        setFormData({
+          ...formData,
+          nickname: userData.nickname,
+          type: userData.type,
+          email: userData.email,
+          phone: userData.phone,
+        });
+      } catch (error) {
+        console.error("사용자 데이터 가져오기 실패:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]); // userId가 변경될 때마다 실행
+
   // 폼 데이터 변경 핸들러
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value, // 파일 입력일 경우 파일 객체 저장
-    });
+    // 타입 값 변환 처리 (라벨 → 코드)
+    if (name === "type") {
+      const convertedValue = getCcCode(value); // 선택된 타입 라벨을 코드로 변환
+      console.log("선택된 타입 라벨:", value);
+      console.log("변환된 타입 코드:", convertedValue);
+
+      setFormData({
+        ...formData,
+        [name]: convertedValue, // 변환된 값을 상태에 저장
+      });
+    } else {
+      // 일반 입력 필드 처리
+      setFormData({
+        ...formData,
+        [name]: files ? files[0] : value, // 파일 입력일 경우 파일 객체 저장
+      });
+    }
   };
 
   // 폼 제출 핸들러
@@ -39,7 +75,7 @@ const UserEditPopup = ({ setShowEditPopup, userId}) => {
       const payload = new FormData();
       payload.append("userId", userId);
       payload.append("nickname", formData.nickname);
-      payload.append("type", formData.type);
+      payload.append("type", getCcCode(formData.type)); // 타입을 코드로 변환
       payload.append("password", formData.password);
       payload.append("email", formData.email);
       payload.append("phone", formData.phone);
@@ -97,7 +133,7 @@ const UserEditPopup = ({ setShowEditPopup, userId}) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              autoComplete ="new-password"
+              autoComplete="new-password"
             />
           </label>
           <label>
@@ -107,7 +143,7 @@ const UserEditPopup = ({ setShowEditPopup, userId}) => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              autoComplete ="new-password"
+              autoComplete="new-password"
             />
           </label>
           <label>
@@ -121,7 +157,7 @@ const UserEditPopup = ({ setShowEditPopup, userId}) => {
             />
           </label>
           <label>
-          핸드폰번호:
+            핸드폰번호:
             <input
               type="tel"
               name="phone"
@@ -132,11 +168,7 @@ const UserEditPopup = ({ setShowEditPopup, userId}) => {
           </label>
           <label>
             오토바이사진:
-            <input
-              type="file"
-              name="bikeImage"
-              onChange={handleChange}
-            />
+            <input type="file" name="bikeImage" onChange={handleChange} />
           </label>
           <button type="submit">수정완료</button>
         </form>

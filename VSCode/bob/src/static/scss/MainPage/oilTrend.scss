@@ -39,24 +39,36 @@
     }
 }
 
-@media screen and (max-width: 450px) {
-    .oil-trend {
-        padding: 80px 0px 150px 0px;
-        height: 350px;
-        background-color: #fcf8e6;
-        
-    
-        h2 {
-            width: 350px;
-            display: inline-block;
-            border-bottom: 2px solid $primary-color;
-            padding: 10px;
-            font-size: 35px;
-            color: #333333;
-        }
-    
-        .oil-img {
-            display: none;
-        }
+@media screen and (max-width: 360px) {
+    canvas{
+        width: 320px !important;
+        height: auto !important;
     }
-}
+    .oil-trend {
+      padding: 20px 10px; /* 상하 여백 줄임 */
+      width: 340px;
+      height: auto; /* 높이 자동 조정 */
+      background-color: #f9f9f9; /* 배경색 변경 */
+      background-image: none;
+      
+      h2 {
+        margin-left:15px;
+        font-size:18pt !important;
+        width: 300px;
+        margin-bottom: 20px;
+        font-size: 35px;
+        color: #333333;
+    }
+
+  
+      .right {
+        position: static;
+        width: 340px !important;
+      }
+      .graph{
+        margin-left: 10px;
+        width:340px !important
+      }
+    }
+  }
+  

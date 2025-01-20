@@ -75,20 +75,30 @@
 
 @media screen and (max-width: 360px) {
     .price-container {
-        display: flex;
+        width:330px;
+        height:260px !important;
+        display: block;
         align-items: center;
         flex-direction: column;
         height: 300px;
-        padding-bottom: 90px;
-        background: transparent;
-
+        padding-bottom: 60px;
+        background: none;
+        h3{
+            margin: 13px 0;
+        }
+        .details{
+            margin-top: 0;
+        }
         .left {
+            width: 200px;
             align-items: center;
             justify-content: center;
         }
 
         h2 {
-            width: 330px;
+            margin-left:15px;
+            font-size:18pt !important;
+            width: 300px;
             margin-bottom: 20px;
             font-size: 35px;
             color: #333333;

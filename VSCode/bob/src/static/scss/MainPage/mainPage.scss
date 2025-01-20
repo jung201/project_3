@@ -6,33 +6,6 @@
 @import "region-section";
 @import "lowestPrice";
 
-// @font-face {
-//     font-family: 'SCDream4';
-//     src: url('../../../fonts/SCDream4.otf') format('woff2');
-//     font-weight: normal;
-//     font-style: normal;
-// }
-
-// @font-face {
-//     font-family: 'GmarketSansMedium';
-//     src: url('../../../fonts/GmarketSansMedium.otf') format('woff2');
-//     font-weight: normal;
-//     font-style: normal;
-// }
-
-// @font-face {
-//     font-family: 'MoneygraphyRounded';
-//     src: url('../../../fonts/Moneygraphy-Rounded.otf') format('woff2');
-//     font-weight: normal;
-//     font-style: normal;
-// }
-
-// @font-face {
-//     font-family: 'GowunBatangBold';
-//     src: url('../../../fonts/GowunBatang-Bold.ttf') format('woff2');
-//     font-weight: normal;
-//     font-style: normal;
-// }
 
 @font-face {
     font-family: 'GowunDodumRegular';
@@ -86,7 +59,7 @@ body {
     }
 
     .main-pic {
-        height: 150px; // 컨테이너 높이
+        height: 250px; // 컨테이너 높이
 
     }
 

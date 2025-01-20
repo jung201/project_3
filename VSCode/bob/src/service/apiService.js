@@ -128,6 +128,8 @@ export const fetchInfo = async () => {
 
 // myPage URL 설정
 const API_myPage_URL = "http://192.168.0.93:3006/myPage";
+
+// 사용자 정보 가져오기 함수
 export const fetchMyPage = async (userId) => {
   try {
     // 서버에서 데이터 가져오기
@@ -227,6 +229,7 @@ export const fetchTheme = async () => {
 };
 
 //==============================================================================
+
 // signup URL 설정
 const API_SIGNUP_URL = "http://192.168.0.93:3006";
 
@@ -272,7 +275,9 @@ export const registerUser = async (formData) => {
     throw new Error("회원가입 처리 중 문제가 발생했습니다.");
   }
 };
+
 //==============================================================================
+
 //아이디 찾기
 const API_FindId_URL =
   process.env.REACT_APP_API_FindPw_URL || "http://192.168.0.93:3006/api";
