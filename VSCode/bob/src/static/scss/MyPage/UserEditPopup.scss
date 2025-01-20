@@ -84,9 +84,9 @@
   
   @media (max-width: 450px) {
     .modal-content {
-      padding: 15px;
-      height: 71% !important;
-      width: 80% !important; /* 더 좁은 화면에 맞게 크기 조정 */
+      position: relative !important;
+      height: 70% !important;
+      width: 100% !important; /* 더 좁은 화면에 맞게 크기 조정 */
     }
     form{
       gap:4px !important;
