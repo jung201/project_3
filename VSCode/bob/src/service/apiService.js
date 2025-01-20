@@ -373,7 +373,7 @@ export const ForgotPassword = {
 //==============================================================================
 //오늘의유가
 
-const API_Price_URL = "http://localhost:3006";
+const API_Price_URL = "http://192.168.0.93:3006";
 
 export const getTodayOilPriceData = async () => {
   const response = await axios.get(`${API_Price_URL}/api/today-price`);
@@ -386,7 +386,7 @@ export const Price_API = {
 //==============================================================================
 //최저 유가
 
-const API_Lowset_URL = "http://localhost:3006/api";
+const API_Lowset_URL = "http://192.168.0.93:3006/api";
 
 export const fetchLowestPriceStations = async () => {
   try {
@@ -399,7 +399,7 @@ export const fetchLowestPriceStations = async () => {
 };
 //==============================================================================
 //현재지역 top5 주유소
-const API_Region_URL = "http://localhost:3006"; // 백엔드 서버 URL
+const API_Region_URL = "http://192.168.0.93:3006"; // 백엔드 서버 URL
 
 export const apiClient = axios.create({
     baseURL: API_Region_URL,
