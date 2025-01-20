@@ -1,11 +1,11 @@
 /* LoginForm.scss */
 .loginForm {
   height: 794px !important;
-  background-image: url('../../images/bg1.jpg') ;
+  background-image: url('../../images/bg1.jpg');
   background-size: 1280px;
   background-position: center;
   // background-repeat: no-repeat;
-  
+
   background-color: #eef2f7;
   display: flex;
   justify-content: center;
@@ -111,6 +111,61 @@
       &:hover {
         color: #0056b3;
         text-decoration: underline;
+      }
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .loginForm {
+    height: 620px !important;
+    background-size: cover;
+
+    .container {
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+    form {
+      div {
+      }
+    }
+    label {
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      height: 40px;
+      padding: 20px;
+
+      &:focus {
+      }
+    }
+
+    button {
+      height: 50px;
+      padding: 10px;
+
+      &:hover {
+      }
+
+      &:active {
+      }
+    }
+
+    .error {
+    }
+
+    .links {
+      a {
+        font-size: 13px;
+        margin: 0 10px;
+
+        &:hover {
+        }
       }
     }
   }
