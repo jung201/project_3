@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { fetchBoard } from "../../service/apiService"; // 공통 API 함수
 import { registerBoard } from "../../service/apiService"; // 등록 API 함수
@@ -12,7 +12,6 @@ import {
   getCcCode,
 } from "../../utils/categoryUtils"; // 유틸 함수 임포트
 import "../../static/scss/Board/board.scss";
-// import SparkleEffect from "../../customHook/SparkleEffect"; // Hook 임포트
 import mypageImg from "../../static/images/icons/signin.PNG";
 import navFiller from "../../static/images/icons/board.png";
 import groupFilter from "../../static/images/icons/searchBTN.png";
@@ -20,9 +19,6 @@ import ReactPaginate from "react-paginate"; // 페이지네이션 라이브러�
 
 // 상태 변수 관리
 const Board = () => {
-  // 반짝이는 효과 적용
-  // SparkleEffect();
-
   // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
   const userId = sessionStorage.getItem("userId"); // sessionStorage에서 사용자 ID 가져오기
 
@@ -186,7 +182,7 @@ const Board = () => {
 
     if (window.confirm("정말 삭제하시겠습니까?")) {
       try {
-        alert("게시글이 삭제되었습니다 !")
+        alert("게시글이 삭제되었습니다 !");
         await deleteBoard(postId, currentUserId);
         window.location.reload();
       } catch (error) {
@@ -365,40 +361,38 @@ const Board = () => {
   // 팝업
   const togglePopup = (type, post = null) => {
     console.log("togglePopup called:", { type, post });
-
+  
     // 보기 팝업: 조회수 증가 함수 호출
     if (type === "view" && post) {
       increaseViewCount(post.bid);
     }
-
-    // 수정 팝업: 필드 초기화
+  
+    // 수정 팝업: 필드 초기화 (기존 데이터 유지)
     if (type === "edit" && post) {
       console.log("Initializing edit popup with post:", post);
-      setTitle(post.bTitle || "");
-      setCategory(getCategoryLabel(post.bCategory) || "");
-      setCc(getCcLabel(post.bCc) || "");
-      setContent(post.bContent || "");
+      setTitle(post.btitle || ""); // 게시글 제목 설정
+      setCategory(getCategoryLabel(post.bcategory) || ""); // 카테고리 설정
+      setCc(getCcLabel(post.bcc) || ""); // 배기량 설정
+      setContent(post.bcontent || ""); // 게시글 내용 설정
     }
-
+  
     // 팝업 열기
     if (!showPopup || popupType !== type) {
-      setCurrentPost(post);
-      setPopupType(type);
-      setShowPopup(true);
+      setCurrentPost(post); // 선택된 게시글 데이터 저장
+      setPopupType(type); // 팝업 타입 설정
+      setShowPopup(true); // 팝업 열기
       setTimeout(() => setIsAnimating(true), 10);
-      console.log("팝업 열기 요청:", { type, post });
-
-      // 팝업 닫기
     } else {
+      // 팝업 닫기
       setIsAnimating(false);
       setTimeout(() => {
         setShowPopup(false);
         setPopupType("");
         setCurrentPost(null);
-        console.log("팝업 닫힘 상태 초기화 완료.");
       }, 300);
     }
   };
+  
 
   //=======================================================================
 
