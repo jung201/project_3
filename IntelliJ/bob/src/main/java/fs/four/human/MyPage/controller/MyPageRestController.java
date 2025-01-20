@@ -21,7 +21,6 @@ public class MyPageRestController {
     @GetMapping("/{uId}")
     public MyPageVO getUserInfo(
             @PathVariable("uId") String uId) {
-        System.out.println("uId : " + uId);
         return myPageService.getUserInfo(uId);
     }
 
@@ -35,7 +34,8 @@ public class MyPageRestController {
             @RequestParam("phone") String phone,
             @RequestParam(value = "bikeImage", required = false) MultipartFile bikeImage) {
 
-        System.out.println("받은 데이터 : ");
+        System.out.println("");
+        System.out.println("받은 데이터");
         System.out.println("uId: " + uId);
         System.out.println("nickname: " + nickname);
         System.out.println("type: " + type);
@@ -87,14 +87,11 @@ public class MyPageRestController {
     }
 
 
-
+    // 목적지 삭제
     @DeleteMapping("/{uId}/destinations/{destinationId}")
     public String deleteDestination(
             @PathVariable("uId") String uId,
             @PathVariable("destinationId") Integer destinationId) {
-        System.out.println("받은 uId: " + uId);
-        System.out.println("받은 destinationId: " + destinationId);
-
         if (destinationId == null || destinationId <= 0) {
             return "destinationId가 유효하지 않습니다.";
         }
