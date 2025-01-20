@@ -6,7 +6,7 @@ import info from "../static/images/icons/info.png";
 import search from "../static/images/icons/search.png";
 import riding from "../static/images/icons/riding.png";
 import board from "../static/images/icons/board.png";
-import mypage from "../static/images/icons/mypage.png";
+import mypage from "../static/images/icons/mypage1.png";
 import login from "../static/images/icons/login.PNG";
 import logout from "../static/images/icons/logout.PNG";
 import signin from "../static/images/icons/signin.PNG";
@@ -71,7 +71,7 @@ function Header() {
               </button>
               <Link to="/MyPage">
                 <button className="mypage-button">
-                  <img src={logout} alt="마이페이지" className="button-icon" />
+                  <img src={mypage} alt="마이페이지" className="button-icon" />
                 </button>
               </Link>
             </>
