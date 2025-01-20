@@ -84,7 +84,7 @@ const UserEditPopup = ({ setShowEditPopup, userId }) => {
     <div className="modal">
       <div className="modal-content">
         <button className="close-btn" onClick={() => setShowEditPopup(false)}>
-          &times;
+          X
         </button>
         <h3>내 정보 수정</h3>
         <form onSubmit={handleSubmit}>
@@ -125,7 +125,7 @@ const UserEditPopup = ({ setShowEditPopup, userId }) => {
             />
           </label>
           <label>
-            재확인:
+            비밀번호 재확인:
             <input
               type="password"
               name="confirmPassword"
