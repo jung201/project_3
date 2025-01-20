@@ -76,7 +76,7 @@ const Records = () => {
         : [...allData, newRecord];
       setAllData(updatedData);
       alert(record.uuId ? "수정이 완료되었습니다." : "등록이 완료되었습니다.");
-      
+
       // 페이지 새로고침
       window.location.reload();
     } catch (error) {
@@ -86,7 +86,7 @@ const Records = () => {
   };
 
   const handleEdit = (record) => {
-    setEditRecord(record); // 수정할 데이터 설정
+    setEditRecord(record); // 수정할 데이터를 설정
     setShowRegistModal(true); // 모달 열기
   };
 
@@ -193,7 +193,8 @@ const Records = () => {
               <td>{record.uuStation || "N/A"}</td>
               <td>{record.uuCoast ? `${record.uuCoast}원` : "0원"}</td>
               <td>
-                <button onClick={() => handleEdit(true)}>수정</button>
+                <button onClick={() => handleEdit(record)}>수정</button>{" "}
+                {/* record 전달 */}
               </td>
               <td>
                 <button onClick={() => handleDelete(record.uuId)}>삭제</button>

@@ -30,7 +30,7 @@
         UU_STATION = #{uuStation},
         UU_COAST = #{uuCoast},
         UU_COAST_DATE = #{uuCoastDate},
-        UU_UPDATED_ID = #{uuUpdatedId},
+        UU_UPDATED_ID = #{uuUpdatedId, jdbcType=VARCHAR}, <!-- jdbcType 추가 -->
         UU_UPDATED_DATE = SYSDATE
         WHERE UU_ID = #{uuId}
     </update>

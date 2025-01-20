@@ -40,6 +40,7 @@ public class MyPageRestController {
         System.out.println("nickname: " + nickname);
         System.out.println("type: " + type);
         System.out.println("email: " + email);
+        System.out.println("");
 
         // VO 객체 생성 및 데이터 설정
         MyPageVO userInfo = new MyPageVO();
@@ -82,7 +83,9 @@ public class MyPageRestController {
         }
 
         List<RouteHistoryVO> routeHistory = myPageService.findRouteHistoryByUserId(uId);
+        System.out.println("");
         System.out.println("목적지 기록 데이터: " + routeHistory);
+        System.out.println("");
         return routeHistory;
     }
 

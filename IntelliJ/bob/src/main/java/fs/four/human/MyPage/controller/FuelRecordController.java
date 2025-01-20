@@ -18,7 +18,7 @@ public class FuelRecordController {
     @PostMapping
     public String saveFuelRecord(@RequestBody FuelRecordVO fuelRecord) {
         System.out.println("");
-        System.out.println("받은 데이터: " + fuelRecord.toString()); // 로그 출력
+        System.out.println("주유기록 저장 데이터: " + fuelRecord.toString()); // 로그 출력
         System.out.println("");
 
         int result = fuelRecordService.saveFuelRecord(fuelRecord);
@@ -35,6 +35,7 @@ public class FuelRecordController {
     @DeleteMapping("/{id}")
     public String deleteFuelRecord(@PathVariable("id") int id) {
         int result = fuelRecordService.deleteFuelRecord(id);
+        System.out.println("월별 주유기록 삭제 : " + id);
         return result > 0 ? "삭제 성공" : "삭제 실패";
     }
 }

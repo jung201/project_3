@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "../../static/scss/MyPage/RegistRecord.scss";
 
-const RegistRecord = ({ setShowRegistModal, addRecord, editRecord  }) => {
-  // editRecord가 있으면 기본값으로 설정
-  const [uuCoastDate, setUuCoastDate] = useState(editRecord?.uuCoastDate || "");
-  const [uuStation, setUuStation] = useState(editRecord?.uuStation || "");
-  const [uuCoast, setUuCoast] = useState(editRecord?.uuCoast || "");
+const RegistRecord = ({ setShowRegistModal, addRecord, initialData }) => {
+  const [uuCoastDate, setUuCoastDate] = useState("");
+  const [uuStation, setUuStation] = useState("");
+  const [uuCoast, setUuCoast] = useState("");
 
+  useEffect(() => {
+    if (initialData) {
+      setUuCoastDate(initialData.uuCoastDate || "");
+      setUuStation(initialData.uuStation || "");
+      setUuCoast(initialData.uuCoast || "");
+    }
+  }, [initialData]); // initialData가 바뀔 때마다 초기값 설정
 
   const handleSubmit = (e) => {
     e.preventDefault(); // 기본 동작 방지
@@ -20,7 +26,7 @@ const RegistRecord = ({ setShowRegistModal, addRecord, editRecord  }) => {
       uuCoastDate,
       uuStation,
       uuCoast: parseInt(uuCoast, 10),
-      uuId: editRecord?.uuId || null, // 수정 시 ID 포함
+      uuId: initialData?.uuId || null, // 수정 시 ID 포함
     });
 
     // 입력 필드 초기화
@@ -39,7 +45,7 @@ const RegistRecord = ({ setShowRegistModal, addRecord, editRecord  }) => {
           &times;
         </button>
         <h2 style={{ textAlign: "center" }}>
-          {editRecord  ? "주유기록 수정" : "주유기록 등록"}
+          {initialData ? "주유기록 수정" : "주유기록 등록"}
         </h2>
         <form onSubmit={handleSubmit}>
           <label>

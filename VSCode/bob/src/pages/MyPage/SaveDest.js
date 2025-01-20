@@ -68,6 +68,9 @@ const SaveDest = () => {
         const updatedList = [...destinations];
         updatedList.splice(realIndex, 1);
         setDestinations(updatedList);
+
+        // 삭제 성공 메시지 표시
+        alert("삭제 성공");
       } catch (error) {
         console.error("삭제 중 오류 발생:", error);
       }
