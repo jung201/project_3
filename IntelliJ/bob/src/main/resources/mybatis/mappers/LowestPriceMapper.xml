@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fs.four.human.Main.DAO.LowestPriceDAO">
+
+    <select id="getLowestPriceStations" resultType="fs.four.human.Main.VO.LowestPriceVO">
+        SELECT
+        LS_ID AS lsId,
+        LS_PRICE AS lsPrice,
+        LS_NAME AS lsName,
+        LS_ADDRESS AS lsAddress,
+        LS_POLL_DIV AS lsPollDiv,
+        LS_UPDATE_DATE AS lsUpdateDate,
+        LS_SIDOCD AS lsSidoCd
+        FROM LOWEST_STATION a
+        WHERE (LS_PRICE, LS_SIDOCD) IN (
+        SELECT MIN(LS_PRICE) AS MIN_PRICE, LS_SIDOCD
+        FROM LOWEST_STATION
+        GROUP BY LS_SIDOCD
+        )
+    </select>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Main.DAO.TodayPriceDAO">
+
+    <resultMap id="TodayPriceMap" type="fs.four.human.Main.VO.TodayPriceVO">
+        <result property="region"         column="region" />
+        <result property="averagePrice"   column="averagePrice"/>
+        <result property="minPrice"       column="minPrice"/>
+        <result property="maxPrice"       column="maxPrice"/>
+        <result property="yesterdayPrice" column="yesterdayPrice"/>
+        <result property="priceChange"    column="priceChange"/>
+    </resultMap>
+
+    <select id="getTodayOilAverages" resultMap="TodayPriceMap">
+        <![CDATA[
+      WITH LATEST_DATE AS (
+        SELECT MAX(IO_DATE) AS LDATE
+        FROM INFO_OIL_PRICE
+      ),
+      YESTERDAY_DATE AS (
+        SELECT MAX(IOP_DATE) AS YDATE
+        FROM INFO_OIL_PRICE_HISTORY
+        WHERE IOP_DATE < (SELECT MAX(IO_DATE) FROM INFO_OIL_PRICE)
+      )
+      SELECT
+        '전국' AS region,
+        ROUND(AVG(IO_PRICE), 2) AS averagePrice,
+        MIN(IO_PRICE) AS minPrice,
+        MAX(IO_PRICE) AS maxPrice,
+        (
+          SELECT ROUND(AVG(IOP_PRICE), 2)
+          FROM INFO_OIL_PRICE_HISTORY
+          WHERE IOP_DATE = (SELECT YDATE FROM YESTERDAY_DATE)
+        ) AS yesterdayPrice,
+        ROUND(
+          ROUND(AVG(IO_PRICE), 2)
+          -
+          (
+            SELECT ROUND(AVG(IOP_PRICE), 2)
+            FROM INFO_OIL_PRICE_HISTORY
+            WHERE IOP_DATE = (SELECT YDATE FROM YESTERDAY_DATE)
+          ), 2
+        ) AS priceChange
+      FROM INFO_OIL_PRICE
+      WHERE IO_DATE = (SELECT LDATE FROM LATEST_DATE)
+      GROUP BY '전국'
+
+      UNION
+
+      SELECT
+        '충남' AS region,
+        ROUND(AVG(IO_PRICE), 2) AS averagePrice,
+        MIN(IO_PRICE) AS minPrice,
+        MAX(IO_PRICE) AS maxPrice,
+        (
+          SELECT ROUND(AVG(IOP_PRICE), 2)
+          FROM INFO_OIL_PRICE_HISTORY
+          WHERE IOP_DATE = (SELECT YDATE FROM YESTERDAY_DATE)
+            AND IOP_REGION_NAME = '충남'
+        ) AS yesterdayPrice,
+        ROUND(
+          ROUND(AVG(IO_PRICE), 2)
+          -
+          (
+            SELECT ROUND(AVG(IOP_PRICE), 2)
+            FROM INFO_OIL_PRICE_HISTORY
+            WHERE IOP_DATE = (SELECT YDATE FROM YESTERDAY_DATE)
+              AND IOP_REGION_NAME = '충남'
+          ), 2
+        ) AS priceChange
+      FROM INFO_OIL_PRICE
+      WHERE IO_DATE = (SELECT LDATE FROM LATEST_DATE)
+        AND IO_SIDONM = '충남'
+      GROUP BY '충남'
+      ]]>
+    </select>
+
+</mapper>

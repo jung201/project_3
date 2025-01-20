@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Main.DAO.RegionTopChargeDAO">
+    <select id="getTopStationsBySidocd" parameterType="string" resultType="fs.four.human.Main.VO.RegionTopChargeVO">
+        SELECT LS_ADDRESS AS lsAddress,
+        LS_NAME AS lsName,
+        LS_PRICE AS lsPrice
+        FROM LOWEST_STATION
+        WHERE LS_SIDOCD = #{sidocd}
+        ORDER BY LS_PRICE ASC
+        FETCH FIRST 5 ROWS ONLY
+    </select>
+</mapper>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 
 // Chart.js에서 필요한 모듈 가져오기
@@ -84,7 +84,7 @@ const OilTrend = () => {
       <div className="right">
         <h2>유가 추이</h2>
         {/* 그래프 */}
-        <div className="graph" style={{ width: "400px", height: "200px" }}>
+        <div style={{ width: "400px", height: "200px" }}>
           <Line data={data} options={options} />
         </div>
       </div>
