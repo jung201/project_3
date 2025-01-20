@@ -345,7 +345,7 @@ const RouteSearch = ({
       })
       .catch((error) => {
         console.error("경로 탐색 중 오류 발생:", error.message);
-        alert(`경로 탐색 중 오류가 발생했습니다: ${error.message}`);
+        // alert(`경로 탐색 중 오류가 발생했습니다: ${error.message}`);
       });
   };
 
