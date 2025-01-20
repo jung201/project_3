@@ -33,7 +33,7 @@
             li a {
                 text-decoration: none;
                 color: rgb(7, 34, 52);
-                font-size: 14px;
+                font-size: 15px;
 
                 &:hover {
                     color: #007BFF;
@@ -73,6 +73,13 @@
         }
 
         // 로그아웃, 마이페이지 버튼
+        .logout-button {
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
         .button-icon {
             width: 40px;
             height: 40px;
