@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  fetchUserPosts,
-  updateBoard,
-  deleteBoard,
-} from "../../service/apiService";
-import { getCategoryLabel, getCategoryCode } from "../../utils/categoryUtils";
+import { fetchUserPosts, deleteBoard } from "../../service/apiService";
+import { getCategoryLabel, getCcLabel } from "../../utils/categoryUtils";
 import "../../static/scss/MyPage/MyPosts.scss";
 
 const MyPosts = () => {
   const [posts, setPosts] = useState([]); // 게시글 상태
-  const [editingPost, setEditingPost] = useState(null); // 수정 중인 게시글 상태
+  const [currentPost, setCurrentPost] = useState(null); // 선택된 게시글
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
   const userId = sessionStorage.getItem("userId"); // 로그인한 사용자 ID 가져오기
 
@@ -30,6 +26,8 @@ const MyPosts = () => {
     }
   }, [userId]);
 
+  //===========================================================================
+
   // 게시글 삭제
   const handleDelete = async (postId) => {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
@@ -44,57 +42,19 @@ const MyPosts = () => {
     }
   };
 
-  // 팝업 열기 및 수정 게시글 설정
-  const handleEdit = (post) => {
-    console.log("수정 버튼 클릭됨", post); // 디버깅 로그
-    setEditingPost(post); // 수정할 게시글 정보 설정
+  //===========================================================================
+
+  // 제목 클릭 시 팝업 열기
+  const handleTitleClick = (post) => {
+    setCurrentPost(post); // 선택된 게시글 저장
     setShowPopup(true); // 팝업 열기
-    console.log("showPopup 상태:", showPopup);
-    console.log("editingPost 상태:", editingPost);
   };
 
   // 팝업 닫기
   const closePopup = () => {
-    setEditingPost(null); // 수정 상태 초기화
     setShowPopup(false); // 팝업 닫기
+    setCurrentPost(null); // 선택된 게시글 초기화
   };
-
-  // 수정 값 업데이트
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditingPost((prev) => ({ ...prev, [name]: value })); // 수정 값 업데이트
-  };
-
-  // 수정 저장
-  const handleEditSave = async () => {
-    try {
-      const updatedPost = {
-        ...editingPost,
-        bcategory: getCategoryCode(editingPost.bcategory), // 카테고리 코드 변환
-      };
-      await updateBoard(editingPost.bid, updatedPost); // API 호출
-      setPosts(
-        posts.map((post) =>
-          post.bid === editingPost.bid ? { ...post, ...editingPost } : post
-        )
-      ); // 상태 업데이트
-
-      closePopup(); // 팝업 닫기
-      alert("게시글이 수정되었습니다.");
-
-    } catch (error) {
-      console.error("게시글 수정 실패:", error);
-      alert("수정 중 오류가 발생했습니다.");
-    }
-  };
-
-  useEffect(() => {
-    console.log("showPopup 상태 변경:", showPopup);
-  }, [showPopup]);
-  
-  useEffect(() => {
-    console.log("editingPost 상태 변경:", editingPost);
-  }, [editingPost]);
 
   //===========================================================================
 
@@ -105,6 +65,8 @@ const MyPosts = () => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentPosts = posts.slice(startIndex, startIndex + itemsPerPage);
+
+  //===========================================================================
 
   return (
     <div className="my-posts">
@@ -131,7 +93,12 @@ const MyPosts = () => {
                   : "날짜 없음"}
               </td>
               <td>{getCategoryLabel(post.bcategory) || "없음"}</td>
-              <td>{post.btitle || "제목 없음"}</td>
+              <td
+                className="clickable-title"
+                onClick={() => handleTitleClick(post)}
+              >
+                {post.btitle || "제목 없음"}
+              </td>
               <td>{post.bviews || 0}</td>
               <td>
                 <button onClick={() => handleDelete(post.bid)}>삭제</button>
@@ -189,6 +156,63 @@ const MyPosts = () => {
           &gt;
         </button>
       </div>
+
+
+      {/* 보기 팝업 */}
+      {showPopup && (
+        <div className={`view-popup ${showPopup ? "open" : "close"}`}>
+          <form>
+            <button type="button" className="close-btn" onClick={closePopup}>
+              X
+            </button>
+            <h2>{currentPost.btitle}</h2>
+            <div className="title-bo"></div>
+            <div className="form-group">
+              <div className="left">
+                <p>
+                  <strong>카테고리 : </strong>{" "}
+                  {getCategoryLabel(currentPost.bcategory)}
+                </p>
+                <p>
+                  <strong>배기량 : </strong> {getCcLabel(currentPost.bcc)}
+                </p>
+              </div>
+              <div className="right">
+                <p>
+                  <strong>날짜 : </strong>
+                  {new Date(currentPost.bcreatedDate).toLocaleDateString(
+                    "ko-KR"
+                  )}
+                </p>
+                <p>
+                  <strong>작성자 : </strong> {currentPost.bwriter}
+                </p>
+              </div>
+            </div>
+            <textarea value={currentPost.bcontent} readOnly></textarea>
+            <div className="view-btn">
+              
+              {/* 작성자와 로그인 사용자 ID 비교 */}
+              {currentPost.bcreatedId === sessionStorage.getItem("userId") && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => alert("수정 기능 준비 중")}
+                  >
+                    수정
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(currentPost.bid)}
+                  >
+                    삭제
+                  </button>
+                </>
+              )}
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
