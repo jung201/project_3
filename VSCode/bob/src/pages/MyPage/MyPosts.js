@@ -114,15 +114,16 @@ const MyPosts = () => {
         {currentPosts.map((post, index) => (
           <div key={index} className="post-card">
             <div className="post-header">
-              [{post.category}] {post.title}
+              [{getCategoryLabel(post.bcategory) || "없음"}] {post.btitle}
             </div>
             <div className="post-menus">
               <div className="post-details">
-                {post.date} | 조회수: {post.views}
+              {post.bcreatedDate
+                  ? new Date(post.bcreatedDate).toLocaleDateString("ko-KR")
+                  : "날짜 없음"} | 조회수: {post.bviews}
               </div>
               <div className="post-actions">
-                <button name={`edit-post-${index}`}>수정</button>
-                <button name={`delete-post-${index}`}>삭제</button>
+              <button onClick={() => handleDelete(post.bid)}>삭제</button>
               </div>
             </div>
           </div>

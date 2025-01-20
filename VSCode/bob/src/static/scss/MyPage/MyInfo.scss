@@ -70,3 +70,21 @@
 }
 
 //미디어쿼리
+
+@media (max-width: 450px) {
+  .profile-info {
+    margin-bottom: 20px;
+
+    h2 {
+    }
+
+    p {
+      position: relative;
+      left: 55px;
+      font-size: 18px !important;
+
+    }
+  }
+
+
+}
