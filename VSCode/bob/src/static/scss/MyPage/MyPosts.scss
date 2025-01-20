@@ -79,131 +79,156 @@
         opacity: 0.6;
       }
     }
-  }
 
-  // 보기 팝업
-  .view-popup,
-  .edit-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    background: #fff;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 800px;
-    height: 620px;
-    z-index: 1000;
+    textarea {
+      height: 350px;
+      resize: none;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+      font-size: 16px;
 
-    // 애니메이션 효과
-    opacity: 0;
-    transition: all 0.2s ease-out;
-
-    &.open {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    &.close {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.8);
-    }
-
-    h2 {
-      text-align: center;
-    }
-
-    .title-bo {
-      // @include flex-center;
-      width: 100%;
-      border: 1px solid black;
-      margin-bottom: 10px;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 35px;
-      height: 35px;
-      font-size: 20px;
-      color: white;
-      background-color: red;
-      border: none;
-      border-radius: 20%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      &:focus {
+        outline: none;
+        border-color: #bbb;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+      }
 
       &:hover {
-        background-color: darkred;
+        border-color: #ccc;
       }
     }
 
-    form {
+    .view-btn,
+    .edit-btn {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      bottom: 15px;
 
-      .form-group {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        margin-bottom: 15px;
+      button {
+        width: 80px;
+        height: 50px;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 0;
 
-        p {
-          margin: 0px;
-          font-size: 16px;
+        &:hover {
+          background-color: #e64646;
         }
+      }
+    }
+  }
+}
 
-        .left,
-        .right {
-          display: flex;
-          justify-content: space-between;
-          gap: 40px;
+// 보기 팝업
+.view-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 800px;
+  height: 620px;
+  z-index: 1000;
 
-          p {
-            font-size: 18px;
-            margin-top: 5px;
-          }
-        }
+  /* 초기 상태 */
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease-out;
 
-        select,
-        input {
-          width: 100%;
-          height: 30px;
-          border-radius: 5px;
-          outline: none;
-          border: 1px solid #ddd;
-          padding-left: 10px;
-          margin: 0;
+  &.open {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 
-          &:focus {
-            outline: none;
-            border-color: #bbb;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-          }
+  &.close {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
 
-          &:hover {
-            border-color: #ccc;
-          }
-        }
+  h2 {
+    text-align: center;
+  }
 
+  .title-bo {
+    // @include flex-center;
+    width: 100%;
+    border: 1px solid black;
+    margin-bottom: 10px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    color: white;
+    background-color: red;
+    border: none;
+    border-radius: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darkred;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 15px;
+
+      p {
+        margin: 0px;
+        font-size: 16px;
       }
 
-      textarea {
-        height: 350px;
-        resize: none;
-        padding: 8px;
+      .left,
+      .right {
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+
+        p {
+          font-size: 18px;
+          margin-top: 5px;
+        }
+      }
+
+      select,
+      input {
+        width: 100%;
+        height: 30px;
+        border-radius: 5px;
+        outline: none;
         border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        background-color: #f9f9f9;
-        color: #333;
-        font-size: 16px;
+        padding-left: 10px;
+        margin: 0;
 
         &:focus {
           outline: none;
@@ -215,37 +240,10 @@
           border-color: #ccc;
         }
       }
-
-      .view-btn,
-      .edit-btn {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        position: relative;
-        bottom: 15px;
-
-        button {
-          width: 80px;
-          height: 50px;
-          padding: 10px;
-          background-color: #007bff;
-          color: #fff;
-          font-size: 16px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          padding: 0;
-
-          &:hover {
-            background-color: #e64646;
-          }
-        }
-      }
     }
   }
-
-
 }
+
 
 
 @media (max-width: 450px) {

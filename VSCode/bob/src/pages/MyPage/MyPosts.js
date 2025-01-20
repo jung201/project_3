@@ -7,6 +7,7 @@ const MyPosts = () => {
   const [posts, setPosts] = useState([]); // 게시글 상태
   const [currentPost, setCurrentPost] = useState(null); // 선택된 게시글
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
+  const [isAnimating, setIsAnimating] = useState(false); // 팝업 애니메이션 상태
   const userId = sessionStorage.getItem("userId"); // 로그인한 사용자 ID 가져오기
 
   useEffect(() => {
@@ -156,63 +157,6 @@ const MyPosts = () => {
           &gt;
         </button>
       </div>
-
-
-      {/* 보기 팝업 */}
-      {showPopup && (
-        <div className={`view-popup ${showPopup ? "open" : "close"}`}>
-          <form>
-            <button type="button" className="close-btn" onClick={closePopup}>
-              X
-            </button>
-            <h2>{currentPost.btitle}</h2>
-            <div className="title-bo"></div>
-            <div className="form-group">
-              <div className="left">
-                <p>
-                  <strong>카테고리 : </strong>{" "}
-                  {getCategoryLabel(currentPost.bcategory)}
-                </p>
-                <p>
-                  <strong>배기량 : </strong> {getCcLabel(currentPost.bcc)}
-                </p>
-              </div>
-              <div className="right">
-                <p>
-                  <strong>날짜 : </strong>
-                  {new Date(currentPost.bcreatedDate).toLocaleDateString(
-                    "ko-KR"
-                  )}
-                </p>
-                <p>
-                  <strong>작성자 : </strong> {currentPost.bwriter}
-                </p>
-              </div>
-            </div>
-            <textarea value={currentPost.bcontent} readOnly></textarea>
-            <div className="view-btn">
-              
-              {/* 작성자와 로그인 사용자 ID 비교 */}
-              {currentPost.bcreatedId === sessionStorage.getItem("userId") && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => alert("수정 기능 준비 중")}
-                  >
-                    수정
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(currentPost.bid)}
-                  >
-                    삭제
-                  </button>
-                </>
-              )}
-            </div>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
