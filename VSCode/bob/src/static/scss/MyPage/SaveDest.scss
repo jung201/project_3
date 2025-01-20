@@ -1,76 +1,99 @@
 .saved-destination {
-    padding: 0px 20px;
-    background-color: #fff;
-  
-    h3 {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 20px;
+  padding: 0px 10px;
+  background-color: #fff;
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    th {
+      background-color: #f9f9f9;
     }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-  
-      th, td {
-        border-bottom: 1px solid #ccc;
-        padding: 8px;
-        text-align: center;
-      }
-  
-      th {
-        background-color: #f9f9f9;
-      }
-  
-      td {
-        font-size: 14px;
-  
-        button {
-          padding: 5px 10px;
-          font-size: 13px;
-          background-color: #f8f9fa;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          cursor: pointer;
-          
-          &:hover {
-            background-color: #e9ecef;
-          }
-        }
-      }
+
+    th,
+    td {
+      border-bottom: 1px solid #ccc;
+      padding: 7px;
+      text-align: center;
     }
-  
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-  
+
+    /* 열 너비 고정 */
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 16%;
+      /* 등록일 열 크기 */
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 20%;
+      /* 경유쥬우소 열 크기 */
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 25%;
+      /* 목적지 열 크기 */
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 6%;
+      /* 삭제 열 크기 */
+    }
+
+    td {
+      font-size: 14px;
+
       button {
-        padding: 5px 10px;
-        font-size: 14px;
+        padding: 5px;
+        font-size: 12px;
         background-color: #f8f9fa;
         border: 1px solid #ccc;
         border-radius: 5px;
         cursor: pointer;
-  
-        &.active {
-          background-color: #022547;
-          color: white;
-          font-weight: bold;
-        }
-  
+
         &:hover {
           background-color: #e9ecef;
-        }
-  
-        &:disabled {
-          cursor: not-allowed;
-          opacity: 0.6;
         }
       }
     }
   }
-  
 
-  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    button {
+      padding: 5px 10px;
+      font-size: 14px;
+      background-color: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &.active {
+        background-color: #022547;
+        color: white;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: #e9ecef;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+  }
+}
