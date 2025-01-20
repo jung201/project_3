@@ -13,6 +13,7 @@ const MainMapPage = () => {
   const [showRecommendPopup, setShowRecommendPopup] = useState(false); // 경유지 추천 팝업 상태
   const [selectedStation, setSelectedStation] = useState(null); // 선택된 주유소 상태
   const [stations, setStations] = useState([]); // 주유소 목록
+  const [hideSearchPopup, setHideSearchPopup] = useState(false); // "어디를 가시나요?" 팝업 숨김 상태
   const mapRef = useRef(null); // TMap 객체를 참조할 Ref
 
   // URL에서 목적지 정보 추출
@@ -40,6 +41,7 @@ const MainMapPage = () => {
     setShowRecommendPopup(true); // 주유소 추천 팝업 표시
     console.log("선택된 목적지:", destination);
     console.log("받아온 주유소 데이터:", stationData);
+    setHideSearchPopup(true); // 목적지 설정 시 팝업 숨김
   };
 
   const togglePopup = (popup) => {
@@ -70,14 +72,12 @@ const MainMapPage = () => {
       )}
 
       {/* SearchDest 팝업 */}
-      {activePopup === "search" && (
+      {!hideSearchPopup && activePopup === "search" && (
         <div className="search-overlay">
           <SearchDest
-            onClose={() => togglePopup("search")} // 팝업 닫기
-            onDestinationSelect={(destination, stationData) =>
-              handleDestinationSelect(destination, stationData)
-            }
-            mapRef={mapRef} // 지도 객체 전달
+            onClose={() => setActivePopup(null)}
+            onDestinationSelect={handleDestinationSelect}
+            mapRef={mapRef}
           />
         </div>
       )}

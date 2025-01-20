@@ -151,13 +151,9 @@ const Riding = () => {
                       <button
                         className="set-dest-btn"
                         onClick={async () => {
-                          alert(
-                            `${place.TR_NUMPRODUCE1}을(를) 목적지로 설정하였습니다.`
-                          );
-
-                          const coordinates = await fetchCoordinates(
-                            place.TR_NUMPRODUCE1
-                          );
+                          alert(`${place.TR_NUMPRODUCE1}을(를) 목적지로 설정하였습니다.`);
+                        
+                          const coordinates = await fetchCoordinates(place.TR_NUMPRODUCE1);
                           if (coordinates) {
                             window.location.href = `/MainMapPage?lat=${coordinates.lat}&lng=${coordinates.lng}&name=${encodeURIComponent(
                               place.TR_NUMPRODUCE1
