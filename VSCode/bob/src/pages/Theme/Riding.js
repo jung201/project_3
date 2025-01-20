@@ -1,9 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
-import '../../static/scss/Theme/themeriding.scss';
+import React, { useRef, useEffect, useState } from "react";
+import "../../static/scss/Theme/themeriding.scss";
 
+/* global Tmapv2 */
 const Riding = () => {
   const [posts, setPosts] = useState([]); // 상태 관리
   const sectionRefs = useRef([]); // 섹션 참조 관리
+  const appKey = "ykiQ5w0ftD9OWcnVnthjn3a7wr6HsgNW8rkLYp8t"; // TMap API Key
 
   // 데이터 불러오기
   useEffect(() => {
@@ -15,7 +17,9 @@ const Riding = () => {
 
         // 데이터 변환
         const transformedData = data.reduce((acc, curr) => {
-          const existingCategory = acc.find(item => item.CATEGORY === curr.category);
+          const existingCategory = acc.find(
+            (item) => item.CATEGORY === curr.category
+          );
 
           if (existingCategory) {
             existingCategory.PLACES.push({
@@ -28,18 +32,20 @@ const Riding = () => {
           } else {
             acc.push({
               CATEGORY: curr.category,
-              PLACES: [{
-                TR_PLACE_ID: curr.tr_PLACE_ID,
-                TR_PLACE_NAME: curr.tr_PLACE_NAME,
-                TR_NUMPRODUCE1: curr.tr_NUMPRODUCE1,
-                TR_NUMPRODUCE2: curr.tr_NUMPRODUCE2,
-                IMAGE: curr.image,
-              }]
+              PLACES: [
+                {
+                  TR_PLACE_ID: curr.tr_PLACE_ID,
+                  TR_PLACE_NAME: curr.tr_PLACE_NAME,
+                  TR_NUMPRODUCE1: curr.tr_NUMPRODUCE1,
+                  TR_NUMPRODUCE2: curr.tr_NUMPRODUCE2,
+                  IMAGE: curr.image,
+                },
+              ],
             });
           }
           return acc;
         }, []);
-        
+
         setPosts(transformedData); // 상태 업데이트
       } catch (error) {
         console.error("데이터를 불러오는 중 오류 발생:", error);
@@ -54,14 +60,40 @@ const Riding = () => {
   const scrollToSection = (index) => {
     const offset = -80;
     const sectionTop = sectionRefs.current[index].offsetTop + offset;
-    window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+    window.scrollTo({ top: sectionTop, behavior: "smooth" });
+  };
+
+  // 목적지 이름을 기반으로 좌표 검색
+  const fetchCoordinates = async (placeName) => {
+    try {
+      const response = await fetch(
+        `https://apis.openapi.sk.com/tmap/pois?version=1&format=json&searchKeyword=${placeName}&resCoordType=WGS84GEO&reqCoordType=WGS84GEO&count=1`,
+        { headers: { appKey } }
+      );
+      if (!response.ok) {
+        console.error("TMap API 요청 실패:", response.status);
+        return null;
+      }
+
+      const data = await response.json();
+      const poi = data.searchPoiInfo.pois.poi[0];
+      if (poi) {
+        return { lat: Number(poi.noorLat), lng: Number(poi.noorLon) };
+      }
+      return null;
+    } catch (error) {
+      console.error("좌표 검색 중 오류 발생:", error);
+      return null;
+    }
   };
 
   return (
     <div className="riding-container">
       <div className="riding-title"></div>
       <div className="photo-box-container">
-        <h3 className="photo-box-heading" style={{textAlign:'center'}}>어떤 테마로 떠나볼까요? </h3>
+        <h3 className="photo-box-heading" style={{ textAlign: "center" }}>
+          어떤 테마로 떠나볼까요?{" "}
+        </h3>
         <div className="photo-box-wrapper">
           <div className="photo-box" onClick={() => scrollToSection(0)}>
             <img
@@ -89,7 +121,11 @@ const Riding = () => {
 
       {posts.length > 0 ? (
         posts.map((category, index) => (
-          <div key={index} className="category-section" ref={(el) => (sectionRefs.current[index] = el)}>
+          <div
+            key={index}
+            className="category-section"
+            ref={(el) => (sectionRefs.current[index] = el)}
+          >
             <h2 className="category-title">{category.CATEGORY}</h2>
             <div className="riding-grid">
               {category.PLACES.map((place) => (
@@ -101,14 +137,35 @@ const Riding = () => {
                       className="riding-image"
                     />
                     <div className="riding-header">
-                      <h3 className="riding-frame-title">{place.TR_PLACE_NAME}</h3>
-                      <p className="riding-location"># {place.TR_NUMPRODUCE1}</p>
+                      <h3 className="riding-frame-title">
+                        {place.TR_PLACE_NAME}
+                      </h3>
+                      <p className="riding-location">
+                        # {place.TR_NUMPRODUCE1}
+                      </p>
                     </div>
                     <div className="riding-description-container">
-                      <p className="riding-description"># {place.TR_NUMPRODUCE2}</p>
+                      <p className="riding-description">
+                        # {place.TR_NUMPRODUCE2}
+                      </p>
                       <button
                         className="set-dest-btn"
-                        onClick={() => alert(`${place.TR_NUMPRODUCE1}을(를) 목적지로 설정하였습니다.`)}
+                        onClick={async () => {
+                          alert(
+                            `${place.TR_NUMPRODUCE1}을(를) 목적지로 설정하였습니다.`
+                          );
+
+                          const coordinates = await fetchCoordinates(
+                            place.TR_NUMPRODUCE1
+                          );
+                          if (coordinates) {
+                            window.location.href = `/MainMapPage?lat=${coordinates.lat}&lng=${coordinates.lng}&name=${encodeURIComponent(
+                              place.TR_NUMPRODUCE1
+                            )}`;
+                          } else {
+                            alert("좌표를 검색하지 못했습니다.");
+                          }
+                        }}
                       >
                         목적지 설정
                       </button>

@@ -316,16 +316,6 @@ const RouteSearch = ({
           name: destination.name || "도착지",
         });
 
-        // // 지도 중심 및 줌 조정
-        // mapRef.current.setZoom(12);
-        // mapRef.current.setCenter(
-        //   new Tmapv2.LatLng(
-        //     (destination.lat + 36.80732281) / 2,
-
-        //     (destination.lng + 127.1471658) / 2
-        //   )
-        // );
-
         // **직접 min/max 계산 → setCenter + setZoom**
         if (filteredPath.length > 0) {
           let minLat = 90,

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import TMap from "./TMap";
 import SearchDest from "./SearchDest";
 import RouteSearch from "./RouteSearch";
@@ -6,6 +6,7 @@ import RecommendSTN from "./RecommendSTN";
 import "../../static/scss/Search/MainMapPage.scss";
 import CameraRegister from "./CameraRegister"; // 새로운 컴포넌트
 
+/* global Tmapv2 */
 const MainMapPage = () => {
   const [selectedDestination, setSelectedDestination] = useState(null); // 선택된 도착지 상태
   const [activePopup, setActivePopup] = useState("search"); // 팝업 상태
@@ -13,6 +14,18 @@ const MainMapPage = () => {
   const [selectedStation, setSelectedStation] = useState(null); // 선택된 주유소 상태
   const [stations, setStations] = useState([]); // 주유소 목록
   const mapRef = useRef(null); // TMap 객체를 참조할 Ref
+
+  // URL에서 목적지 정보 추출
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const lat = parseFloat(params.get("lat"));
+    const lng = parseFloat(params.get("lng"));
+    const name = params.get("name");
+
+    if (lat && lng && name) {
+      setSelectedDestination({ lat, lng, name }); // 목적지 상태 업데이트
+    }
+  }, []);
 
   // 주유소 선택 핸들러
   const handleStationSelect = (station) => {
@@ -41,7 +54,7 @@ const MainMapPage = () => {
           <TMap mapRef={mapRef} />
         </div>
       )}
-
+      
       {/* 경로 탐색 - activePopup이 'camera'일 때 숨기기 */}
       {activePopup !== "camera" && (
         <RouteSearch

@@ -65,6 +65,13 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
     }
   };
 
+    // URL 업데이트 함수 추가 (새로운 코드)
+    const updateURLWithDestination = (location) => {
+      const { lat, lng, name } = location;
+      const newUrl = `/MainMapPage?lat=${lat}&lng=${lng}&name=${encodeURIComponent(name)}`;
+      window.location.href = newUrl; // URL 이동
+    };
+
   // 목적지 선택
   const handleDestinationSelect = (location) => {
     if (!mapRef.current) {
@@ -83,6 +90,9 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
       iconSize: new Tmapv2.Size(42, 42), // 마커 크기 조정
     });
     markerRefs.current.push(marker);
+
+    // URL 업데이트 호출
+    updateURLWithDestination(location);
 
     onDestinationSelect(location); // 선택된 위치 전달
     onClose(); // 팝업 닫기
