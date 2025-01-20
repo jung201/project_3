@@ -371,7 +371,57 @@ export const ForgotPassword = {
 };
 
 //==============================================================================
+//오늘의유가
 
+const API_Price_URL = "http://localhost:3006";
+
+export const getTodayOilPriceData = async () => {
+  const response = await axios.get(`${API_Price_URL}/api/today-price`);
+  return response.data; // [{ region, averagePrice, minPrice, maxPrice, yesterdayPrice, priceChange }, ...]
+};
+
+export const Price_API = {
+  getTodayOilPriceData,
+};
+//==============================================================================
+//최저 유가
+
+const API_Lowset_URL = "http://localhost:3006/api";
+
+export const fetchLowestPriceStations = async () => {
+  try {
+    const response = await axios.get(`${API_Lowset_URL}/lowest-price`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching lowest price stations:", error);
+    throw error;
+  }
+};
+//==============================================================================
+//현재지역 top5 주유소
+const API_Region_URL = "http://localhost:3006"; // 백엔드 서버 URL
+
+export const apiClient = axios.create({
+    baseURL: API_Region_URL,
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
+
+// 주유소 정보 가져오기
+export const fetchTopStations = async (sidocd) => {
+  try {
+      const response = await apiClient.get("/api/region/top-stations", {
+          params: { sidocd }, // sidocd 값 전달
+      });
+      console.log(response.data); // 데이터 확인
+      return response.data;
+  } catch (error) {
+      console.error("Error fetching top stations:", error.message);
+      throw error;
+  }
+};
+//==============================================================================
 const API_CAMERA_URL = "http://192.168.0.93:3006/search";
 
 // 후방카메라 저장 요청

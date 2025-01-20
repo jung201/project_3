@@ -1,49 +1,48 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { fetchTopStations } from "../../service/apiService";
 
 const RegionTopCharge = () => {
-    // 초기 충전소 데이터 설정
-    const initialStations = [
-        { region: "천안시", name: "천안시청 3주유소", score: 4.83, price: 450 },
-        { region: "천안시", name: "천안시청 2주유소", score: 4.68, price: 430 },
-        { region: "천안시", name: "샤인더 주유소", score: 4.45, price: 410 },
-        { region: "천안시", name: "행복 주유소", score: 4.41, price: 420 },
-        { region: "천안시", name: "천안역 주유소", score: 4.31, price: 400 },
-    ];
+    const [chargeStations, setChargeStations] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // 상태 관리: 주유소 목록
-    const [chargeStations, setChargeStations] = useState(initialStations);
-
-    // 가격순 정렬 함수
-    const sortByPrice = () => {
-        const sorted = [...chargeStations].sort((a, b) => a.price - b.price);
-        setChargeStations(sorted);
+     // sidocd와 지역 이름 매핑 객체
+     const regionMap = {
+        "05": "충남",
+        // 필요한 sidocd와 지역 이름을 여기에 추가
     };
 
-    // 평점순 정렬 함수
-    const sortByScore = () => {
-        const sorted = [...chargeStations].sort((a, b) => b.score - a.score);
-        setChargeStations(sorted);
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchTopStations("05"); // sidocd 값 전달
+                setChargeStations(data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching stations:", error);
+                setLoading(false);
+            }
+        };
 
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (chargeStations.length === 0) {
+        return <div>No data available.</div>;
+    }
+
+    // 지역 이름 추출 함수 (sidocd 기준)
+    const getRegionName = (sidocd) => {
+        return regionMap[sidocd] || "알 수 없음"; // 매핑되지 않은 경우 기본값
+    };
+    
     return (
         <div className="region-container">
             {/* 제목 */}
             <h2 className="title">우리지역 Top5 주유소</h2>
-
-            {/* 지역 선택 드롭다운 */}
-            <div className="controls">
-                <select className="dropdown">
-                    <option>천안시</option>
-                    <option>천안시</option>
-                    <option>천안시</option>
-                </select>
-
-                {/* 정렬 버튼 */}
-                <div className="sort-buttons">
-                    <button onClick={sortByPrice}>가격순</button>
-                    <button onClick={sortByScore}>평점순</button>
-                </div>
-            </div>
 
             {/* 테이블 */}
             <table className="station-table">
@@ -52,16 +51,14 @@ const RegionTopCharge = () => {
                         <th>지역</th>
                         <th>주유소명</th>
                         <th>가격</th>
-                        <th>평점</th>
                     </tr>
                 </thead>
                 <tbody>
                     {chargeStations.map((station, index) => (
                         <tr key={index}>
-                            <td>{station.region}</td>
-                            <td>{station.name}</td>
-                            <td>{station.price}원</td>
-                            <td>{station.score}점</td>
+                            <td>{getRegionName("05")}</td>
+                            <td>{station.lsName}</td>
+                            <td>{station.lsPrice}원</td>
                         </tr>
                     ))}
                 </tbody>
