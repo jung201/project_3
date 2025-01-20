@@ -55,7 +55,7 @@ const Records = () => {
 
   // 새로운 주유 기록 추가
   const addRecord = async (record) => {
-    if (!record.date || !record.station || !record.amount) {
+    if (!record.uuCoastDate || !record.uuStation || !record.uuCoast) {
       alert("모든 필드를 입력해 주세요!");
       return;
     }
@@ -66,6 +66,8 @@ const Records = () => {
       });
       setAllData([...allData, newRecord]);
       alert("등록이 완료되었습니다.");
+      // 페이지 새로고침
+      window.location.reload();
     } catch (error) {
       console.error("주유 기록 저장 실패:", error);
       alert("등록 중 오류가 발생했습니다.");
@@ -93,8 +95,8 @@ const Records = () => {
   allData.forEach((record) => {
     // date가 유효한 경우에만 처리
     if (record.date) {
-      const month = parseInt(record.date.split("-")[1], 10) - 1; // '-' 기준으로 split
-      monthlyAmounts[month] += record.amount;
+      const month = parseInt(record.uuCoastDate.split("-")[1], 10) - 1; // '-' 기준으로 split
+      monthlyAmounts[month] += record.uuCoast;
     } else {
       console.warn("유효하지 않은 date 값:", record);
     }
@@ -172,13 +174,9 @@ const Records = () => {
         <tbody>
           {currentData.map((record, index) => (
             <tr key={index}>
-              <td name="recordDate">
-                {record.uuCoastDate ? formatDate(record.uuCoastDate) : "N/A"}
-              </td>
-              <td name="recordStation">{record.uuStation || "N/A"}</td>
-              <td name="recordAmount">
-                {record.uuCoast ? `${record.uuCoast}원` : "0원"}
-              </td>
+              <td>{formatDate(record.uuCoastDate)}</td>
+              <td>{record.uuStation || "N/A"}</td>
+              <td>{record.uuCoast ? `${record.uuCoast}원` : "0원"}</td>
               <td>
                 <button onClick={() => setShowRegistModal(true)}>수정</button>
               </td>

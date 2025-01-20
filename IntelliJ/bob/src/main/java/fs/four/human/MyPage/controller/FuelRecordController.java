@@ -30,4 +30,11 @@ public class FuelRecordController {
     public List<FuelRecordVO> getFuelRecordsByUserId(@PathVariable String userId) {
         return fuelRecordService.getFuelRecordsByUserId(userId);
     }
+
+    // DELETE 요청 처리
+    @DeleteMapping("/{id}")
+    public String deleteFuelRecord(@PathVariable("id") int id) {
+        int result = fuelRecordService.deleteFuelRecord(id);
+        return result > 0 ? "삭제 성공" : "삭제 실패";
+    }
 }

@@ -47,4 +47,10 @@
         WHERE UU_CREATED_ID = #{userId}
         ORDER BY UU_COAST_DATE DESC
     </select>
+
+    <!-- 주유 기록 삭제 -->
+    <delete id="deleteFuelRecord" parameterType="int">
+        DELETE FROM USER_USE_INFO WHERE UU_ID = #{id}
+    </delete>
+
 </mapper>

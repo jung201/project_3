@@ -2,38 +2,32 @@ import React, { useState } from "react";
 import "../../static/scss/MyPage/RegistRecord.scss";
 
 const RegistRecord = ({ setShowRegistModal, addRecord }) => {
-  const [date, setDate] = useState("");
-  const [station, setStation] = useState("");
-  const [amount, setAmount] = useState("");
+  const [uuCoastDate, setUuCoastDate] = useState("");
+  const [uuStation, setUuStation] = useState("");
+  const [uuCoast, setUuCoast] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault(); // 기본 동작 방지
-    if (!date || !station || !amount) {
+    if (!uuCoastDate || !uuStation || !uuCoast) {
       alert("모든 필드를 입력해 주세요!");
       return;
     }
 
-    // 디버깅용 데이터 확인
-    console.log("전송 데이터:", {
-      uuCoastDate: date,
-      uuStation: station,
-      uuCoast: parseInt(amount, 10),
-    });
-
     // 새로운 기록 추가
     addRecord({
-      uuCoastDate: date,
-      uuStation: station,
-      uuCoast: parseInt(amount, 10),
+      uuCoastDate,
+      uuStation,
+      uuCoast: parseInt(uuCoast, 10),
     });
 
     // 입력 필드 초기화
-    setDate("");
-    setStation("");
-    setAmount("");
+    setUuCoastDate("");
+    setUuStation("");
+    setUuCoast("");
 
     // 모달 닫기
     setShowRegistModal(false);
+
   };
 
   return (
@@ -49,8 +43,8 @@ const RegistRecord = ({ setShowRegistModal, addRecord }) => {
             <input
               type="date"
               style={{ width: "94%" }}
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={uuCoastDate}
+              onChange={(e) => setUuCoastDate(e.target.value)}
               required
             />
           </label>
@@ -59,8 +53,8 @@ const RegistRecord = ({ setShowRegistModal, addRecord }) => {
             <input
               type="text"
               placeholder="장소를 입력하세요"
-              value={station}
-              onChange={(e) => setStation(e.target.value)}
+              value={uuStation}
+              onChange={(e) => setUuStation(e.target.value)}
               required
             />
           </label>
@@ -69,8 +63,8 @@ const RegistRecord = ({ setShowRegistModal, addRecord }) => {
             <input
               type="number"
               placeholder="금액을 입력하세요"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={uuCoast}
+              onChange={(e) => setUuCoast(e.target.value)}
               required
             />
           </label>

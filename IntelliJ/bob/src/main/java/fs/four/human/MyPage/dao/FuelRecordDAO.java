@@ -16,4 +16,7 @@ public interface FuelRecordDAO {
 
     // 주유 기록 조회
     List<FuelRecordVO> getFuelRecordsByUserId(String userId);
+
+    // 주유 기록 삭제
+    int deleteFuelRecord(int id);
 }

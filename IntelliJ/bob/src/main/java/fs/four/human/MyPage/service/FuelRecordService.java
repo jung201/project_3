@@ -26,4 +26,9 @@ public class FuelRecordService {
     public List<FuelRecordVO> getFuelRecordsByUserId(String userId) {
         return fuelRecordDAO.getFuelRecordsByUserId(userId);
     }
+
+    // 주유기록 삭제
+    public int deleteFuelRecord(int id) {
+        return fuelRecordDAO.deleteFuelRecord(id);
+    }
 }
