@@ -47,5 +47,4 @@
         DELETE FROM USER_ROUTE_HISTORY
         WHERE UR_ID = #{destinationId}
     </delete>
-
 </mapper>

@@ -1,5 +1,6 @@
 package fs.four.human.MyPage.dao;
 
+import fs.four.human.MyPage.vo.FuelRecordVO;
 import fs.four.human.MyPage.vo.MyPageVO;
 import fs.four.human.Search.vo.RouteHistoryVO;
 import org.apache.ibatis.annotations.Mapper;

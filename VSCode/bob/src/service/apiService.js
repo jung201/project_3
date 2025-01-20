@@ -177,7 +177,6 @@ export const fetchRouteHistory = async (userId) => {
   }
 };
 
-
 // 목적지 삭제 API
 export const deleteRouteHistory = async (userId, destinationId) => {
   try {
@@ -190,6 +189,50 @@ export const deleteRouteHistory = async (userId, destinationId) => {
     throw error;
   }
 };
+
+//================================================================================
+
+const API_BASE_URL = "http://192.168.0.93:3006"; // 기본 API 주소
+
+// 주유 기록 조회
+export const fetchFuelRecords = async (userId) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/fuelRecords/${userId}`);
+    console.log("주유 기록 데이터:", response.data); // 디버깅용 로그 출력
+    return response.data; // 데이터 반환
+  } catch (error) {
+    console.error("주유 기록 가져오기 실패:", error); // 에러 처리
+    throw error; // 에러 전파
+  }
+};
+
+// 주유 기록 저장
+export const saveFuelRecord = async (fuelRecord) => {
+  try {
+    console.log("API 호출 데이터:", fuelRecord); // 전달된 데이터 확인
+    const response = await axios.post(`${API_BASE_URL}/fuelRecords`, fuelRecord, {
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log("주유 기록 저장 성공:", response.data); // 디버깅용 로그 출력
+    return response.data; // 결과 반환
+    
+  } catch (error) {
+    console.error("주유 기록 저장 실패:", error); // 에러 처리
+    throw error; // 에러 전파
+  }
+};
+
+// 주유 기록 삭제
+export const deleteFuelRecord = async (recordId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/fuelRecords/${recordId}`);
+    return response.data;
+  } catch (error) {
+    console.error("주유 기록 삭제 실패:", error);
+    throw error;
+  }
+};
+
 
 //================================================================================
 

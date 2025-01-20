@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  fetchFuelRecords,
+  saveFuelRecord,
+  deleteFuelRecord,
+} from "../../service/apiService";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,9 +15,9 @@ import {
   Legend,
 } from "chart.js";
 import RegistRecord from "./RegistRecord"; // RegistRecord 컴포넌트 import
+import { formatDate } from "../../utils/dateUtils";
 import "../../static/scss/MyPage/Records.scss";
 
-// Chart.js 구성 요소 등록
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -22,58 +27,116 @@ ChartJS.register(
   Legend
 );
 
+// ========================================================================
+
 const Records = () => {
   const [showRegistModal, setShowRegistModal] = useState(false); // RegistRecord 모달 상태
-
-  // 예제 데이터
-  const allData = [
-    { date: "2024/11/10", station: "만수르 주유소", amount: 15000 },
-    { date: "2024/12/31", station: "천안 주유소", amount: 8000 },
-    { date: "2024/11/10", station: "샤우디 주유소", amount: 1553 },
-    { date: "2024/11/10", station: "농협클린주유소", amount: 1554 },
-    { date: "2024/11/10", station: "쌍용주유소", amount: 1555 },
-    { date: "2024/12/01", station: "서울 주유소", amount: 20000 },
-    { date: "2024/12/02", station: "부산 주유소", amount: 10000 },
-    { date: "2024/12/03", station: "대구 주유소", amount: 5000 },
-    { date: "2024/12/04", station: "광주 주유소", amount: 7000 },
-    { date: "2024/12/05", station: "대전 주유소", amount: 9000 },
-  ];
-
-  const itemsPerPage = 8; // 페이지 당 항목 수
+  const [allData, setAllData] = useState([]); // 초기 데이터
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
 
+  const userId = sessionStorage.getItem("userId"); // 로그인한 사용자 ID 가져오기
+  const itemsPerPage = 8; // 페이지 당 항목 수
   const totalPages = Math.ceil(allData.length / itemsPerPage);
-
-  // 현재 페이지 데이터 계산
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = allData.slice(startIndex, startIndex + itemsPerPage);
 
+  // API 호출로 주유 기록 불러오기
+  useEffect(() => {
+    const loadFuelRecords = async () => {
+      try {
+        const records = await fetchFuelRecords(userId);
+        setAllData(records);
+      } catch (error) {
+        console.error("주유 기록 불러오기 실패:", error);
+      }
+    };
+    loadFuelRecords();
+  }, [userId]);
+
+  // 새로운 주유 기록 추가
+  const addRecord = async (record) => {
+    if (!record.date || !record.station || !record.amount) {
+      alert("모든 필드를 입력해 주세요!");
+      return;
+    }
+    try {
+      const newRecord = await saveFuelRecord({
+        ...record,
+        uuCreatedId: userId,
+      });
+      setAllData([...allData, newRecord]);
+      alert("등록이 완료되었습니다.");
+    } catch (error) {
+      console.error("주유 기록 저장 실패:", error);
+      alert("등록 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 주유 기록 삭제
+  const handleDelete = async (recordId) => {
+    if (window.confirm("삭제하시겠습니까?")) {
+      try {
+        await deleteFuelRecord(recordId);
+        setAllData(allData.filter((record) => record.uuId !== recordId));
+        alert("삭제가 완료되었습니다.");
+      } catch (error) {
+        console.error("삭제 실패:", error);
+        alert("삭제 중 오류가 발생했습니다.");
+      }
+    }
+  };
+
+  //========================================================================
+
+  // 월별 데이터 계산
+  const monthlyAmounts = Array(12).fill(0);
+  allData.forEach((record) => {
+    // date가 유효한 경우에만 처리
+    if (record.date) {
+      const month = parseInt(record.date.split("-")[1], 10) - 1; // '-' 기준으로 split
+      monthlyAmounts[month] += record.amount;
+    } else {
+      console.warn("유효하지 않은 date 값:", record);
+    }
+  });
+
   // 차트 데이터
   const chartData = {
-    labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ],
+    labels: [
+      "1월",
+      "2월",
+      "3월",
+      "4월",
+      "5월",
+      "6월",
+      "7월",
+      "8월",
+      "9월",
+      "10월",
+      "11월",
+      "12월",
+    ],
     datasets: [
       {
         label: "주유 금액",
-        data: [70000, 80000, 75000, 30000, 25000, 10000, 70000,15000,20000,10000,15000,30000],
+        data: Array(12)
+          .fill(0)
+          .map((_, i) =>
+            allData
+              .filter((record) => new Date(record.uuCoastDate).getMonth() === i)
+              .reduce((sum, record) => sum + record.uuCoast, 0)
+          ),
         backgroundColor: "rgba(54, 162, 235, 0.6)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
       },
     ],
   };
-
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false, // 차트 상단 레이블 숨김
-      },
+      y: { beginAtZero: true },
     },
   };
 
@@ -89,12 +152,13 @@ const Records = () => {
         </button>
       </div>
 
-      {/* 차트 */}
       <div className="chart-container">
-        <Bar data={chartData} options={chartOptions} />
+        <Bar
+          data={chartData}
+          options={{ responsive: true, maintainAspectRatio: false }}
+        />
       </div>
 
-      {/* 주유 기록 테이블 */}
       <table>
         <thead>
           <tr>
@@ -108,25 +172,24 @@ const Records = () => {
         <tbody>
           {currentData.map((record, index) => (
             <tr key={index}>
-              <td name="recordDate">{record.date}</td>
-              <td name="recordStation">{record.station}</td>
-              <td name="recordAmount">{record.amount}원</td>
-              <td name="mod">
-                <button
-                  onClick={() => setShowRegistModal(true)}
-                >수정</button>
+              <td name="recordDate">
+                {record.uuCoastDate ? formatDate(record.uuCoastDate) : "N/A"}
               </td>
-              <td name="delete">
-                <button
-                  onClick={() => alert("삭제하시겠습니까?")}
-                >삭제</button>
+              <td name="recordStation">{record.uuStation || "N/A"}</td>
+              <td name="recordAmount">
+                {record.uuCoast ? `${record.uuCoast}원` : "0원"}
+              </td>
+              <td>
+                <button onClick={() => setShowRegistModal(true)}>수정</button>
+              </td>
+              <td>
+                <button onClick={() => handleDelete(record.uuId)}>삭제</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* 페이지네이션 */}
       <div className="pagination">
         <button
           name="prevPage"
@@ -155,9 +218,11 @@ const Records = () => {
         </button>
       </div>
 
-      {/* RegistRecord 모달 */}
       {showRegistModal && (
-        <RegistRecord setShowRegistModal={setShowRegistModal} />
+        <RegistRecord
+          setShowRegistModal={setShowRegistModal}
+          addRecord={addRecord}
+        />
       )}
     </div>
   );
