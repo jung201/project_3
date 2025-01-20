@@ -12,7 +12,7 @@ import java.util.List;
 public class FuelRecordController {
 
     @Autowired
-    private FuelRecordService fuelRecordService;
+    private FuelRecordService fuelRecordService; // 서비스 객체를 주입하여 비즈니스 로직 처리
 
     // 주유 기록 저장
     @PostMapping
@@ -25,13 +25,13 @@ public class FuelRecordController {
         return result > 0 ? "저장 성공" : "저장 실패";
     }
 
-    // 사용자 주유 기록 조회
+    // 특정 사용자의 주유 기록 조회
     @GetMapping("/{userId}")
     public List<FuelRecordVO> getFuelRecordsByUserId(@PathVariable String userId) {
         return fuelRecordService.getFuelRecordsByUserId(userId);
     }
 
-    // DELETE 요청 처리
+    // 주유 기록 삭제
     @DeleteMapping("/{id}")
     public String deleteFuelRecord(@PathVariable("id") int id) {
         int result = fuelRecordService.deleteFuelRecord(id);
