@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fs.four.human.Main.dao.MainOilPriceDAO">
+
+    <!-- 모든 유가 정보 조회 -->
+    <select id="getAllOilPrices" resultType="fs.four.human.Main.vo.MainOilPriceVO">
+        SELECT
+        IOP_REGION_ID,
+        IOP_PRICE,
+        IOP_DATE,
+        IOP_UPDATE_DATE,
+        IOP_REGION_NAME
+        FROM INFO_OIL_PRICE_HISTORY
+    </select>
+
+    <!-- 특정 지역의 유가 정보 조회 -->
+    <select id="getOilPriceByRegion" parameterType="String" resultType="fs.four.human.Main.vo.MainOilPriceVO">
+        SELECT
+        IOP_REGION_ID,
+        IOP_PRICE,
+        IOP_DATE,
+        IOP_UPDATE_DATE,
+        IOP_REGION_NAME
+        FROM INFO_OIL_PRICE_HISTORY
+        WHERE IOP_REGION_ID = #{regionId}
+    </select>
+
+</mapper>

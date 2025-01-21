@@ -1,7 +1,7 @@
-package fs.four.human.Main.Service;
+package fs.four.human.Main.service;
 
-import fs.four.human.Main.DAO.TodayPriceDAO;
-import fs.four.human.Main.VO.TodayPriceVO;
+import fs.four.human.Main.dao.TodayPriceDAO;
+import fs.four.human.Main.vo.TodayPriceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

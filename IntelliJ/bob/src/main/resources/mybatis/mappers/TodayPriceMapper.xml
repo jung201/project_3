@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="fs.four.human.Main.DAO.TodayPriceDAO">
+<mapper namespace="fs.four.human.Main.dao.TodayPriceDAO">
 
-    <resultMap id="TodayPriceMap" type="fs.four.human.Main.VO.TodayPriceVO">
+    <resultMap id="TodayPriceMap" type="fs.four.human.Main.vo.TodayPriceVO">
         <result property="region"         column="region" />
         <result property="averagePrice"   column="averagePrice"/>
         <result property="minPrice"       column="minPrice"/>

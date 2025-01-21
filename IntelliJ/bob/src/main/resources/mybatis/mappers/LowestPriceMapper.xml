@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="fs.four.human.Main.DAO.LowestPriceDAO">
+<mapper namespace="fs.four.human.Main.dao.LowestPriceDAO">
 
-    <select id="getLowestPriceStations" resultType="fs.four.human.Main.VO.LowestPriceVO">
+    <select id="getLowestPriceStations" resultType="fs.four.human.Main.vo.LowestPriceVO">
         SELECT
         LS_ID AS lsId,
         LS_PRICE AS lsPrice,

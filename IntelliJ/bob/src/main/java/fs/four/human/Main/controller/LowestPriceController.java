@@ -1,9 +1,9 @@
-package fs.four.human.Main.Controller;
+package fs.four.human.Main.controller;
 
 import java.util.List;
 
-import fs.four.human.Main.Service.LowestPriceService;
-import fs.four.human.Main.VO.LowestPriceVO;
+import fs.four.human.Main.service.LowestPriceService;
+import fs.four.human.Main.vo.LowestPriceVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,4 +23,3 @@ public class LowestPriceController {
         return lowestPriceService.getLowestPriceStations();
     }
 }
-

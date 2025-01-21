@@ -1,7 +1,7 @@
-package fs.four.human.Main.Service;
+package fs.four.human.Main.service;
 
-import fs.four.human.Main.DAO.RegionTopChargeDAO;
-import fs.four.human.Main.VO.RegionTopChargeVO;
+import fs.four.human.Main.dao.RegionTopChargeDAO;
+import fs.four.human.Main.vo.RegionTopChargeVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

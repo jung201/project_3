@@ -1,7 +1,5 @@
-// import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
-
-// Chart.js에서 필요한 모듈 가져오기
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,38 +10,88 @@ import {
   Legend,
 } from "chart.js";
 
-// Chart.js 등록
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const OilTrend = () => {
-  // 그래프 데이터
-  const data = {
-    labels: ["12.1", "12.8", "12.15", "12.23"], // X축 데이터
-    datasets: [
-      {
-        label: "전국 평균",
-        data: [1650, 1660, 1670, 1680], // Y축 데이터
-        backgroundColor: "rgba(0, 123, 255, 0.6)", // 막대 색깔
-        borderColor: "rgba(0, 123, 255, 1)", // 막대 테두리 색깔
-        borderWidth: 1, // 막대 테두리 두께
-      },
-      {
-        label: "충남 평균",
-        data: [1550, 1560, 1570, 1580], // Y축 데이터
-        backgroundColor: "rgba(255, 193, 7, 0.6)",
-        borderColor: "rgba(255, 193, 7, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
+  const [chartData, setChartData] = useState(null); // 그래프 데이터를 상태로 저장
+  const [loading, setLoading] = useState(true); // 로딩 상태
 
+  useEffect(() => {
+    // API 호출
+    fetch("http://192.168.0.93:3006/api/oil-prices")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("API 데이터:", data);
+  
+        // 날짜별 그룹화
+        const labels = [...new Set(data.map((item) => item.IOP_DATE))]; // 날짜별 라벨 추출
+        console.log("Labels:", labels);
+  
+        // 전국 평균 데이터 가공
+        const nationalData = data
+          .filter((item) => parseInt(item.IOP_REGION_ID) !== 5) // 전국(충남 제외)
+          .reduce((acc, item) => {
+            if (!acc[item.IOP_DATE]) acc[item.IOP_DATE] = [];
+            acc[item.IOP_DATE].push(parseFloat(item.IOP_PRICE));
+            return acc;
+          }, {});
+  
+        const nationalAverage = labels.map(
+          (date) =>
+            nationalData[date]
+              ? nationalData[date].reduce((sum, price) => sum + price, 0) /
+                nationalData[date].length
+              : 0
+        );
+  
+        // 충남 평균 데이터 가공
+        const chungnamAverage = labels.map((date) => {
+          const chungnamPrices = data
+            .filter(
+              (item) =>
+                parseInt(item.IOP_REGION_ID) === 5 && item.IOP_DATE === date
+            )
+            .map((item) => parseFloat(item.IOP_PRICE));
+  
+          return chungnamPrices.length > 0
+            ? chungnamPrices.reduce((sum, price) => sum + price, 0) /
+                chungnamPrices.length
+            : 0;
+        });
+  
+        console.log("National Average:", nationalAverage);
+        console.log("Chungnam Average:", chungnamAverage);
+  
+        // 그래프 데이터 설정
+        setChartData({
+          labels,
+          datasets: [
+            {
+              label: "전국 평균",
+              data: nationalAverage,
+              backgroundColor: "rgba(0, 123, 255, 0.6)",
+              borderColor: "rgba(0, 123, 255, 1)",
+              borderWidth: 1,
+            },
+            {
+              label: "충남 평균",
+              data: chungnamAverage,
+              backgroundColor: "rgba(255, 193, 7, 0.6)",
+              borderColor: "rgba(255, 193, 7, 1)",
+              borderWidth: 1,
+            },
+          ],
+        });
+  
+        setLoading(false); // 로딩 종료
+      })
+      .catch((error) => {
+        console.error("데이터 로드 실패:", error);
+        setLoading(false); // 로딩 종료
+      });
+  }, []);
+  
+  
   // 그래프 옵션
   const options = {
     responsive: true,
@@ -82,10 +130,16 @@ const OilTrend = () => {
       <div className="oil-img"></div>
       <div className="right">
         <h2>유가 추이</h2>
-        {/* 그래프 */}
-        <div style={{ width: "450px", height: "250px" }}>
-          <Bar data={data} options={options} />
-        </div>
+        {/* 로딩 상태 처리 */}
+        {loading ? (
+          <p>데이터를 불러오는 중입니다...</p>
+        ) : chartData ? ( // chartData가 null이 아닐 때만 Bar 컴포넌트 렌더링
+          <div style={{ width: "450px", height: "250px" }}>
+            <Bar data={chartData} options={options} />
+          </div>
+        ) : (
+          <p>데이터를 가져올 수 없습니다.</p>
+        )}
       </div>
     </div>
   );

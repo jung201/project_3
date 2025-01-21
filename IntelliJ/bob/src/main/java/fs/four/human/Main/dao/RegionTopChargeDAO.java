@@ -1,6 +1,6 @@
-package fs.four.human.Main.DAO;
+package fs.four.human.Main.dao;
 
-import fs.four.human.Main.VO.RegionTopChargeVO;
+import fs.four.human.Main.vo.RegionTopChargeVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

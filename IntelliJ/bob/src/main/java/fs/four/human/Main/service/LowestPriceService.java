@@ -1,7 +1,7 @@
-package fs.four.human.Main.Service;
+package fs.four.human.Main.service;
 
-import fs.four.human.Main.DAO.LowestPriceDAO;
-import fs.four.human.Main.VO.LowestPriceVO;
+import fs.four.human.Main.dao.LowestPriceDAO;
+import fs.four.human.Main.vo.LowestPriceVO;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

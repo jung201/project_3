@@ -1,7 +1,7 @@
-package fs.four.human.Main.Controller;
+package fs.four.human.Main.controller;
 
-import fs.four.human.Main.Service.TodayPriceService;
-import fs.four.human.Main.VO.TodayPriceVO;
+import fs.four.human.Main.service.TodayPriceService;
+import fs.four.human.Main.vo.TodayPriceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

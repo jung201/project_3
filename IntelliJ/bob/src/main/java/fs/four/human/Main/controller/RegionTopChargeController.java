@@ -1,7 +1,7 @@
-package fs.four.human.Main.Controller;
+package fs.four.human.Main.controller;
 
-import fs.four.human.Main.Service.RegionTopChargeService;
-import fs.four.human.Main.VO.RegionTopChargeVO;
+import fs.four.human.Main.service.RegionTopChargeService;
+import fs.four.human.Main.vo.RegionTopChargeVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

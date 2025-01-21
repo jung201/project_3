@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="fs.four.human.Main.DAO.RegionTopChargeDAO">
-    <select id="getTopStationsBySidocd" parameterType="string" resultType="fs.four.human.Main.VO.RegionTopChargeVO">
+<mapper namespace="fs.four.human.Main.dao.RegionTopChargeDAO">
+    <select id="getTopStationsBySidocd" parameterType="string" resultType="fs.four.human.Main.vo.RegionTopChargeVO">
         SELECT LS_ADDRESS AS lsAddress,
         LS_NAME AS lsName,
         LS_PRICE AS lsPrice

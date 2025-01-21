@@ -1,8 +1,12 @@
-package fs.four.human.Main.VO;
+package fs.four.human.Main.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class LowestPriceVO {
     private String lsId;
     private int lsPrice;
@@ -12,60 +16,4 @@ public class LowestPriceVO {
     private String lsUpdateDate;
     private String lsSidoCd;
 
-    public String getLsId() {
-        return lsId;
-    }
-
-    public void setLsId(String lsId) {
-        this.lsId = lsId;
-    }
-
-    public int getLsPrice() {
-        return lsPrice;
-    }
-
-    public void setLsPrice(int lsPrice) {
-        this.lsPrice = lsPrice;
-    }
-
-    public String getLsName() {
-        return lsName;
-    }
-
-    public void setLsName(String lsName) {
-        this.lsName = lsName;
-    }
-
-    public String getLsAddress() {
-        return lsAddress;
-    }
-
-    public void setLsAddress(String lsAddress) {
-        this.lsAddress = lsAddress;
-    }
-
-    public String getLsPollDiv() {
-        return lsPollDiv;
-    }
-
-    public void setLsPollDiv(String lsPollDiv) {
-        this.lsPollDiv = lsPollDiv;
-    }
-
-    public String getLsUpdateDate() {
-        return lsUpdateDate;
-    }
-
-    public void setLsUpdateDate(String lsUpdateDate) {
-        this.lsUpdateDate = lsUpdateDate;
-    }
-
-    public String getLsSidoCd() {
-        return lsSidoCd;
-    }
-
-    public void setLsSidoCd(String lsSidoCd) {
-        this.lsSidoCd = lsSidoCd;
-    }
 }
-

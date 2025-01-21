@@ -1,4 +1,4 @@
-package fs.four.human.Main.VO;
+package fs.four.human.Main.vo;
 
 import lombok.Data;
 
