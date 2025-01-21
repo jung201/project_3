@@ -85,10 +85,14 @@ const Records = () => {
     }
   };
 
-  const handleEdit = (record) => {
-    setEditRecord(record); // 수정할 데이터를 설정
-    setShowRegistModal(true); // 모달 열기
-  };
+// handleEdit 함수 수정
+const handleEdit = (record) => {
+  setEditRecord({
+    ...record,
+    uuCoastDate: record.uuCoastDate.slice(0, 10), // yyyy-mm-dd 형식으로 자르기
+  });
+  setShowRegistModal(true); // 모달 열기
+};
 
   //=============================================================================
 

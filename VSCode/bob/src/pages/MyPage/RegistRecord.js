@@ -45,7 +45,7 @@ const RegistRecord = ({ setShowRegistModal, addRecord, initialData }) => {
           &times;
         </button>
         <h2 style={{ textAlign: "center" }}>
-          {initialData ? "주유기록 수정" : "주유기록 등록"}
+          {initialData ? "주유기록" : "주유기록 등록"}
         </h2>
         <form onSubmit={handleSubmit}>
           <label>
