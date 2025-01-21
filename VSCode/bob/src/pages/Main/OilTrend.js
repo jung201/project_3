@@ -1,13 +1,12 @@
 // import React, { useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 // Chart.js에서 필요한 모듈 가져오기
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -17,8 +16,7 @@ import {
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -32,16 +30,16 @@ const OilTrend = () => {
       {
         label: "전국 평균",
         data: [1650, 1660, 1670, 1680], // Y축 데이터
-        borderColor: "#007BFF", // 선 색깔
-        backgroundColor: "rgba(0, 123, 255, 0.2)", // 선 아래 배경색
-        tension: 0.4, // 선의 곡선 정도
+        backgroundColor: "rgba(0, 123, 255, 0.6)", // 막대 색깔
+        borderColor: "rgba(0, 123, 255, 1)", // 막대 테두리 색깔
+        borderWidth: 1, // 막대 테두리 두께
       },
       {
         label: "충남 평균",
         data: [1550, 1560, 1570, 1580], // Y축 데이터
-        borderColor: "#FFC107",
-        backgroundColor: "rgba(255, 193, 7, 0.2)",
-        tension: 0.4,
+        backgroundColor: "rgba(255, 193, 7, 0.6)",
+        borderColor: "rgba(255, 193, 7, 1)",
+        borderWidth: 1,
       },
     ],
   };
@@ -58,9 +56,10 @@ const OilTrend = () => {
       },
       title: {
         display: true,
+        text: "유가 추이",
         color: "#333333", // 제목 색상
         font: {
-          size: 2,
+          size: 20,
         },
       },
     },
@@ -84,8 +83,8 @@ const OilTrend = () => {
       <div className="right">
         <h2>유가 추이</h2>
         {/* 그래프 */}
-        <div style={{ width: "400px", height: "200px" }}>
-          <Line data={data} options={options} />
+        <div style={{ width: "450px", height: "250px" }}>
+          <Bar data={data} options={options} />
         </div>
       </div>
     </div>
