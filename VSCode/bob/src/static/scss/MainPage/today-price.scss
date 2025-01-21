@@ -61,21 +61,10 @@
     }
 }
 
-// .price-img {
-//     width: 50%;
-//     height: 400px;
-//     background-image: url('../../images/price_2.png');
-//     background-size: cover;
-//     background-position: center;
-//     background-repeat: no-repeat;
-//     border-radius: 5px;
-//     opacity: 0.8;
-//     /* 투명도 설정 (0.0 ~ 1.0) */
-// }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 450px) {
     .price-container {
-        width:330px;
+        width: 380px;
         height:260px !important;
         display: block;
         align-items: center;

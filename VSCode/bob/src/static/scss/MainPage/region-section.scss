@@ -75,20 +75,19 @@
 
 @media screen and (max-width: 450px) {
     .region-top-section{
-        width: 330px !important;
         height: auto !important;
         margin-bottom: 80px !important;
     }
     h2 {
       font-size:18pt !important;
-      width: 280px !important;
+      width: 330px !important;
       margin-bottom: 20px;
       font-size: 35px;
       color: #333333;
   }
     .region-container {
       padding: 10px;
-  
+      
       .title {
         font-size: 18px; /* 제목 크기 축소 */
       }
@@ -109,12 +108,31 @@
       }
   
       .station-table {
-        width: 300px !important;
-        font-size: 14px; /* 테이블 글자 크기 축소 */
+        width: 350px;
+
         height: auto; /* 높이 자동 조정 */
-        th{
-          font-size: 12px !important;
+
+        th,
+        td{
+          font-size: 18px !important;
           padding: 5px;
+        }
+
+        th:nth-child(1),
+        td:nth-child(1) {
+          width: 10%;
+          
+        }
+  
+        th:nth-child(2),
+        td:nth-child(2) {
+          width: 50%;
+          /* 구분 열 크기 */
+        }
+        th:nth-child(3),
+        td:nth-child(3) {
+          width: 20%;
+          /* 구분 열 크기 */
         }
       }
     }

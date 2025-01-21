@@ -22,37 +22,28 @@
         color: #333333;
     }
 
-    // .oil-img {
-    //     width: 45%;
-    //     height: 400px;
-    //     background-image: url('../../images/Riding/청남대.PNG');
-    //     background-size: cover;
-    //     background-position: center;
-    //     background-repeat: no-repeat;
-    //     border-radius: 8px;
-    //     opacity: 0.8;
-    //     /* 투명도 설정 (0.0 ~ 1.0) */
-    // }
     .right {
         position: relative;
         left: 100px;
     }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 450px) {
     canvas{
-        width: 320px !important;
+        width: 380px !important;
         height: auto !important;
+        position: relative;
+        right: 0px;
     }
     .oil-trend {
       padding: 20px 10px; /* 상하 여백 줄임 */
-      width: 340px;
+      width: 390px;
       height: auto; /* 높이 자동 조정 */
       background-color: #f9f9f9; /* 배경색 변경 */
       background-image: none;
       
       h2 {
-        margin-left:15px;
+        margin-left: 30px;
         font-size:18pt !important;
         width: 300px;
         margin-bottom: 20px;
@@ -63,11 +54,9 @@
   
       .right {
         position: static;
-        width: 340px !important;
       }
       .graph{
         margin-left: 10px;
-        width:340px !important
       }
     }
   }
