@@ -12,7 +12,7 @@ import java.util.Date;
 public class MainOilPriceVO {
     private String IOP_REGION_ID;       // 지역 ID
     private String IOP_PRICE;          // 유가
-    private String IOP_DATE;           // 유가 기준 날짜
-    private String IOP_UPDATE_DATE;    // 데이터 업데이트 날짜
+    private Date IOP_DATE;           // 유가 기준 날짜
+    private Date IOP_UPDATE_DATE;    // 데이터 업데이트 날짜
     private String IOP_REGION_NAME;    // 지역 이름
 }
