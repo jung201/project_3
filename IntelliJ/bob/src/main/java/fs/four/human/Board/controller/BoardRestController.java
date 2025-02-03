@@ -20,7 +20,7 @@ public class BoardRestController {
     @GetMapping
     public List<BoardVO> getAllBoard() {
         try {
-            System.out.println("--- board ---");
+            System.out.println("---- board ----");
             return boardService.getAllBoard();
         } catch (Exception e) {
             throw new RuntimeException("전체 데이터를 가져오는 중 오류가 발생했습니다.");
