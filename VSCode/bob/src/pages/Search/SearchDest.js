@@ -1,3 +1,22 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : SearchDest.js
+ * PROGRAM NAME  : 목적지 검색 및 선택을 담당하는 React 컴포넌트
+ * DESCRIPTION   : 
+ *                 - Tmap API를 이용하여 사용자가 목적지를 검색할 수 있도록 지원
+ *                 - 검색된 장소 목록을 지도에 마커로 표시
+ *                 - 사용자가 선택한 목적지를 지도 중심으로 이동 및 마커 추가
+ *                 - 선택한 목적지를 부모 컴포넌트(RouteSearch)로 전달하여 경로 탐색에 반영
+ *                 - 목적지 선택 시 URL을 업데이트하여 다른 페이지에서 해당 위치를 활용할 수 있도록 지원
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * -----------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
 import React, { useState, useRef, useEffect } from "react";
 import { getAllCameras } from "../../service/apiService"; // 카메라 데이터 API
 import 도착Icon from "../../static/images/icons/도착.png";
@@ -65,12 +84,12 @@ const SearchDest = ({ onClose, onDestinationSelect, mapRef }) => {
     }
   };
 
-    // URL 업데이트 함수 추가 (새로운 코드)
-    const updateURLWithDestination = (location) => {
-      const { lat, lng, name } = location;
-      const newUrl = `/MainMapPage?lat=${lat}&lng=${lng}&name=${encodeURIComponent(name)}`;
-      window.location.href = newUrl; // URL 이동
-    };
+  // URL 업데이트 함수 추가 (새로운 코드)
+  const updateURLWithDestination = (location) => {
+    const { lat, lng, name } = location;
+    const newUrl = `/MainMapPage?lat=${lat}&lng=${lng}&name=${encodeURIComponent(name)}`;
+    window.location.href = newUrl; // URL 이동
+  };
 
   // 목적지 선택
   const handleDestinationSelect = (location) => {

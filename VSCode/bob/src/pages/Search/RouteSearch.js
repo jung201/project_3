@@ -1,3 +1,22 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : RouteSearch.js
+ * PROGRAM NAME  : 경로 탐색 및 주유소 추천을 담당하는 React 컴포넌트
+ * DESCRIPTION   : 
+ *                 - Tmap API를 이용하여 출발지 → 목적지 경로를 탐색
+ *                 - 선택한 목적지 및 주유소를 지도에 표시하고 최적 경로를 계산
+ *                 - 주유소 목록에서 최단거리 및 최저가격 주유소를 필터링
+ *                 - 경유지(주유소) 포함 여부에 따라 최적 경로를 재계산
+ *                 - 백엔드와 연동하여 목적지 검색 및 저장 기능 제공
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * -----------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
 import React, { useEffect, useState } from "react";
 import "../../static/scss/Search/RouteSearch.scss";
 import 도착Icon from "../../static/images/icons/도착.png";
@@ -42,7 +61,7 @@ const RouteSearch = ({
   onStationsUpdate,
   showRecommendPopup,
 
-  
+
 }) => {
   const [markers, setMarkers] = useState([]);
   const [polylines, setPolylines] = useState([]);
@@ -364,15 +383,15 @@ const RouteSearch = ({
 
   return (
     <div>
-        <div className={`info-popup-search ${selectedDestination ? "visible" : ""}`}>
-          <div class="popup-header">{infoPopup.name}</div>
-          {selectedDestination && selectedStation && (
-            <div className="popup-info" style={{color:'blue'}}> * {selectedStation.name || "미정"} 경유 * </div>
-          )}
-          <div className="popup-info" style={{textAlign:'left'}}>　　　　- 소요 시간: <span style={{color:'rgb(214, 0, 0)'}}>{infoPopup.time}분</span></div>
-          <div className="popup-info" style={{textAlign:'left'}}>　　　　- 남은 거리: <span style={{color:'rgb(8, 0, 255)'}}>{infoPopup.distance}km</span> </div>
-          <button class="popup-button" onClick={handleSaveDestination}>목적지 저장</button>
-        </div>
+      <div className={`info-popup-search ${selectedDestination ? "visible" : ""}`}>
+        <div class="popup-header">{infoPopup.name}</div>
+        {selectedDestination && selectedStation && (
+          <div className="popup-info" style={{ color: 'blue' }}> * {selectedStation.name || "미정"} 경유 * </div>
+        )}
+        <div className="popup-info" style={{ textAlign: 'left' }}>　　　　- 소요 시간: <span style={{ color: 'rgb(214, 0, 0)' }}>{infoPopup.time}분</span></div>
+        <div className="popup-info" style={{ textAlign: 'left' }}>　　　　- 남은 거리: <span style={{ color: 'rgb(8, 0, 255)' }}>{infoPopup.distance}km</span> </div>
+        <button class="popup-button" onClick={handleSaveDestination}>목적지 저장</button>
+      </div>
     </div>
   );
 };

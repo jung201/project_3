@@ -1,3 +1,21 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : RecommendSTN.js
+ * PROGRAM NAME  : 추천 주유소 안내 팝업 컴포넌트
+ * DESCRIPTION   : 
+ *                 - 경로 탐색 시, 사용자에게 추천 주유소(최단거리 및 최저가)를 안내하는 팝업 UI 제공
+ *                 - 주유소 데이터를 분석하여 최단거리 주유소와 최저가 주유소를 자동으로 선택
+ *                 - 선택한 주유소를 부모 컴포넌트(RouteSearch)로 전달하여 경로 탐색에 반영
+ *                 - 주유소 정보를 클릭하면 경유지로 설정됨
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * -----------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
 import React from "react";
 import "../../static/scss/Search/RecommendSTN.scss";
 import soil from "../../static/images/stationLogo/soil.PNG";
@@ -30,15 +48,15 @@ const RecommendSTN = ({ onClose, onStationSelect, stations }) => {
   const cheapestStation =
     stations.length > 0
       ? stations.reduce((prev, curr) =>
-          parseFloat(prev.price) < parseFloat(curr.price) ? prev : curr
-        )
+        parseFloat(prev.price) < parseFloat(curr.price) ? prev : curr
+      )
       : null;
 
   const closestStation =
     stations.length > 0
       ? stations.reduce((prev, curr) =>
-          parseFloat(prev.distance) < parseFloat(curr.distance) ? prev : curr
-        )
+        parseFloat(prev.distance) < parseFloat(curr.distance) ? prev : curr
+      )
       : null;
 
   return (

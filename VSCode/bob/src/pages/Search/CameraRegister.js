@@ -1,3 +1,22 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : CameraRegister.js
+ * PROGRAM NAME  : 후방카메라 등록을 담당하는 React 컴포넌트
+ * DESCRIPTION   : 
+ *                 - Tmap API를 이용하여 사용자가 특정 위치에 후방카메라를 등록할 수 있도록 지원
+ *                 - 사용자가 드래그할 수 있는 마커를 제공하여 원하는 위치를 선택할 수 있도록 구현
+ *                 - 선택된 위치에 대한 저장 요청을 백엔드 API로 전송하여 DB에 저장
+ *                 - 기존에 등록된 후방카메라 데이터를 불러와 지도에 마커로 표시
+ *                 - 등록된 후방카메라의 좌표를 유효성 검사 후 지도에 반영
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * -----------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
 import React, { useEffect, useState, useRef } from "react";
 import "../../static/scss/Search/CameraRegister.scss";
 import { saveCamera, getAllCameras } from "../../service/apiService";
@@ -122,10 +141,10 @@ const CameraRegister = ({ onClose }) => {
 
               const latitude = parseFloat(camera.camLatitude); // 문자열을 숫자로 변환
               const longitude = parseFloat(camera.camLongitude);
-    
+
               if (!isNaN(latitude) && !isNaN(longitude)) {
                 console.log("Adding marker for camera:", camera);
-    
+
                 // 마커 추가
                 new Tmapv2.Marker({
                   position: new Tmapv2.LatLng(latitude, longitude),
@@ -147,7 +166,7 @@ const CameraRegister = ({ onClose }) => {
         console.error("Camera 데이터 로드 실패:", error);
       }
     };
-    
+
     //====================================================================
 
     // 기본 좌표 설정

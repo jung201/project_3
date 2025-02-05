@@ -1,3 +1,23 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : MainMapPage.js
+ * PROGRAM NAME  : Tmap 기반 메인 지도 화면을 관리하는 React 컴포넌트
+ * DESCRIPTION   : 
+ *                 - Tmap API를 활용하여 전체 지도 화면을 렌더링
+ *                 - 사용자가 목적지를 검색하여 선택할 수 있도록 지원
+ *                 - 선택한 목적지에 대해 경로 탐색 및 주유소(최단거리 & 최저가) 추천 기능 제공
+ *                 - 주유소 추천 팝업을 통해 사용자가 경유지를 선택할 수 있도록 지원
+ *                 - 사용자가 후방카메라를 등록할 수 있는 기능 포함
+ *                 - UI에서 지도, 검색, 경로 탐색, 주유소 추천, 카메라 등록 기능을 유기적으로 연결
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * -----------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
 import React, { useState, useRef, useEffect } from "react";
 import TMap from "./TMap";
 import SearchDest from "./SearchDest";
@@ -56,7 +76,7 @@ const MainMapPage = () => {
           <TMap mapRef={mapRef} />
         </div>
       )}
-      
+
       {/* 경로 탐색 - activePopup이 'camera'일 때 숨기기 */}
       {activePopup !== "camera" && (
         <RouteSearch

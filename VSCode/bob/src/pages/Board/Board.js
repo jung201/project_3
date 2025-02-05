@@ -1,9 +1,25 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : Board.js
+ * PROGRAM NAME  : 게시판 화면을 담당하는 React 컴포넌트.
+ * DESCRIPTION   : 게시판의 목록 조회, 등록, 수정, 삭제, 검색, 정렬, 페이지네이션 등의 기능을 제공하는 컴포넌트.
+                    백엔드 API와 연동하여 데이터를 가져오고 렌더링하며, UI 이벤트를 관리함.
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * -----------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { fetchBoard } from "../../service/apiService"; // 공통 API 함수
 import { registerBoard } from "../../service/apiService"; // 등록 API 함수
 import { deleteBoard } from "../../service/apiService"; // 삭제 API 함수
-import { updateBoard } from "../../service/apiService"; // 삭제 API 함수
+import { updateBoard } from "../../service/apiService"; // 업데이트트 API 함수
 import { formatRelativeDate } from "../../utils/dateUtils"; // 유틸 함수 임포트
 import {
   getCategoryLabel,
@@ -19,9 +35,7 @@ import ReactPaginate from "react-paginate"; // 페이지네이션 라이브러�
 
 // 상태 변수 관리
 const Board = () => {
-  // 로그인 사용자 정보 가져오기 (로그인 시 저장된 ID 사용)
   const userId = sessionStorage.getItem("userId"); // sessionStorage에서 사용자 ID 가져오기
-
   const [posts, setPosts] = useState([]); // 게시글 목록 상태c
   const [showPopup, setShowPopup] = useState(false); // 팝업 상태
   const [popupType, setPopupType] = useState(""); // 팝업 타입 (등록, 보기)
@@ -68,19 +82,19 @@ const Board = () => {
 
   //=======================================================================
 
-  // 백엔드에서 데이터 불러오기
+  // 백엔드에서 데이터 불러오기 (컴포넌트 마운트 시 1회 실행)
   useEffect(() => {
     const loadBoard = async () => {
       try {
         const data = await fetchBoard();
-        setPosts(data); // 게시글 데이터 설정
+        setPosts(data); // 게시글 목록 상태 업데이트
       } catch (error) {
-        console.error("게시글 불러오기 실패:", error);
+        console.error("게시글 불러오기 실패:", error); // 실패 시 오류 로그 출력
       }
     };
 
     loadBoard(); // 데이터 불러오기 실행
-  }, []); // 컴포넌트 마운트 시 1회 실행
+  }, []); // 빈 배열 -> 처음 한 번만 실행
 
   //=======================================================================
 
@@ -125,8 +139,8 @@ const Board = () => {
 
   // 게시글 등록
   const registerPost = async () => {
-    // 로그인된 사용자 정보 가져오기 (sessionStorage)
-    const userId = sessionStorage.getItem("userId"); // 로그인 시 저장한 값 사용
+    // 세션에서 로그인된 사용자 ID 가져오기 (로그인하지 않으면 등록 불가)
+    const userId = sessionStorage.getItem("userId");
     // 카테고리와 배기량 변환
     const categoryCode = getCategoryCode(category); // 한글 -> 코드 (예: "정비" -> "R")
     const ccCode = getCcCode(cc); // 한글 -> 코드 (예: "스쿠터" -> "S")
@@ -154,14 +168,14 @@ const Board = () => {
       return;
     }
 
-    // 새 게시글 데이터
+    // 등록할 데이터 객체 생성
     const newPost = {
       btitle: title,
       bcategory: categoryCode,
       bcc: ccCode,
       bcontent: content,
       bcreatedId: userId,
-      bviews: 0,
+      bviews: 0, // 기본 조회수 0
     };
 
     try {
@@ -170,6 +184,7 @@ const Board = () => {
       togglePopup("register");
       setPosts([...posts, response]);
       window.location.reload(); // 페이지 리프레시
+
     } catch (error) {
       console.error("게시글 등록 실패:", error);
       alert("등록 중 오류가 발생했습니다.");
@@ -185,6 +200,7 @@ const Board = () => {
         alert("게시글이 삭제되었습니다 !");
         await deleteBoard(postId, currentUserId);
         window.location.reload();
+
       } catch (error) {
         console.error("삭제 실패 : ", error);
         if (error.response && error.response.status === 403) {
@@ -210,12 +226,13 @@ const Board = () => {
       bcreatedId: sessionStorage.getItem("userId"),
     };
     console.log("수정 요청 ID:", postId); // 디버깅
-    console.log("수정 요청 데이터:", updatedPost); // 디버깅 로그 추가
+    console.log("수정 요청 데이터:", updatedPost); // 디버깅
 
     try {
       const message = await updateBoard(postId, updatedPost);
       alert(message);
       window.location.reload(); // 페이지 리프레시
+
     } catch (error) {
       console.error("게시글 수정 실패:", error);
       alert("수정 중 오류가 발생했습니다.");
@@ -361,12 +378,12 @@ const Board = () => {
   // 팝업
   const togglePopup = (type, post = null) => {
     console.log("togglePopup called:", { type, post });
-  
+
     // 보기 팝업: 조회수 증가 함수 호출
     if (type === "view" && post) {
       increaseViewCount(post.bid);
     }
-  
+
     // 수정 팝업: 필드 초기화 (기존 데이터 유지)
     if (type === "edit" && post) {
       console.log("Initializing edit popup with post:", post);
@@ -375,7 +392,7 @@ const Board = () => {
       setCc(getCcLabel(post.bcc) || ""); // 배기량 설정
       setContent(post.bcontent || ""); // 게시글 내용 설정
     }
-  
+
     // 팝업 열기
     if (!showPopup || popupType !== type) {
       setCurrentPost(post); // 선택된 게시글 데이터 저장
@@ -392,7 +409,7 @@ const Board = () => {
       }, 300);
     }
   };
-  
+
 
   //=======================================================================
 
@@ -651,6 +668,7 @@ const Board = () => {
       )}
 
       {/* ================================================================== */}
+
       {/* 수정 팝업 */}
       {showPopup && popupType === "edit" && currentPost && (
         <div className={`edit-popup ${isAnimating ? "open" : "close"}`}>
