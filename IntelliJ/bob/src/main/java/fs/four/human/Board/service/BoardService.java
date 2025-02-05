@@ -1,3 +1,17 @@
+/*
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : BoardService.java
+ * PROGRAM NAME  : Board 관련 Service
+ * DESCRIPTION   : 게시판 관련 비즈니스 로직을 처리하며, DAO를 호출하여 CRUD(생성, 조회, 수정, 삭제), 검색, 조회수 증가 기능을 제공
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
+ * HISTORY
+ * =====================================================
+ * DATE          NAME      DESCRIPTION
+ * ---------------------------------------------------------------------------------
+ * 2025.02.05    이정규     초기 버전 작성
+ */
+
 package fs.four.human.Board.service;
 
 import fs.four.human.Board.dao.BoardDAO;

@@ -1,15 +1,15 @@
 /*
- * PROJECT       : Jeju_BookingEngine  ➝ 프로젝트 이름: 제주 예약 엔진 (Jeju_BookingEngine)
- * PROGRAM ID    : PaymentService.java  ➝ 프로그램 ID: PaymentService.java (파일명)
- * PROGRAM NAME  : Payment 관련 Service  ➝ 프로그램 이름: 결제 관련 서비스
- * DESCRIPTION   : (비어 있음) ➝ 설명란이 비어 있음 😢
- * AUTHOR        : 최선혁  ➝ 작성자: 최선혁
- * CREATED DATE  : 2013.05.22.  ➝ 작성 날짜: 2013년 5월 22일
+ * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+ * PROGRAM ID    : BoardController.java
+ * PROGRAM NAME  : Board 관련 Controller
+ * DESCRIPTION   : 게시판 관련 CRUD(생성, 조회, 수정, 삭제) 및 검색, 조회수 증가 기능 제공
+ * AUTHOR        : 이정규
+ * CREATED DATE  : 2025.02.05
  * HISTORY
  * =====================================================
- * DATE     NAME   DESCRIPTION
+ * DATE          NAME      DESCRIPTION
  * ---------------------------------------------------------------------------------
- * 2013.05.2
+ * 2025.02.05    이정규     초기 버전 작성
  */
 
 package fs.four.human.Board.controller;
@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/board")
-public class BoardRestController {
+public class BoardController {
 
     @Autowired
     private BoardService boardService;
@@ -60,7 +60,6 @@ public class BoardRestController {
     // 3. 게시글 등록
     @PostMapping("/register")
     public BoardVO createBoard(@RequestBody BoardVO boardVO) {
-
         try {
             System.out.println("게시글 등록 요청 데이터: " + boardVO);
             boardService.createBoard(boardVO);
@@ -112,7 +111,6 @@ public class BoardRestController {
     // 6. 조회수 증가
     @PatchMapping("/views/{id}")
     public void increaseViewCount(@PathVariable("id") int id) {
-
         try {
             boardService.increaseViewCount(id);
 
@@ -127,6 +125,7 @@ public class BoardRestController {
         try {
             System.out.println("사용자 게시글 조회 요청: " + userId);
             return boardService.getUserPosts(userId);
+
         } catch (Exception e) {
             System.err.println("사용자 게시글 조회 중 오류: " + e.getMessage());
             throw new RuntimeException("사용자 게시글 조회 중 오류가 발생했습니다.");
