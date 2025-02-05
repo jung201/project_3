@@ -1,4 +1,16 @@
-// 이정규
+/*
+ * PROJECT       : Jeju_BookingEngine  ➝ 프로젝트 이름: 제주 예약 엔진 (Jeju_BookingEngine)
+ * PROGRAM ID    : PaymentService.java  ➝ 프로그램 ID: PaymentService.java (파일명)
+ * PROGRAM NAME  : Payment 관련 Service  ➝ 프로그램 이름: 결제 관련 서비스
+ * DESCRIPTION   : (비어 있음) ➝ 설명란이 비어 있음 😢
+ * AUTHOR        : 최선혁  ➝ 작성자: 최선혁
+ * CREATED DATE  : 2013.05.22.  ➝ 작성 날짜: 2013년 5월 22일
+ * HISTORY
+ * =====================================================
+ * DATE     NAME   DESCRIPTION
+ * ---------------------------------------------------------------------------------
+ * 2013.05.2
+ */
 
 package fs.four.human.Board.controller;
 
