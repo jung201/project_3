@@ -1,6 +1,5 @@
 package fs.four.human.MyPage.controller;
 
-
 import fs.four.human.MyPage.service.MyPageService;
 import fs.four.human.MyPage.vo.MyPageVO;
 import fs.four.human.Search.vo.RouteHistoryVO;

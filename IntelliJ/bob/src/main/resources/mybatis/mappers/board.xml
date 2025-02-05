@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="fs.four.human.Board.dao.BoardDAO">
 
+<!--
+  * PROJECT       : 주유소/전기차 충전소 정보 제공 및 현재 위치 기준 목적지 추천시스템
+  * PROGRAM ID    : board.xml
+  * PROGRAM NAME  : Board 관련 xml
+  * DESCRIPTION   : 게시판 관련 SQL 쿼리를 관리하는 MyBatis 매퍼 파일로, CRUD(생성, 조회, 수정, 삭제) 및 검색, 조회수 증가 기능을 수행
+  * AUTHOR        : 이정규
+  * CREATED DATE  : 2025.02.05
+  * HISTORY
+  * DATE          NAME      DESCRIPTION
+  * =====================================
+  * 2025.02.05    이정규     초기 버전 작성
+-->
+
+
+<mapper namespace="fs.four.human.Board.dao.BoardDAO">
     <!-- 1. 전체 게시판 조회 -->
     <select id="getAllBoard" resultType="fs.four.human.Board.vo.BoardVO">
         SELECT
