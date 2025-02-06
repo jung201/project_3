@@ -151,7 +151,4 @@
         WHERE B_CREATED_ID = #{userId}
         ORDER BY B_CREATED_DATE DESC
     </select>
-
-
-
 </mapper>
